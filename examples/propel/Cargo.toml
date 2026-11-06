@@ -1,0 +1,11 @@
+[package]
+name = "propel"
+version = "0.0.0"
+workspace = "../"
+edition = "2021"
+publish = false
+
+[dependencies]
+rocket = { path = "../../core/lib" }
+propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "dc818cd679c0c9b88c6f3c301449804b07ec0b2b" }
+serde = { version = "1", features = ["derive"] }

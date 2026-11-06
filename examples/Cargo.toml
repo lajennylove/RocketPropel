@@ -21,4 +21,9 @@ members = [
   "pastebin",
   "todo",
   "chat",
+  "propel",
 ]
+
+# Build Propel against this Rocket checkout, so there is one copy of Rocket.
+[patch."https://github.com/rwf2/Rocket"]
+rocket = { path = "../core/lib" }
