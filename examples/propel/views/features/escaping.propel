@@ -10,19 +10,19 @@
 
   <h2>Text is escaped</h2>
   <p>The characters <code>&amp;amp;</code>, <code>&amp;lt;</code>, <code>&amp;gt;</code>, <code>"</code> and <code>'</code> are written as HTML entities.</p>
-<pre><code>&lt;p&gt;@{{ $comment }}&lt;/p&gt;</code></pre>
+<pre><code class="language-blade">&lt;p&gt;@{{ $comment }}&lt;/p&gt;</code></pre>
   <h3>Live example</h3>
   <p>{{ $dangerous }}</p>
 
   <h2>Raw output</h2>
   <p>The raw-output tag prints a value without escaping. Use it only for trusted HTML, such as markup you wrote yourself.</p>
-<pre><code>&lt;div&gt;@{!! $html !!}&lt;/div&gt;</code></pre>
+<pre><code class="language-blade">&lt;div&gt;@{!! $html !!}&lt;/div&gt;</code></pre>
   <h3>Live example</h3>
   <p>{!! $trusted !!}</p>
 
   <h2>Links and other URLs</h2>
   <p>An echoed value in an <code>href</code>, <code>src</code>, <code>action</code>, <code>formaction</code> or <code>xlink:href</code> attribute must use a safe scheme: <code>http</code>, <code>https</code>, <code>mailto</code> or <code>tel</code>, or a relative path. Any other value becomes <code>#</code>. This applies to raw output too.</p>
-<pre><code>&lt;a href="@{{ $url }}"&gt;Profile&lt;/a&gt;</code></pre>
+<pre><code class="language-blade">&lt;a href="@{{ $url }}"&gt;Profile&lt;/a&gt;</code></pre>
   <h3>Live example</h3>
   <p><a href="{{ $safe_url }}">Safe link</a>, shown as text: {{ $safe_url }}</p>
   <p><a href="{{ $unsafe_url }}">Unsafe link</a>, its href becomes #</p>
@@ -30,7 +30,7 @@
 
   <h2>Writing the syntax as text</h2>
   <p>To show Propel's own syntax on a page, double the <code>@@</code> and the braces. <code>@@@@</code> prints <code>@@</code>, <code>@@@{{</code> prints <code>@{{</code>, and <code>@@@{!!</code> prints <code>@{!!</code>.</p>
-<pre><code>Write @@@@if (x) and @@@{{ $name }}.</code></pre>
+<pre><code class="language-blade">Write @@@@if (x) and @@@{{ $name }}.</code></pre>
   <h3>Live example</h3>
   <p>Write @@if (x) and @{{ $name }}.</p>
 @endsection

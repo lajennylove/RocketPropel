@@ -8,7 +8,7 @@
   <h1>@@dump</h1>
   <p><code>@@dump</code> prints a value while you develop, and then rendering continues. It shows the expression, the type of the value, and the value as JSON. Each part has its own colour.</p>
   <p>Debug helpers render only in development builds. A release build never shows them.</p>
-<pre><code>@@dump($post)</code></pre>
+<pre><code class="language-blade">@@dump($post)</code></pre>
   <h3>Live example</h3>
   @dump($post)
   @dump($tags)

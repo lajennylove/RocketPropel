@@ -17,6 +17,8 @@
     --color-token-literal: #8844ae;
     --color-token-name: #3b61b0;
     --color-token-comment: #5d6376;
+    --color-token-keyword: #984e4d;
+    --color-token-variable: #8c076c;
     --color-hairline: #e1e4ea;
 }
 
@@ -64,6 +66,52 @@
 
     .docs-content pre code {
         @apply font-mono text-[14px] leading-6;
+    }
+
+    /* Syntax colours for the code samples. These are Prism's token classes, so the
+       markup and the names stay standard. The colours are the Astro docs palette,
+       measured on docs.astro.build. Tokens Astro showed in no sample reuse the
+       nearest measured colour. */
+    .token.comment,
+    .token.prolog,
+    .token.doctype {
+        @apply text-token-comment;
+    }
+
+    .token.punctuation,
+    .token.operator {
+        @apply text-code-text;
+    }
+
+    .token.string,
+    .token.attr-value {
+        @apply text-token-string;
+    }
+
+    .token.tag,
+    .token.number,
+    .token.boolean {
+        @apply text-token-literal;
+    }
+
+    .token.attr-name,
+    .token.property {
+        @apply text-token-key;
+    }
+
+    .token.function,
+    .token.builtin,
+    .token.macro {
+        @apply text-token-name;
+    }
+
+    .token.keyword,
+    .token.directive {
+        @apply text-token-keyword;
+    }
+
+    .token.variable {
+        @apply text-token-variable;
     }
 
     /* @dump and @dd output, from the propel-dump class in propel_runtime. */

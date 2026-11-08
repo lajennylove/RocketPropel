@@ -7,7 +7,7 @@
 @section('content')
   <h1>@@dd</h1>
   <p><code>@@dd</code> prints a value and stops the page. Nothing after it is rendered, so it is useful to check the value at one exact point.</p>
-<pre><code>@@dd($post)
+<pre><code class="language-blade">@@dd($post)
 &lt;p&gt;This line is not rendered.&lt;/p&gt;</code></pre>
   <h3>Live example</h3>
   <p>The dump below stops the page. Nothing after it should appear.</p>

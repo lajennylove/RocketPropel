@@ -10,7 +10,7 @@
 
   <h2>Define the context</h2>
   <p>Derive <code>Serialize</code> so Propel can read the fields.</p>
-<pre><code>#[derive(Serialize)]
+<pre><code class="language-rust">#[derive(Serialize)]
 pub struct PostsIndex {
     pub title: String,
     pub posts: Vec&lt;Post&gt;,
@@ -18,7 +18,7 @@ pub struct PostsIndex {
 
   <h2>Build it in a handler</h2>
   <p>The route is the view composer for this page: it collects the data and passes it to the view.</p>
-<pre><code>#[get("/posts")]
+<pre><code class="language-rust">#[get("/posts")]
 fn posts() -&gt; PropelView {
     PropelView::render("posts.index", &amp;PostsIndex {
         title: "Posts".into(),
@@ -28,7 +28,7 @@ fn posts() -&gt; PropelView {
 
   <h2>Read it in the view</h2>
   <p>Fields are read by name, as in <code>$title</code> or <code>$post.title</code>. The <code>$</code> is optional, and a loop variable such as <code>post</code> is read the same way.</p>
-<pre><code>@@extends('layouts.app')
+<pre><code class="language-blade">@@extends('layouts.app')
 
 @@section('content')
   &lt;h1&gt;@{{ $title }}&lt;/h1&gt;
@@ -41,12 +41,12 @@ fn posts() -&gt; PropelView {
 
   <h2>Shared data with <code>Page</code></h2>
   <p>Some data is needed on every page, such as the sidebar and the previous and next links. The test app wraps each context in a <code>Page</code>, which adds that data next to the view's own fields.</p>
-<pre><code>PropelView::render("posts.index", &amp;Page::new("/posts", PostsIndex {
+<pre><code class="language-rust">PropelView::render("posts.index", &amp;Page::new("/posts", PostsIndex {
     title: "Posts".into(),
     posts: all_posts(),
 }))</code></pre>
   <p>The layout then reads the shared data like any other field:</p>
-<pre><code>@@foreach (group in nav)
+<pre><code class="language-blade">@@foreach (group in nav)
   &lt;p&gt;@{{ $group.heading }}&lt;/p&gt;
   @@foreach (link in group.links)
     &lt;a href="@{{ $link.href }}"&gt;@{{ $link.label }}&lt;/a&gt;

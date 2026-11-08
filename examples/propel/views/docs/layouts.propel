@@ -22,47 +22,47 @@
 
   <h2><code>@@yield</code> with a default</h2>
   <p>A default prints when no section fills the name. The heading above, the lead text and the sidebar all come from that.</p>
-<pre><code>&lt;title&gt;@@yield('title', 'Propel')&lt;/title&gt;</code></pre>
+<pre><code class="language-blade">&lt;title&gt;@@yield('title', 'Propel')&lt;/title&gt;</code></pre>
   <p>The lead text below is the default from the demo layout, because this page does not fill the lead section.</p>
 
   <h2><code>@@parent</code></h2>
   <p>Inside a section, <code>@@parent</code> prints what the same section contains one level up. The sidebar on this page adds to the demo layout's default links, instead of replacing them.</p>
-<pre><code>@@section('sidebar')
+<pre><code class="language-blade">@@section('sidebar')
   @@parent
   &lt;span&gt;Extra link from this page&lt;/span&gt;
 @@endsection</code></pre>
 
   <h2><code>@@show</code></h2>
   <p>In a layout, <code>@@section</code> with <code>@@show</code> defines a section and renders it where it stands. A page that fills the section replaces the default, and <code>@@parent</code> keeps the default inside the page's version. Rendering the layout alone shows the default.</p>
-<pre><code>@@section('sidebar')
+<pre><code class="language-blade">@@section('sidebar')
   Default links
 @@show</code></pre>
 
   <h2><code>@@hasSection</code> and <code>@@sectionMissing</code></h2>
   <p>Check whether a page filled a section. The note on this page appears because the page fills the note section.</p>
-<pre><code>@@hasSection('note')
+<pre><code class="language-blade">@@hasSection('note')
   &lt;p&gt;@@yield('note')&lt;/p&gt;
 @@endif</code></pre>
   <p><code>@@sectionMissing</code> is the opposite. It renders when the page did not fill the section.</p>
-<pre><code>@@sectionMissing('note')
+<pre><code class="language-blade">@@sectionMissing('note')
   &lt;p&gt;This page has no note.&lt;/p&gt;
 @@endif</code></pre>
 
   <h2><code>@@include</code></h2>
   <p>Renders another view in place. The partial sees the same data as the page, and the loop variables of the loop it is in.</p>
-<pre><code>@@include('partials.badge')</code></pre>
+<pre><code class="language-blade">@@include('partials.badge')</code></pre>
   <h3>Live example</h3>
   @include('partials.badge')
 
   <h2><code>@@push</code>, <code>@@prepend</code> and <code>@@stack</code></h2>
   <p>A page pushes content into a named stack, and the layout prints the stack. Scripts are the usual case. Pushes from the page are printed even when the layout renders them before the page's own content. <code>@@prepend</code> puts content at the start of the stack.</p>
-<pre><code>@@push('scripts')
+<pre><code class="language-blade">@@push('scripts')
   &lt;script src="/chart.js"&gt;&lt;/script&gt;
 @@endpush</code></pre>
   <p>The layout prints the stack with <code>@@stack</code>:</p>
-<pre><code>&lt;footer&gt;@@stack('scripts')&lt;/footer&gt;</code></pre>
+<pre><code class="language-blade">&lt;footer&gt;@@stack('scripts')&lt;/footer&gt;</code></pre>
   <p>A page can also prepend:</p>
-<pre><code>@@prepend('scripts')
+<pre><code class="language-blade">@@prepend('scripts')
   &lt;script src="/first.js"&gt;&lt;/script&gt;
 @@endprepend</code></pre>
   <h3>Live example</h3>

@@ -18,7 +18,7 @@
 
   <h2>Load the entries</h2>
   <p>The layout loads the stylesheet and the script:</p>
-  <pre><code>@@vite(['resources/css/app.css', 'resources/js/app.js'])</code></pre>
+  <pre><code class="language-blade">@@vite(['resources/css/app.css', 'resources/js/app.js'])</code></pre>
 
   <h2>Hot reload</h2>
   <ul>
@@ -36,11 +36,11 @@
 
   <h3>Example: a design token</h3>
   <p>Define the token once in <code>resources/css/app.css</code>:</p>
-<pre><code>@@theme {
+<pre><code class="language-css">@@theme {
     --color-accent: #3d50f5;
 }</code></pre>
   <p>Then use the utility class in any view:</p>
-<pre><code>&lt;a class="text-accent underline" href="/posts"&gt;All posts&lt;/a&gt;</code></pre>
+<pre><code class="language-blade">&lt;a class="text-accent underline" href="/posts"&gt;All posts&lt;/a&gt;</code></pre>
 
   <h2>Template cache</h2>
   <p>In development, Propel keeps parsed templates in memory and checks each file's modification time and size. An edit is picked up on the next request. See <a href="/features/cache">the cache example</a>.</p>
