@@ -6,7 +6,7 @@
 
 @section('content')
   <h1>@@dd</h1>
-  <p><code>@@dd</code> prints a value and stops the section it is in. Nothing after it in that section is rendered, so it is useful to check the value at one exact point. The layout still finishes, so the page loads.</p>
+  <p><code>@@dd</code> is "dump and die", as in Laravel: it prints a value and stops rendering. Nothing after it in the section is rendered, so it is useful to check the value at one exact point. The difference from Laravel is the scope: Propel stops only the section it is in, so the layout still finishes and the page loads.</p>
 <pre><code class="language-blade">@@dd($post)
 &lt;p&gt;This line is not rendered.&lt;/p&gt;</code></pre>
   <h3>Live example</h3>
