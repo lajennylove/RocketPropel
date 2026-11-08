@@ -9,12 +9,19 @@
   </head>
   <body>
     <header class="sticky top-0 z-10 flex h-14 items-center justify-between border-b border-hairline bg-header px-6">
-      <a href="/" class="font-semibold text-heading no-underline hover:no-underline">Propel</a>
+      <div class="flex items-center gap-4">
+        <label for="menu-toggle" class="cursor-pointer text-[15px] text-text md:hidden" aria-label="Toggle menu">Menu</label>
+        <a href="/" class="font-semibold text-heading no-underline hover:no-underline">Propel</a>
+      </div>
       <a href="/posts" class="text-[15px] text-text no-underline hover:text-heading">Posts</a>
     </header>
 
     <div class="mx-auto flex max-w-[1280px] flex-col md:flex-row">
-      <aside class="shrink-0 border-b border-hairline p-4 md:sticky md:top-14 md:h-[calc(100vh-3.5rem)] md:w-[300px] md:overflow-y-auto md:border-r md:border-b-0 md:p-6">
+      <!-- The menu toggle. The label in the header controls it, and the sidebar
+           follows it with peer-checked, so no JavaScript is needed. -->
+      <input id="menu-toggle" type="checkbox" class="peer hidden">
+
+      <aside class="hidden shrink-0 border-b border-hairline p-4 peer-checked:block md:block md:sticky md:top-14 md:h-[calc(100vh-3.5rem)] md:w-[300px] md:overflow-y-auto md:border-r md:border-b-0 md:p-6">
         <nav>
           <p class="sidebar-heading">Start</p>
           <a class="sidebar-link" href="/">Home</a>
