@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title') · Propel</title>
-    <link rel="icon" href="data:,">
+    <link rel="icon" href="{{ asset('resources/images/logo-mark.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
   </head>
   <body>
@@ -14,8 +14,11 @@
           <path d="M3 6h18M3 12h18M3 18h18"/>
         </svg>
       </label>
-      <a href="/" class="font-bold text-heading no-underline hover:no-underline">Propel</a>
-      <span class="truncate text-[15px] text-text">Blade-inspired templating for Rocket.rs</span>
+      <a href="/" class="flex items-center gap-2 font-bold text-heading no-underline hover:no-underline">
+        <img src="{{ asset('resources/images/logo-mark.png') }}" alt="" class="size-8 rounded-md">
+        Propel
+      </a>
+      <span class="truncate text-[15px] text-text">Templating Engine</span>
     </header>
 
     <div class="mx-auto flex max-w-[1280px] flex-col md:flex-row">

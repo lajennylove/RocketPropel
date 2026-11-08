@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+  <img src="{{ asset('resources/images/propel-logo.jpg') }}" alt="Propel logo: a rocket above the word Propel" class="mb-8 w-full max-w-md rounded-lg">
   <h1>Propel</h1>
   <p>Blade-inspired templating for Rocket.rs.</p>
 
@@ -18,7 +19,7 @@
     <li><strong>Safe by default.</strong> <code>@{{ }}</code> escapes HTML. Raw output needs an explicit raw-output tag, and echoed URLs with unsafe schemes are replaced.</li>
     <li><strong>Vite and Tailwind built in.</strong> <code>asset()</code> and <code>@@vite</code> connect a Rocket app to Vite and Tailwind, with hot reload in development and hashed files in production.</li>
     <li><strong>Debugging helpers.</strong> <code>@@dump</code> and <code>@@dd</code> print a value while you develop.</li>
-    <li><strong>Typed contexts.</strong> Each view has a Rust struct, and the handler fills it. The compiler checks the template against it.</li>
+    <li><strong>Typed contexts.</strong> Each view has a Rust struct, and the handler fills it. The planned compiler will check each template against it when the app builds.</li>
   </ul>
 
   <h2>Inspiration</h2>
@@ -33,6 +34,7 @@
   <p>Askama compiles templates to Rust, and Tera renders them at runtime with Jinja-style syntax. Propel aims for Blade's syntax, Rocket's integration, and the asset workflow Laravel developers already use.</p>
 
   <h2>References</h2>
+  <p>Propel is a Blade-inspired templating engine for Rocket.rs. These are the sources it draws on.</p>
   <ul>
     <li><a href="https://rocket.rs">Rocket</a>, the web framework</li>
     <li><a href="https://laravel.com/docs/blade">Laravel Blade</a>, the syntax Propel follows</li>

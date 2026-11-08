@@ -22,6 +22,7 @@
   <h2>Literal syntax</h2>
   <p>Mail me@example.com. Write <code>@@if (x)</code> and <code>@@@{{ $not_a_variable }}</code> as text.</p>
   <p><code>@foo</code> is plain text too, because it is not a known directive.</p>
+  <p>The raw-output tag can be written as text too: <code>@{!! $trusted !!}</code> shows <code>{!! $trusted !!}</code>.</p>
 
   <h2>A code block</h2>
   <pre><code>&lt;p&gt;@{{ $dangerous }}&lt;/p&gt;</code></pre>

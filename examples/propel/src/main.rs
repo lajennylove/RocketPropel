@@ -57,9 +57,7 @@ fn docs(page: &str) -> Result<PropelView, (Status, PropelView)> {
 
     match nav::title(&path) {
         Some(title) => Ok(PropelView::render(
-            // View names use underscores: template names allow only letters,
-            // digits and underscores, so `vite-tailwind` is `docs.vite_tailwind`.
-            &format!("docs.{}", page.replace('-', "_")),
+            &format!("docs.{page}"),
             &Page::new(&path, Article { title }),
         )),
         None => Err(not_found_page()),

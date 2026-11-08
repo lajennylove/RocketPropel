@@ -100,9 +100,3 @@
     }
 }
 
-/* Demo: a background image through the @images alias. */
-.propel-mark {
-    background-image: url("@images/propel-mark.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-}

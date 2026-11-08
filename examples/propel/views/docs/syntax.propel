@@ -11,9 +11,9 @@
   <h2>Output</h2>
   <ul>
     <li><code>@{{ $name }}</code> prints a value, escaped for HTML. See <a href="/features/escaping">escaping</a>.</li>
-    <li>The raw-output tag prints a value without escaping. Use it only for trusted content.</li>
+    <li>The raw-output tag, <code>@{!! $html !!}</code>, prints a value without escaping. Use it only for trusted content.</li>
     <li>A comment goes between the echo braces, wrapped in two dashes on each side. It is not sent to the browser.</li>
-    <li><code>@{{</code> prints a literal <code>@{{</code>, for code samples and JavaScript.</li>
+    <li><code>@{{</code> prints a literal <code>@{{</code>, and <code>@{!!</code> prints a literal <code>@{!!</code>, for code samples and JavaScript.</li>
   </ul>
 
   <h2>Conditions</h2>
@@ -57,5 +57,5 @@
   <p>Debug helpers render only in development builds.</p>
 
   <h2>Writing a directive as text</h2>
-  <p>A directive word in plain text, such as <code>@@foreach</code>, needs a leading <code>@@</code> so it is not read as syntax. Email addresses and CSS rules such as <code>@@media</code> need no escape, because Propel only reads words it knows.</p>
+  <p>A directive word in plain text needs two @ signs in front of it in the template, so Propel prints one. Email addresses and CSS rules such as <code>@media</code> need no escape, because Propel only reads the directive words it knows.</p>
 @endsection

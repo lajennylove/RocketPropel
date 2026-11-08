@@ -26,7 +26,7 @@
     font-family: "Inter";
     src: url("@@fonts/Inter-Regular.woff2") format("woff2");
 }</code></pre>
-  <p>Aliases resolve to <code>resources/images</code>, <code>resources/fonts</code>, <code>resources/styles</code> and <code>resources/scripts</code>. Vite hashes files used this way, so browsers never keep an old copy.</p>
+  <p>Aliases resolve to <code>resources/images</code>, <code>resources/fonts</code>, <code>resources/css</code> (<code>@@styles</code>) and <code>resources/js</code> (<code>@@scripts</code>). Vite hashes files used this way, so browsers never keep an old copy.</p>
 
   <h2>Entries: <code>@@vite</code></h2>
   <p><code>@@vite(['resources/css/app.css', 'resources/js/app.js'])</code> writes the tags for each entry. A stylesheet that a script imports is loaded with it.</p>
