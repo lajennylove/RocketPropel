@@ -8,16 +8,14 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
   </head>
   <body>
-    <header class="sticky top-0 z-10 flex h-14 items-center justify-between border-b border-hairline bg-header px-6">
-      <div class="flex items-center gap-4">
-        <label for="menu-toggle" class="cursor-pointer text-text md:hidden" aria-label="Toggle menu">
-          <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-            <path d="M3 6h18M3 12h18M3 18h18"/>
-          </svg>
-        </label>
-        <a href="/" class="font-semibold text-heading no-underline hover:no-underline">Propel</a>
-      </div>
-      <a href="/posts" class="text-[15px] text-text no-underline hover:text-heading">Posts</a>
+    <header class="sticky top-0 z-10 flex h-14 items-center gap-4 border-b border-hairline bg-header px-6">
+      <label for="menu-toggle" class="cursor-pointer text-text md:hidden" aria-label="Toggle menu">
+        <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </label>
+      <a href="/" class="font-bold text-heading no-underline hover:no-underline">Propel</a>
+      <span class="truncate text-[15px] text-text">Blade-inspired templating for Rocket.rs</span>
     </header>
 
     <div class="mx-auto flex max-w-[1280px] flex-col md:flex-row">
