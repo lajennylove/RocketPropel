@@ -1,0 +1,18 @@
+@extends('layouts.app')
+
+@section('sidebar')
+  Default sidebar links
+@endsection
+
+@section('content')
+  <div class="my-6 rounded border border-hairline p-4">
+    <h2 class="text-xl font-semibold text-heading">@yield('heading', 'Default heading')</h2>
+    <p>@yield('lead', 'This lead text is the default, because the page does not fill the lead section.')</p>
+    <aside class="my-4 rounded bg-header p-3">@yield('sidebar')</aside>
+    @hasSection('note')
+      <p class="my-4 rounded bg-code-bg p-3"><strong>Note:</strong> @yield('note')</p>
+    @endif
+    <main>@yield('body')</main>
+    <footer class="mt-6 text-sm text-text">Footer: @stack('scripts')</footer>
+  </div>
+@endsection

@@ -45,6 +45,7 @@
   The page content.
 @@endsection</code></pre>
   <p>The layout places each section where it calls <code>@@yield('content')</code>. A section must be at the top level of the view, not inside an <code>@@if</code> or a loop.</p>
+  <p>Defaults, <code>@@parent</code>, <code>@@show</code>, partials with <code>@@include</code>, and stacks are on the <a href="/docs/layouts">layouts and sections</a> page.</p>
 
   <h2>Assets</h2>
   <p><code>asset('resources/images/logo.svg')</code> returns the URL of a file, and <code>@@vite([...])</code> loads entries. See <a href="/docs/assets">images, fonts and assets</a>.</p>

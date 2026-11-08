@@ -1,0 +1,1 @@
+<span class="rounded bg-code-bg px-2 py-0.5 text-sm text-accent">Included partial for: {{ $title }}</span>

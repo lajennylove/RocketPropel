@@ -6,7 +6,7 @@
 
 @section('content')
   <h1>Components and reuse</h1>
-  <p>Propel reuses markup in two ways today: layouts, and sections. Components and <code>@@include</code> are planned, but they are not built yet, so they are described at the end of this page.</p>
+  <p>Propel reuses markup in three ways today: layouts with sections, <code>@@include</code> for partial views, and stacks for content that a page adds to the layout. Each is shown with examples on the <a href="/docs/layouts">layouts page</a>.</p>
 
   <h2>Layouts</h2>
   <p>A layout holds the parts every page shares. It marks the place for each section with <code>@@yield</code>.</p>
@@ -20,17 +20,15 @@
 @@section('content')
   &lt;h1&gt;Posts&lt;/h1&gt;
 @@endsection</code></pre>
-  <p>One layout serves every page. The sidebar, the header and the asset tags are written once, in the layout.</p>
 
-  <h2>Sections</h2>
-  <p>A section is a named piece of a page. Each section appears where the layout yields it. A section must be at the top level of the view, not inside an <code>@@if</code> or a loop.</p>
+  <h2>Partials with <code>@@include</code></h2>
+  <p><code>@@include('partials.badge')</code> renders the partial in place, with the same data as the page.</p>
+<pre><code>@@include('partials.badge')</code></pre>
 
-  <h2>Planned: components and includes</h2>
-  <p>The next features for reuse are a component tag, such as <code>&lt;x-card&gt;</code>, that takes attributes and a slot, and <code>@@include</code>, which renders another view in place. Neither exists yet, so the example below is only a sketch of the intended syntax:</p>
+  <h2>Planned: component tags</h2>
+  <p>The next feature for reuse is a component tag, such as <code>&lt;x-card&gt;</code>, that takes attributes and a slot. It is not built yet, so the example below is only a sketch of the intended syntax:</p>
 <pre><code>&lt;x-card title="Hello"&gt;
   &lt;p&gt;Card body.&lt;/p&gt;
-&lt;/x-card&gt;
-
-@@include('partials.footer')</code></pre>
-  <p>Until they exist, share markup through a layout, or through the shared data described on the <a href="/docs/context">context page</a>.</p>
+&lt;/x-card&gt;</code></pre>
+  <p>Until component tags exist, use <code>@@include</code> with data from the page's context.</p>
 @endsection
