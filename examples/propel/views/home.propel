@@ -6,6 +6,8 @@
 
 @section('content')
   <h1>{{ $heading }}</h1>
+  <div class="propel-mark" role="img" aria-label="Propel"></div>
+  <img src="{{ asset('resources/images/propel-mark.svg') }}" alt="" width="32" height="32">
   <p>{{ $intro }}</p>
 
   <ul>

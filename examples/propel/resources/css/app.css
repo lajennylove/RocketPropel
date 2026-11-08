@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* Aliases from vite.config.js: url(@images/...) and url(@fonts/...) resolve
+   to resources/images and resources/fonts. */
+.propel-mark {
+    background-image: url("@images/propel-mark.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+}

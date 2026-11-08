@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>@yield('title') · Propel</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
       body { font-family: system-ui, sans-serif; max-width: 48rem; margin: 2rem auto; padding: 0 1rem; }
       nav a { margin-right: 0.75rem; }

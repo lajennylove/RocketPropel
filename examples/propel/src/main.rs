@@ -4,6 +4,7 @@ extern crate rocket;
 mod views;
 
 use propel_rocket::PropelView;
+use rocket::fs::FileServer;
 use rocket::http::Status;
 use views::*;
 
@@ -179,5 +180,7 @@ fn rocket() -> _ {
                 nested_section
             ],
         )
+        // Built assets: hashed files and copied images and fonts.
+        .mount("/build", FileServer::new("public/build"))
         .register("/", catchers![not_found])
 }

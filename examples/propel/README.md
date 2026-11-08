@@ -27,7 +27,7 @@ Run commands from this directory. rustup reads `rust-toolchain.toml` from the cu
 Propel is listed in `Cargo.toml`, the same way a Composer project lists packages in `composer.json`:
 
 ```toml
-propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "f3af8daa6e7f910825625d1bb2e7a0edcb881905" }
+propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "d65bcee173bf26a4551917333fcf5529c9215134" }
 ```
 
 Propel isn't on crates.io, so it comes from git. The `rev` pins the version, like a Composer lock entry. To move to a newer Propel, change `rev` and run `cargo update -p propel_rocket`.
@@ -89,3 +89,35 @@ Notes:
 - Bare directive words in text must be written as `@@`, for example `@@dump`, or they fail to parse.
 - `/posts/abc` returns the same 404 page as an unknown post.
 - The dev server needs `ROCKET_ADDRESS=0.0.0.0` to be reachable from a phone. Run it on a network you trust.
+
+## Assets: CSS, JS and images
+
+The app uses Vite 8 with Tailwind 4 and the latest `laravel-vite-plugin`, the same setup Laravel uses. Install once, then run the tools you need:
+
+```sh
+npm install
+npm run dev     # Vite dev server: hot reload for CSS, JS and assets
+npm run build   # production build into public/build
+```
+
+### In templates
+
+```blade
+@vite(['resources/css/app.css', 'resources/js/app.js'])
+<img src="{{ asset('resources/images/propel-mark.svg') }}" alt="">
+```
+
+- `@vite([...])` writes the `<link>` and `<script>` tags for each entry. Entries listed in the layout load on every page.
+- `asset('path')` returns the URL of a file. The path is relative to the app folder.
+- Inside CSS, `url(@images/…)`, `url(@fonts/…)`, `url(@styles/…)` and `url(@scripts/…)` resolve to the matching `resources/` folder.
+
+### How the URLs are chosen
+
+- **While `npm run dev` runs**, Vite writes its URL to `public/hot`. Propel then points every asset at the dev server, and `@vite` adds the HMR client. The URL uses this machine's LAN address, so a phone on the same Wi-Fi can load the styles. The address is read when `npm run dev` starts. If your address changes, restart the dev server.
+- **Otherwise** (after `npm run build`), Propel reads `public/build/manifest.json` for hashed files. Images and fonts are copied into `public/build/resources`, so `asset('resources/images/x.svg')` resolves to `/build/resources/images/x.svg`.
+- **If the file is in neither place**, the page fails with a 500 that says what to run. This is on purpose: a missing asset is a bug to fix, not a broken image to ship.
+
+### Security
+
+- `npm run dev` listens on the network (`server.host: true`) so a phone can reach it. Use it on networks you trust, and stop it when you are done. The dev server serves your source files.
+- `public/hot` is removed when the dev server stops.
