@@ -1,7 +1,3 @@
-{{-- This page fails on purpose. The view names $not_in_context, which the
-     handler's context does not have, so rendering stops with an error. In a
-     debug build the error page explains it. The fix is in the handler: add the
-     field to the context struct and fill it, or correct the name here. --}}
 @extends('layouts.app')
 
 @section('title')
@@ -9,5 +5,32 @@
 @endsection
 
 @section('content')
-  <p>{{ $not_in_context }}</p>
+  <h1>{{ $title }}</h1>
+  <p>A template can use a variable that the handler did not provide. When that happens, Propel stops rendering the page and returns an error. Propel is strict on purpose: a name that is missing from the context is a bug, and it should not quietly print nothing.</p>
+  <h2>What causes it</h2>
+  <p>The view below uses <code>$not_in_context</code>, but the context it is rendered with has no field of that name.</p>
+  <pre><code class="language-blade">@{{ $not_in_context }}</code></pre>
+  <h2>The context it is rendered with</h2>
+  <p>Each view has a Rust struct that holds its data. The handler builds it, and this one has no fields:</p>
+  <pre><code class="language-rust">#[derive(Serialize)]
+pub struct NoFields {}</code></pre>
+  <p>The handler passes it to the view. This is the route for this page:</p>
+  <pre><code class="language-rust">PropelView::render("errors.missing", &amp;Page::new("/errors/missing", Article {
+    title: "Missing variable".into(),
+}))</code></pre>
+  <h2>What you see</h2>
+  <p>In a development build, the page shows an error page with the message and a hint. The message names the variable and the view:</p>
+  <pre><code class="language-blade">undefined variable `not_in_context` in `errors.missing`</code></pre>
+  <p>In a release build, the browser sees only a generic error, and the details go to the log.</p>
+  <h2>How to fix it</h2>
+  <p>There are two ways. Add the field to the context and fill it in the handler, or correct the name in the view. Here is the first:</p>
+  <pre><code class="language-rust">#[derive(Serialize)]
+pub struct Greeting {
+    pub not_in_context: String,
+}</code></pre>
+  <pre><code class="language-rust">PropelView::render("errors.missing", &amp;Greeting {
+    not_in_context: "Hello".into(),
+})</code></pre>
+  <h2>Missing values that are allowed</h2>
+  <p>A field that exists but is empty is not an error. A <code>null</code> value prints nothing, and a nested field of a <code>null</code> value is empty too. See <a href="/features/control">control flow</a>.</p>
 @endsection

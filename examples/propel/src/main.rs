@@ -164,7 +164,15 @@ fn cache() -> PropelView {
 #[get("/errors/missing")]
 fn missing() -> PropelView {
     // The view names `$not_in_context`, which this context does not have.
-    PropelView::render("errors.missing", &Page::new("/errors/missing", NoFields {}))
+    PropelView::render(
+        "errors.missing",
+        &Page::new(
+            "/errors/missing",
+            Article {
+                title: "Missing variable".into(),
+            },
+        ),
+    )
 }
 
 #[get("/errors/nested-section")]
