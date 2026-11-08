@@ -1,0 +1,15 @@
+@extends('layouts.app')
+
+@section('title')
+  @@dump
+@endsection
+
+@section('content')
+  <h1>@@dump</h1>
+  <p>The dumps below print the value. Rendering continues after each one.</p>
+
+  @dump($post)
+  @dump($tags)
+
+  <p>Rendering continued after the dumps.</p>
+@endsection

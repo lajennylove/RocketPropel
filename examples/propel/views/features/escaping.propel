@@ -1,0 +1,25 @@
+@extends('layouts.app')
+
+@section('title')
+  Escaping
+@endsection
+
+@section('content')
+  <h1>Escaping</h1>
+
+  <h2>Text is escaped</h2>
+  <p>{{ $dangerous }}</p>
+
+  <h2>Raw output</h2>
+  <p>{!! $trusted !!}</p>
+
+  <h2>URLs in attributes</h2>
+  <p><a href="{{ $safe_url }}">Safe link</a>, shown as text: {{ $safe_url }}</p>
+  <p><a href="{{ $unsafe_url }}">Unsafe link</a>, its href becomes #</p>
+  <p><a href="{!! $unsafe_url !!}">Raw unsafe link</a>, still #</p>
+  <p><a href="{{ $tab_url }}">Scheme hidden by a tab</a>, still #</p>
+
+  <h2>Literal syntax</h2>
+  <p>Mail me@example.com. Write @@if (x) and @{{ $not_a_variable }} as text.</p>
+  <p>@foo is plain text too, because it is not a known directive.</p>
+@endsection

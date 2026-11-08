@@ -1,0 +1,10 @@
+@extends('layouts.app')
+
+@section('title')
+  Missing variable
+@endsection
+
+@section('content')
+  <p>This view names a variable that the handler's context does not have:</p>
+  <p>{{ $not_in_context }}</p>
+@endsection

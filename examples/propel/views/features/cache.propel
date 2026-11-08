@@ -1,0 +1,15 @@
+@extends('layouts.app')
+
+@section('title')
+  Template cache
+@endsection
+
+@section('content')
+  <h1>Template cache</h1>
+  <p>
+    Edit <code>views/features/cache.propel</code> and refresh this page. The next
+    request picks up your change, with no restart. The value below is set in
+    <code>src/main.rs</code>.
+  </p>
+  <p>Value from the handler: {{ $value }}</p>
+@endsection

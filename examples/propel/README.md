@@ -27,7 +27,7 @@ Run commands from this directory. rustup reads `rust-toolchain.toml` from the cu
 Propel is listed in `Cargo.toml`, the same way a Composer project lists packages in `composer.json`:
 
 ```toml
-propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "dc818cd679c0c9b88c6f3c301449804b07ec0b2b" }
+propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "f3af8daa6e7f910825625d1bb2e7a0edcb881905" }
 ```
 
 Propel isn't on crates.io, so it comes from git. The `rev` pins the version, like a Composer lock entry. To move to a newer Propel, change `rev` and run `cargo update -p propel_rocket`.
@@ -66,3 +66,26 @@ views/                Propel views, in the regular Rocket layout
 - The views use the draft syntax from the Propel plan. Some of it is still open: member access, truthiness of `Option`, and the `@forelse` empty branch. The files may change.
 - Rendering uses the dev interpreter (`propel_runtime`). The compiled path (`propel_compiler`) is not built yet.
 - Release builds are refused on purpose until it exists. Before shipping this app, read [`propel/docs/production.md`](../../propel/docs/production.md).
+
+## Test pages
+
+The home page at `/` links to each page. Every page exercises one part of Propel.
+
+| Page | What it checks |
+| --- | --- |
+| `/` | the home page, `@foreach` over a list of links |
+| `/posts`, `/posts/1` to `/posts/3` | `@forelse` / `@empty`, `@if` / `@else`, route parameters, layouts |
+| `/posts/99`, `/posts/abc` | the 404 page, for an unknown or non-numeric id |
+| `/features/escaping` | `{{ }}` escaping, `{!! !!}` raw output, URL checks in `href`, `@@`, `@{{`, plain `@words` |
+| `/features/control` | `@if` / `@elseif` / `@else`, `@foreach`, `@forelse` with `@empty`, null values |
+| `/features/dump` | `@dump`: prints the value and keeps rendering |
+| `/features/dd` | `@dd`: prints the value and stops the page |
+| `/features/cache` | the template cache: edit `views/features/cache.propel` and refresh |
+| `/errors/missing` | a missing variable: a 500 with the message in debug, generic in release |
+| `/errors/nested-section` | a `@section` inside `@if`: a 500 with the message |
+
+Notes:
+
+- Bare directive words in text must be written as `@@`, for example `@@dump`, or they fail to parse.
+- `/posts/abc` returns the same 404 page as an unknown post.
+- The dev server needs `ROCKET_ADDRESS=0.0.0.0` to be reachable from a phone. Run it on a network you trust.

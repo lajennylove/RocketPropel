@@ -1,0 +1,7 @@
+@extends('layouts.app')
+
+@if ($flag)
+  @section('content')
+    This section is inside an if block, so the renderer rejects it.
+  @endsection
+@endif

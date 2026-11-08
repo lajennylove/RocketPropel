@@ -1,0 +1,14 @@
+@extends('layouts.app')
+
+@section('title')
+  @@dd
+@endsection
+
+@section('content')
+  <h1>@@dd</h1>
+  <p>The dump below stops the page. Nothing after it should appear.</p>
+
+  @dd($post)
+
+  <p>If you can read this, @@dd did not stop rendering.</p>
+@endsection

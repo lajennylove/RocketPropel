@@ -1,0 +1,44 @@
+@extends('layouts.app')
+
+@section('title')
+  Control flow
+@endsection
+
+@section('content')
+  <h1>Control flow</h1>
+
+  <h2>@@if, @@elseif, @@else</h2>
+  @if ($is_admin)
+    <p>Admin</p>
+  @elseif ($is_member)
+    <p>Member</p>
+  @else
+    <p>Guest</p>
+  @endif
+
+  <h2>@@foreach</h2>
+  <ul>
+    @foreach (tag in tags)
+      <li>{{ $tag }}</li>
+    @endforeach
+  </ul>
+
+  <h2>@@forelse with an empty list</h2>
+  <ul>
+    @forelse (item in empty_items)
+      <li>{{ $item }}</li>
+    @empty
+      <li>Nothing here: this is the @@empty branch.</li>
+    @endforelse
+  </ul>
+
+  <h2>Optional values</h2>
+  <p>Author name, with no author set: [{{ $author.name }}]</p>
+  <p>
+    @forelse (item in maybe_items)
+      {{ $item }}
+    @empty
+      The optional list is not set, so it renders the @@empty branch.
+    @endforelse
+  </p>
+@endsection

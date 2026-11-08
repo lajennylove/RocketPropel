@@ -1,0 +1,16 @@
+@extends('layouts.app')
+
+@section('title')
+  Home
+@endsection
+
+@section('content')
+  <h1>{{ $heading }}</h1>
+  <p>{{ $intro }}</p>
+
+  <ul>
+    @foreach (page in pages)
+      <li><a href="{{ $page.href }}">{{ $page.label }}</a>: {{ $page.covers }}</li>
+    @endforeach
+  </ul>
+@endsection

@@ -1,9 +1,29 @@
 <!doctype html>
 <html>
   <head>
-    <title>@yield('title')</title>
+    <meta charset="utf-8">
+    <title>@yield('title') · Propel</title>
+    <style>
+      body { font-family: system-ui, sans-serif; max-width: 48rem; margin: 2rem auto; padding: 0 1rem; }
+      nav a { margin-right: 0.75rem; }
+      pre { white-space: pre-wrap; }
+      @media (max-width: 600px) { nav a { display: inline-block; margin-bottom: 0.25rem; } }
+    </style>
   </head>
   <body>
-    @yield('content')
+    <nav>
+      <a href="/">Home</a>
+      <a href="/posts">Posts</a>
+      <a href="/features/escaping">Escaping</a>
+      <a href="/features/control">Control flow</a>
+      <a href="/features/dump">@@dump</a>
+      <a href="/features/dd">@@dd</a>
+      <a href="/features/cache">Cache</a>
+      <a href="/errors/missing">Error: missing</a>
+      <a href="/errors/nested-section">Error: nested section</a>
+    </nav>
+    <main>
+      @yield('content')
+    </main>
   </body>
 </html>
