@@ -9,7 +9,7 @@
   <p>Propel uses Vite for the files your pages load. Images and fonts are copied into the build, and you refer to them by their source path.</p>
 
   <h2>In templates: <code>asset()</code></h2>
-  <pre><code class="language-blade">&lt;img src="@{{ asset('resources/images/logo.svg') }}" alt="Logo"&gt;</code></pre>
+  <pre class="line-numbers"><code class="language-blade">&lt;img src="@{{ asset('resources/images/logo.svg') }}" alt="Logo"&gt;</code></pre>
   <ul>
     <li>The path is relative to the project root, and must start with <code>resources/images/</code> or <code>resources/fonts/</code>.</li>
     <li>Paths that start with <code>/</code> or contain <code>..</code> are rejected.</li>
@@ -18,7 +18,7 @@
   </ul>
 
   <h2>In CSS: the aliases</h2>
-  <pre><code class="language-css">.hero {
+  <pre class="line-numbers"><code class="language-css">.hero {
     background-image: url("@@images/hero.jpg");
 }
 

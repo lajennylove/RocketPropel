@@ -72,6 +72,24 @@
        markup and the names stay standard. The colours are the Astro docs palette,
        measured on docs.astro.build. Tokens Astro showed in no sample reuse the
        nearest measured colour. */
+    /* Copy button and line numbers from Prism's plugins, in the docs palette. */
+    .docs-content div.code-toolbar > .toolbar .toolbar-item > button {
+        @apply rounded border border-hairline bg-white px-2 py-1 text-xs text-text hover:text-heading;
+    }
+
+    .docs-content pre.line-numbers .line-numbers-rows > span::before {
+        @apply text-token-comment;
+    }
+
+    /* @dump and @dd: each array or object folds, with its entries indented. */
+    .propel-dump-node > summary {
+        @apply cursor-pointer list-none;
+    }
+
+    .propel-dump-children {
+        @apply ml-4 border-l border-hairline pl-3;
+    }
+
     .token.comment,
     .token.prolog,
     .token.doctype {

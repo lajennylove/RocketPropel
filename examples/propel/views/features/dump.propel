@@ -6,9 +6,9 @@
 
 @section('content')
   <h1>@@dump</h1>
-  <p><code>@@dump</code> prints a value while you develop, and then rendering continues. It shows the expression, the type of the value, and the value as JSON. Each part has its own colour.</p>
+  <p><code>@@dump</code> prints a value while you develop, and then rendering continues. It shows the expression, then the value as a tree, laid out as Symfony's VarDumper does. Each array or object shows its size, such as <code>array:3</code>, and its entries are indented under it. Click a line to fold it. Each part has its own colour.</p>
   <p>Debug helpers render only in development builds. A release build never shows them.</p>
-<pre><code class="language-blade">@@dump($post)</code></pre>
+<pre class="line-numbers"><code class="language-blade">@@dump($post)</code></pre>
   <h3>Live example</h3>
   @dump($post)
   @dump($tags)

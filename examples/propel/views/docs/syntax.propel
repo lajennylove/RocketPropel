@@ -17,7 +17,7 @@
   </ul>
 
   <h2>Conditions</h2>
-  <pre><code class="language-blade">@@if ($user)
+  <pre class="line-numbers"><code class="language-blade">@@if ($user)
   Hello, @{{ $user.name }}
 @@elseif ($guest)
   Welcome
@@ -27,7 +27,7 @@
   <p>A value is false when it is <code>null</code> or <code>false</code>, zero, an empty string, or an empty list or object. See <a href="/features/control">control flow</a>.</p>
 
   <h2>Loops</h2>
-  <pre><code class="language-blade">@@foreach (post in posts)
+  <pre class="line-numbers"><code class="language-blade">@@foreach (post in posts)
   @{{ $post.title }}
 @@endforeach
 
@@ -39,7 +39,7 @@
   <p>A <code>null</code> list counts as empty, so <code>@@empty</code> shows.</p>
 
   <h2>Layouts and sections</h2>
-  <pre><code class="language-blade">@@extends('layouts.app')
+  <pre class="line-numbers"><code class="language-blade">@@extends('layouts.app')
 
 @@section('content')
   The page content.

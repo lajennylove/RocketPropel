@@ -28,6 +28,6 @@
   <p>The cache removes the parsing, which is about a quarter of a 100-post request. With 1,000 posts the rest of the time goes to building the HTML, so the cache helps less.</p>
 
   <h2>Run the benchmark</h2>
-<pre><code class="language-bash">cargo bench -p propel_runtime</code></pre>
+<pre class="line-numbers"><code class="language-bash">cargo bench -p propel_runtime</code></pre>
   <p>Run it from the Propel repository. The results are saved in <code>target/criterion</code>.</p>
 @endsection

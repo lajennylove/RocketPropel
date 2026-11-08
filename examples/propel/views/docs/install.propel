@@ -16,21 +16,21 @@
 
   <h2>Add Propel to your project</h2>
   <p>Add Propel and Rocket to <code>Cargo.toml</code>. Use the same Rocket revision as Propel, so the project has one copy of Rocket:</p>
-  <pre><code class="language-toml">[dependencies]
+  <pre class="line-numbers"><code class="language-toml">[dependencies]
 rocket = { git = "https://github.com/rwf2/Rocket", rev = "3a54d079" }
 propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "600a609ae8046604160bbf9837a6258c0c30d04e" }</code></pre>
   <p>Propel is not on crates.io yet, so it comes from git. Pin <code>rev</code> to a commit you have tested.</p>
 
   <h2>Render a view</h2>
   <p>A route builds the context for its view and returns the rendered page:</p>
-  <pre><code class="language-rust">#[get("/posts")]
+  <pre class="line-numbers"><code class="language-rust">#[get("/posts")]
 fn posts() -> PropelView {
     PropelView::render("posts.index", &amp;PostsIndex { posts: all_posts() })
 }</code></pre>
   <p>The view name <code>posts.index</code> is the file <code>views/posts/index.propel</code>. Dots are folder separators.</p>
 
   <h2>Project layout</h2>
-  <pre><code class="language-text">your-app/
+  <pre class="line-numbers"><code class="language-text">your-app/
 ├── Cargo.toml
 ├── src/              routes and view contexts
 ├── views/            .propel templates
@@ -43,7 +43,7 @@ fn posts() -> PropelView {
   <p>Views are read from <code>views/</code>, and built files from <code>public/</code>, both relative to the folder you run the app from. There is no configuration file yet.</p>
 
   <h2>Run it</h2>
-  <pre><code class="language-bash">npm install
+  <pre class="line-numbers"><code class="language-bash">npm install
 npm run dev     # Vite, in one terminal
 cargo run       # the Rocket app, in another</code></pre>
 

@@ -10,7 +10,7 @@
 
   <h2><code>@@if</code>, <code>@@elseif</code> and <code>@@else</code></h2>
   <p>The first true branch renders, and the rest are skipped. The condition is a field of the context. A value is false when it is <code>null</code>, <code>false</code>, zero, an empty string, or an empty list or object.</p>
-<pre><code class="language-blade">@@if ($is_admin)
+<pre class="line-numbers"><code class="language-blade">@@if ($is_admin)
   &lt;p&gt;Admin&lt;/p&gt;
 @@elseif ($is_member)
   &lt;p&gt;Member&lt;/p&gt;
@@ -28,7 +28,7 @@
 
   <h2><code>@@foreach</code></h2>
   <p>Repeats the body for each item. Inside the loop, the loop variable (here <code>tag</code>) holds the current item.</p>
-<pre><code class="language-blade">@@foreach (tag in tags)
+<pre class="line-numbers"><code class="language-blade">@@foreach (tag in tags)
   &lt;li&gt;@{{ $tag }}&lt;/li&gt;
 @@endforeach</code></pre>
   <h3>Live example</h3>
@@ -40,7 +40,7 @@
 
   <h2><code>@@forelse</code> and <code>@@empty</code></h2>
   <p>Like <code>@@foreach</code>, but it renders the <code>@@empty</code> branch when the list has no items. A <code>null</code> list counts as empty.</p>
-<pre><code class="language-blade">@@forelse (item in items)
+<pre class="line-numbers"><code class="language-blade">@@forelse (item in items)
   &lt;li&gt;@{{ $item }}&lt;/li&gt;
 @@empty
   &lt;li&gt;Nothing here yet.&lt;/li&gt;
@@ -56,7 +56,7 @@
 
   <h2>Optional values</h2>
   <p>A nested field of a <code>null</code> value prints nothing, so an optional relation can be used without a check.</p>
-<pre><code class="language-blade">&lt;p&gt;Author: @{{ $author.name }}&lt;/p&gt;</code></pre>
+<pre class="line-numbers"><code class="language-blade">&lt;p&gt;Author: @{{ $author.name }}&lt;/p&gt;</code></pre>
   <h3>Live example, with no author</h3>
   <p>Author: [{{ $author.name }}]</p>
 @endsection

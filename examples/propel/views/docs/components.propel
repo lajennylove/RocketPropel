@@ -10,12 +10,12 @@
 
   <h2>Layouts</h2>
   <p>A layout holds the parts every page shares. It marks the place for each section with <code>@@yield</code>.</p>
-<pre><code class="language-blade">@{{-- views/layouts/app.propel --}}
+<pre class="line-numbers"><code class="language-blade">@{{-- views/layouts/app.propel --}}
 &lt;main&gt;
   @@yield('content')
 &lt;/main</code></pre>
   <p>A page fills the layout by naming the layout with <code>@@extends</code> and writing its sections:</p>
-<pre><code class="language-blade">@@extends('layouts.app')
+<pre class="line-numbers"><code class="language-blade">@@extends('layouts.app')
 
 @@section('content')
   &lt;h1&gt;Posts&lt;/h1&gt;
@@ -27,7 +27,7 @@
 
   <h2>Planned: components and includes</h2>
   <p>The next features for reuse are a component tag, such as <code>&lt;x-card&gt;</code>, that takes attributes and a slot, and <code>@@include</code>, which renders another view in place. Neither exists yet, so the example below is only a sketch of the intended syntax:</p>
-<pre><code class="language-blade">&lt;x-card title="Hello"&gt;
+<pre class="line-numbers"><code class="language-blade">&lt;x-card title="Hello"&gt;
   &lt;p&gt;Card body.&lt;/p&gt;
 &lt;/x-card&gt;
 
