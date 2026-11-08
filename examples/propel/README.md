@@ -92,6 +92,8 @@ Notes:
 
 ## Assets: CSS, JS and images
 
+The full setup guide, including the config files and troubleshooting, is in the Propel repository at `docs/assets.md`.
+
 The app uses Vite 8 with Tailwind 4 and the latest `laravel-vite-plugin`, the same setup Laravel uses. Install once, then run the tools you need:
 
 ```sh
