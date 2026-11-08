@@ -6,5 +6,5 @@
 
 @section('content')
   <h1>Not found</h1>
-  <p>There is no page at this address. Try the <a href="/">home page</a>.</p>
+  <p>There is no page at this address. Try the <a href="/">home page</a>, or the <a href="/posts">list of posts</a>.</p>
 @endsection

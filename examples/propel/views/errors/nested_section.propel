@@ -1,3 +1,7 @@
+{{-- This page fails on purpose. A @section must be at the top level of the view,
+     and this one is inside an @if, so rendering stops with an error. In a debug
+     build the error page explains it. The fix: move the @section out of the
+     @if, and put the condition inside the section's content. --}}
 @extends('layouts.app')
 
 @if ($flag)

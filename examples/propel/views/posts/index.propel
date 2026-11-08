@@ -6,6 +6,7 @@
 
 @section('content')
   <h1>{{ $title }}</h1>
+  <p>This page is the first example of a route, a context and a loop. The handler builds a list of posts, and the view prints each one with <code>@@forelse</code>. Each title links to its page, which takes the post's id from the address.</p>
 
   @forelse (post in posts)
     <article>
@@ -15,6 +16,8 @@
       @endif
     </article>
   @empty
-    <p>No posts yet.</p>
+    <p>No posts yet. The <code>@@empty</code> branch shows when the list is empty.</p>
   @endforelse
+
+  <p>See <a href="/docs/context">context and composers</a> for how the handler builds the list.</p>
 @endsection

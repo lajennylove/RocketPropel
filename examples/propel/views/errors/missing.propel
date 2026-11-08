@@ -1,3 +1,7 @@
+{{-- This page fails on purpose. The view names $not_in_context, which the
+     handler's context does not have, so rendering stops with an error. In a
+     debug build the error page explains it. The fix is in the handler: add the
+     field to the context struct and fill it, or correct the name here. --}}
 @extends('layouts.app')
 
 @section('title')
@@ -5,6 +9,5 @@
 @endsection
 
 @section('content')
-  <p>This view names a variable that the handler's context does not have:</p>
   <p>{{ $not_in_context }}</p>
 @endsection
