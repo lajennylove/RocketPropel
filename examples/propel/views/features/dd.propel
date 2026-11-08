@@ -6,11 +6,11 @@
 
 @section('content')
   <h1>@@dd</h1>
-  <p><code>@@dd</code> prints a value and stops the page. Nothing after it is rendered, so it is useful to check the value at one exact point.</p>
+  <p><code>@@dd</code> prints a value and stops the section it is in. Nothing after it in that section is rendered, so it is useful to check the value at one exact point. The layout still finishes, so the page loads.</p>
 <pre><code class="language-blade">@@dd($post)
 &lt;p&gt;This line is not rendered.&lt;/p&gt;</code></pre>
   <h3>Live example</h3>
-  <p>The dump below stops the page. Nothing after it should appear.</p>
+  <p>The dump below stops this section. The text after it in the section should not appear, but the footer and the navigation still load.</p>
   @dd($post)
   <p>If you can read this, @@dd did not stop rendering.</p>
 @endsection

@@ -53,7 +53,7 @@
   <h2>Debugging</h2>
   <ul>
     <li><code>@@dump($value)</code> prints a value and keeps rendering. See <a href="/features/dump">@@dump</a>.</li>
-    <li><code>@@dd($value)</code> prints a value and stops the page. See <a href="/features/dd">@@dd</a>.</li>
+    <li><code>@@dd($value)</code> prints a value and stops the section it is in. The layout still finishes. See <a href="/features/dd">@@dd</a>.</li>
   </ul>
   <p>Debug helpers render only in development builds.</p>
 
