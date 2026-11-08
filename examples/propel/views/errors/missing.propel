@@ -22,7 +22,7 @@ pub struct NoFields {}</code></pre>
   <p>In a development build, the page shows an error page with the message and a hint. The message names the variable and the view:</p>
   <pre><code class="language-blade">undefined variable `not_in_context` in `errors.missing`</code></pre>
   <figure class="my-6">
-    <img src="{{ asset('resources/images/missing-variable-debug.png') }}" alt="The debug error page for a missing variable, with the message undefined variable not_in_context" class="w-full max-w-sm rounded border border-hairline">
+    <img src="{{ asset('resources/images/missing-variable-debug.png') }}" alt="The debug error page for a missing variable, with the message undefined variable not_in_context" class="w-full rounded border border-hairline">
     <figcaption class="mt-2 text-sm text-text">The debug page for this error, as it appears in a development build.</figcaption>
   </figure>
   <p>In a release build, the browser sees only a generic error, and the details go to the log.</p>
