@@ -1,0 +1,56 @@
+@extends('layouts.app')
+
+@section('title')
+  Installation and configuration
+@endsection
+
+@section('content')
+  <h1>{{ $title }}</h1>
+  <h1>{{ $title }}</h1>
+  <p>Propel is a Rust crate that works with Rocket. It needs a Rust toolchain and, for assets, Node.js.</p>
+
+  <h2>Requirements</h2>
+  <ul>
+    <li>Rust, stable, with Cargo.</li>
+    <li>Node.js 22.12 or newer, or 20.19 or newer, for Vite and Tailwind.</li>
+  </ul>
+
+  <h2>Add Propel to your project</h2>
+  <p>Add Propel and Rocket to <code>Cargo.toml</code>. Use the same Rocket revision as Propel, so the project has one copy of Rocket:</p>
+  <pre><code>[dependencies]
+rocket = { git = "https://github.com/rwf2/Rocket", rev = "3a54d079" }
+propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "600a609ae8046604160bbf9837a6258c0c30d04e" }</code></pre>
+  <p>Propel is not on crates.io yet, so it comes from git. Pin <code>rev</code> to a commit you have tested.</p>
+
+  <h2>Render a view</h2>
+  <p>A route builds the context for its view and returns the rendered page:</p>
+  <pre><code>#[get("/posts")]
+fn posts() -> PropelView {
+    PropelView::render("posts.index", &amp;PostsIndex { posts: all_posts() })
+}</code></pre>
+  <p>The view name <code>posts.index</code> is the file <code>views/posts/index.propel</code>. Dots are folder separators.</p>
+
+  <h2>Project layout</h2>
+  <pre><code>your-app/
+├── Cargo.toml
+├── src/              routes and view contexts
+├── views/            .propel templates
+│   ├── layouts/app.propel
+│   └── posts/index.propel
+├── resources/        CSS, JavaScript, images and fonts for Vite
+├── public/           built files (generated, not committed)
+├── package.json
+└── vite.config.js</code></pre>
+  <p>Views are read from <code>views/</code>, and built files from <code>public/</code>, both relative to the folder you run the app from. There is no configuration file yet.</p>
+
+  <h2>Run it</h2>
+  <pre><code>npm install
+npm run dev     # Vite, in one terminal
+cargo run       # the Rocket app, in another</code></pre>
+
+  <h2>Release builds</h2>
+  <p><code>cargo build --release</code> is refused on purpose. Production needs the compiled views, which are not built yet. The <a href="https://github.com/lajennylove/propel/blob/main/docs/production.md">production guide</a> lists the steps.</p>
+
+  <h2>A note on the example app</h2>
+  <p>This site is the example app in <code>examples/propel</code> of the Rocket repository. The navigation and the page wrapper that adds it to each view are part of the app for now. Propel will provide them later.</p>
+@endsection

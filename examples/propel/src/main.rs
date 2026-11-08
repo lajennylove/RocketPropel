@@ -6,6 +6,7 @@ mod views;
 
 use nav::Page;
 
+
 use propel_rocket::PropelView;
 use rocket::fs::FileServer;
 use rocket::http::Status;
@@ -37,30 +38,32 @@ fn all_posts() -> Vec<Post> {
 
 #[get("/")]
 fn home() -> PropelView {
-    let link = |href: &str, label: &str, covers: &str| PageLink {
-        href: href.into(),
-        label: label.into(),
-        covers: covers.into(),
-    };
-
     PropelView::render(
         "home",
-        &Page::new("/", Home {
-            heading: "Propel test pages".into(),
-            intro: "Each page exercises one part of Propel. Follow the links.".into(),
-            pages: vec![
-                link("/posts", "Posts", "routes, @foreach, @forelse, layouts, @extends"),
-                link("/posts/1", "One post", "route parameters, @if with @else, sections"),
-                link("/features/escaping", "Escaping", "{{ }}, {!! !!}, URL checks, @@ and @{{"),
-                link("/features/control", "Control flow", "@if / @elseif / @else, @forelse / @empty, null values"),
-                link("/features/dump", "@dump", "debug helper: prints and keeps rendering"),
-                link("/features/dd", "@dd", "debug helper: prints and stops the page"),
-                link("/features/cache", "Template cache", "edit a view and refresh, no restart"),
-                link("/errors/missing", "Error: missing variable", "500 in debug, generic in release"),
-                link("/errors/nested-section", "Error: nested section", "a @section inside @if is rejected"),
-            ],
-        }),
+        &Page::new(
+            "/",
+            Article {
+                title: "Introduction".into(),
+            },
+        ),
     )
+}
+
+/// The documentation pages. The address must be in the sidebar, so only the
+/// pages the navigation lists are served.
+#[get("/docs/<page>")]
+fn docs(page: &str) -> Result<PropelView, (Status, PropelView)> {
+    let path = format!("/docs/{page}");
+
+    match nav::title(&path) {
+        Some(title) => Ok(PropelView::render(
+            // View names use underscores: template names allow only letters,
+            // digits and underscores, so `vite-tailwind` is `docs.vite_tailwind`.
+            &format!("docs.{}", page.replace('-', "_")),
+            &Page::new(&path, Article { title }),
+        )),
+        None => Err(not_found_page()),
+    }
 }
 
 #[get("/posts")]
@@ -80,18 +83,18 @@ fn posts() -> PropelView {
 /// The id is read as text, so a value that is not a number gets the same 404
 /// page as an unknown one, not Rocket's own 422.
 #[get("/posts/<id>")]
-fn post(id: &str) -> (Status, PropelView) {
+fn post(id: &str) -> Result<PropelView, (Status, PropelView)> {
     let found = id
         .parse::<u32>()
         .ok()
         .and_then(|id| all_posts().into_iter().find(|post| post.id == id));
 
     match found {
-        Some(post) => (
-            Status::Ok,
-            PropelView::render("posts.show", &Page::new(&format!("/posts/{id}"), PostShow { post })),
-        ),
-        None => not_found_page(),
+        Some(post) => Ok(PropelView::render(
+            "posts.show",
+            &Page::new(&format!("/posts/{id}"), PostShow { post }),
+        )),
+        None => Err(not_found_page()),
     }
 }
 
@@ -193,6 +196,7 @@ fn rocket() -> _ {
             "/",
             routes![
                 home,
+                docs,
                 posts,
                 post,
                 escaping,

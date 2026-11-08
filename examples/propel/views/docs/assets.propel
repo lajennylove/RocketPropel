@@ -1,0 +1,39 @@
+@extends('layouts.app')
+
+@section('title')
+  Images, fonts and assets
+@endsection
+
+@section('content')
+  <h1>{{ $title }}</h1>
+  <p>Propel uses Vite for the files your pages load. Images and fonts are copied into the build, and you refer to them by their source path.</p>
+
+  <h2>In templates: <code>asset()</code></h2>
+  <pre><code>&lt;img src="@{{ asset('resources/images/logo.svg') }}" alt="Logo"&gt;</code></pre>
+  <ul>
+    <li>The path is relative to the project root, and must start with <code>resources/images/</code> or <code>resources/fonts/</code>.</li>
+    <li>Paths that start with <code>/</code> or contain <code>..</code> are rejected.</li>
+    <li>In development, the URL points at the dev server. In production, it points at the built file.</li>
+    <li>A missing file fails the page with an error that names it.</li>
+  </ul>
+
+  <h2>In CSS: the aliases</h2>
+  <pre><code>.hero {
+    background-image: url("@@images/hero.jpg");
+}
+
+@@font-face {
+    font-family: "Inter";
+    src: url("@@fonts/Inter-Regular.woff2") format("woff2");
+}</code></pre>
+  <p>Aliases resolve to <code>resources/images</code>, <code>resources/fonts</code>, <code>resources/styles</code> and <code>resources/scripts</code>. Vite hashes files used this way, so browsers never keep an old copy.</p>
+
+  <h2>Entries: <code>@@vite</code></h2>
+  <p><code>@@vite(['resources/css/app.css', 'resources/js/app.js'])</code> writes the tags for each entry. A stylesheet that a script imports is loaded with it.</p>
+
+  <h2>Production caching</h2>
+  <p>Files referenced only by <code>asset()</code> are copied without a hash. A browser can keep an old copy when the file changes, so rename the file. Files used from CSS are hashed.</p>
+
+  <h2>Full guide</h2>
+  <p>The <a href="https://github.com/lajennylove/propel/blob/main/docs/assets.md">assets guide</a> covers the folder layout, the config files, the production steps and troubleshooting.</p>
+@endsection

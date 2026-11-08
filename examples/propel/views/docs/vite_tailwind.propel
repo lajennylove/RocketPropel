@@ -1,0 +1,43 @@
+@extends('layouts.app')
+
+@section('title')
+  Setup and hot reload
+@endsection
+
+@section('content')
+  <h1>{{ $title }}</h1>
+  <h1>{{ $title }}</h1>
+  <p>Propel projects use Vite for assets and Tailwind for styles. Vite serves your files in development with hot reload, and builds hashed files for production.</p>
+
+  <h2>What you configure</h2>
+  <ul>
+    <li><code>package.json</code> lists Vite 8, Tailwind 4 and <code>laravel-vite-plugin</code> 3.</li>
+    <li><code>vite.config.js</code> sets the entries, the aliases and the plugins.</li>
+    <li><code>resources/css/app.css</code> imports Tailwind and defines your design tokens.</li>
+  </ul>
+  <p>The <a href="https://github.com/lajennylove/propel/blob/main/docs/assets.md">assets guide</a> has the full files, copied from this app.</p>
+
+  <h2>Load the entries</h2>
+  <p>The layout loads the stylesheet and the script:</p>
+  <pre><code>@@vite(['resources/css/app.css', 'resources/js/app.js'])</code></pre>
+
+  <h2>Hot reload</h2>
+  <ul>
+    <li><strong>Views</strong> are read on every request. A view edit reloads the browser, with no restart.</li>
+    <li><strong>CSS and JavaScript</strong> update in place through Vite's hot module replacement.</li>
+    <li><strong>Rust code</strong> needs a rebuild. <code>bacon</code> rebuilds and restarts the app on save.</li>
+  </ul>
+  <p>While <code>npm run dev</code> runs, Propel reads the dev server URL from <code>public/hot</code> and points every asset at it. The file is removed when the dev server stops.</p>
+
+  <h2>Phones and other devices</h2>
+  <p>The dev server listens on your network, and its URL uses this machine's LAN address. A phone on the same Wi-Fi can open the site. If your address changes, restart <code>npm run dev</code>.</p>
+
+  <h2>Tailwind classes</h2>
+  <p>Tailwind reads your project, including the <code>.propel</code> views, and generates the classes you use. Define colours, fonts and sizes once in <code>@@theme</code>, and they become utility classes.</p>
+
+  <h2>Template cache</h2>
+  <p>In development, Propel keeps parsed templates in memory and checks each file's modification time and size. An edit is picked up on the next request. See <a href="/features/cache">the cache example</a>.</p>
+
+  <h2>Production</h2>
+  <p>Run <code>npm run build</code> before you deploy. It writes <code>public/build</code>, which you serve at <code>/build</code>. Do not deploy <code>public/hot</code>.</p>
+@endsection

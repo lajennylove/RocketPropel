@@ -23,6 +23,8 @@ pub struct Pager {
 }
 
 /// Every page in the sidebar, in order. Previous and next follow this order.
+/// The groups are the sections of the site: introduction, installation,
+/// Vite and Tailwind, Blade syntax, assets, and examples.
 fn groups() -> Vec<Group> {
     let group = |heading: &str, links: &[(&str, &str)]| Group {
         heading: heading.into(),
@@ -36,28 +38,48 @@ fn groups() -> Vec<Group> {
     };
 
     vec![
-        group("Start", &[("/", "Home")]),
-        group("Posts", &[("/posts", "All posts"), ("/posts/1", "One post")]),
+        group("Introduction", &[("/", "Introduction")]),
         group(
-            "Features",
+            "Installation",
+            &[("/docs/install", "Installation and configuration")],
+        ),
+        group(
+            "Vite and Tailwind",
             &[
-                ("/features/escaping", "Escaping"),
-                ("/features/control", "Control flow"),
+                ("/docs/vite-tailwind", "Setup and hot reload"),
                 ("/features/cache", "Template cache"),
             ],
         ),
         group(
-            "Debug helpers",
-            &[("/features/dump", "@dump"), ("/features/dd", "@dd")],
-        ),
-        group(
-            "Errors",
+            "Blade syntax",
             &[
+                ("/docs/syntax", "Syntax overview"),
+                ("/features/escaping", "Escaping"),
+                ("/features/control", "Control flow"),
+                ("/features/dump", "@dump"),
+                ("/features/dd", "@dd"),
+            ],
+        ),
+        group("Assets", &[("/docs/assets", "Images, fonts and assets")]),
+        group(
+            "Examples",
+            &[
+                ("/posts", "All posts"),
+                ("/posts/1", "One post"),
                 ("/errors/missing", "Missing variable"),
                 ("/errors/nested-section", "Nested section"),
             ],
         ),
     ]
+}
+
+/// The sidebar title of the page at `path`, if the page is in the sidebar.
+pub fn title(path: &str) -> Option<String> {
+    groups()
+        .into_iter()
+        .flat_map(|group| group.links)
+        .find(|link| link.href == path)
+        .map(|link| link.label)
 }
 
 /// A page's own data, plus the navigation every layout needs.

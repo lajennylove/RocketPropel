@@ -26,20 +26,6 @@ pub struct PostShow {
 }
 
 #[derive(Debug, Serialize)]
-pub struct PageLink {
-    pub href: String,
-    pub label: String,
-    pub covers: String,
-}
-
-#[derive(Debug, Serialize)]
-pub struct Home {
-    pub heading: String,
-    pub intro: String,
-    pub pages: Vec<PageLink>,
-}
-
-#[derive(Debug, Serialize)]
 pub struct Escaping {
     pub dangerous: String,
     pub trusted: String,
@@ -77,6 +63,12 @@ pub struct Cache {
 #[derive(Debug, Serialize)]
 pub struct Flag {
     pub flag: bool,
+}
+
+/// A page with only a title, such as the documentation pages.
+#[derive(Debug, Serialize)]
+pub struct Article {
+    pub title: String,
 }
 
 /// A context with no fields, for views that show a fixed message.

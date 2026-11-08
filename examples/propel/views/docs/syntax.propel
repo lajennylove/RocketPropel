@@ -1,0 +1,61 @@
+@extends('layouts.app')
+
+@section('title')
+  Syntax overview
+@endsection
+
+@section('content')
+  <h1>{{ $title }}</h1>
+  <p>Propel's syntax follows Blade. Each part below has a page with examples.</p>
+
+  <h2>Output</h2>
+  <ul>
+    <li><code>@{{ $name }}</code> prints a value, escaped for HTML. See <a href="/features/escaping">escaping</a>.</li>
+    <li>The raw-output tag prints a value without escaping. Use it only for trusted content.</li>
+    <li>A comment goes between the echo braces, wrapped in two dashes on each side. It is not sent to the browser.</li>
+    <li><code>@{{</code> prints a literal <code>@{{</code>, for code samples and JavaScript.</li>
+  </ul>
+
+  <h2>Conditions</h2>
+  <pre><code>@@if ($user)
+  Hello, @{{ $user.name }}
+@@elseif ($guest)
+  Welcome
+@@else
+  Please sign in
+@@endif</code></pre>
+  <p>A value is false when it is <code>null</code> or <code>false</code>, zero, an empty string, or an empty list or object. See <a href="/features/control">control flow</a>.</p>
+
+  <h2>Loops</h2>
+  <pre><code>@@foreach (post in posts)
+  @{{ $post.title }}
+@@endforeach
+
+@@forelse (post in posts)
+  @{{ $post.title }}
+@@empty
+  No posts yet.
+@@endforelse</code></pre>
+  <p>A <code>null</code> list counts as empty, so <code>@@empty</code> shows.</p>
+
+  <h2>Layouts and sections</h2>
+  <pre><code>@@extends('layouts.app')
+
+@@section('content')
+  The page content.
+@@endsection</code></pre>
+  <p>The layout places each section where it calls <code>@@yield('content')</code>. A section must be at the top level of the view, not inside an <code>@@if</code> or a loop.</p>
+
+  <h2>Assets</h2>
+  <p><code>asset('resources/images/logo.svg')</code> returns the URL of a file, and <code>@@vite([...])</code> loads entries. See <a href="/docs/assets">images, fonts and assets</a>.</p>
+
+  <h2>Debugging</h2>
+  <ul>
+    <li><code>@@dump($value)</code> prints a value and keeps rendering. See <a href="/features/dump">@@dump</a>.</li>
+    <li><code>@@dd($value)</code> prints a value and stops the page. See <a href="/features/dd">@@dd</a>.</li>
+  </ul>
+  <p>Debug helpers render only in development builds.</p>
+
+  <h2>Writing a directive as text</h2>
+  <p>A directive word in plain text, such as <code>@@foreach</code>, needs a leading <code>@@</code> so it is not read as syntax. Email addresses and CSS rules such as <code>@@media</code> need no escape, because Propel only reads words it knows.</p>
+@endsection

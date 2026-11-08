@@ -1,18 +1,45 @@
 @extends('layouts.app')
 
 @section('title')
-  Home
+  Introduction
 @endsection
 
 @section('content')
-  <h1>{{ $heading }}</h1>
-  <div class="propel-mark" role="img" aria-label="Propel"></div>
-  <img src="{{ asset('resources/images/propel-mark.svg') }}" alt="" width="32" height="32">
-  <p>{{ $intro }}</p>
+  <h1>Propel</h1>
+  <p>Blade-inspired templating for Rocket.rs.</p>
 
+  <h2>What Propel is</h2>
+  <p>Propel is a templating system for <a href="https://rocket.rs">Rocket</a>, the Rust web framework. You write views in the syntax of Laravel's Blade: <code>@@if</code>, <code>@@foreach</code>, layouts with <code>@@extends</code>, and escaped output by default. Views live in <code>.propel</code> files next to the rest of your Rocket app.</p>
+  <p>Today, Propel renders views at runtime during development, with hot reload. Release builds are refused until the compiler is finished. The compiler will turn each view into Rust code, so a template that uses a field its context does not have fails to build.</p>
+
+  <h2>What it brings to Rust</h2>
   <ul>
-    @foreach (page in pages)
-      <li><a href="{{ $page.href }}">{{ $page.label }}</a>: {{ $page.covers }}</li>
-    @endforeach
+    <li><strong>Familiar syntax.</strong> Web developers who know Blade can write Rocket views without learning a new template language.</li>
+    <li><strong>Safe by default.</strong> <code>@{{ }}</code> escapes HTML. Raw output needs an explicit raw-output tag, and echoed URLs with unsafe schemes are replaced.</li>
+    <li><strong>Vite and Tailwind built in.</strong> <code>asset()</code> and <code>@@vite</code> connect a Rocket app to Vite and Tailwind, with hot reload in development and hashed files in production.</li>
+    <li><strong>Debugging helpers.</strong> <code>@@dump</code> and <code>@@dd</code> print a value while you develop.</li>
+    <li><strong>Typed contexts.</strong> Each view has a Rust struct, and the handler fills it. The compiler checks the template against it.</li>
+  </ul>
+
+  <h2>Inspiration</h2>
+  <ul>
+    <li><strong>Laravel Blade</strong> for the syntax and the layout model.</li>
+    <li><strong>Laravel's Vite plugin</strong> for the manifest and hot-file conventions.</li>
+    <li><strong>Sage</strong>, the WordPress theme built on Laravel's tools, for the asset layout and the <code>@@images</code> and <code>@@fonts</code> aliases.</li>
+    <li><strong>Rocket</strong>, the framework Propel is built for: its routing, responders and focus on speed.</li>
+  </ul>
+
+  <h2>Other Rust template engines</h2>
+  <p>Askama compiles templates to Rust, and Tera renders them at runtime with Jinja-style syntax. Propel aims for Blade's syntax, Rocket's integration, and the asset workflow Laravel developers already use.</p>
+
+  <h2>References</h2>
+  <ul>
+    <li><a href="https://rocket.rs">Rocket</a>, the web framework</li>
+    <li><a href="https://laravel.com/docs/blade">Laravel Blade</a>, the syntax Propel follows</li>
+    <li><a href="https://laravel.com/docs/vite">Laravel Vite</a>, the asset conventions</li>
+    <li><a href="https://roots.io/sage/docs/">Sage</a>, the asset layout and aliases</li>
+    <li><a href="https://vite.dev">Vite</a> and <a href="https://tailwindcss.com">Tailwind CSS</a>, the build tools</li>
+    <li><a href="https://docs.astro.build">Astro docs</a>, the look of this site</li>
+    <li><a href="https://github.com/lajennylove/propel">The Propel repository</a>, with the design plan and the decisions behind it</li>
   </ul>
 @endsection
