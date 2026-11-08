@@ -11,6 +11,12 @@
     --color-header: #f6f7f9;
     --color-code-bg: #edeef3;
     --color-code-text: #403f53;
+    /* Code tokens, measured from the Astro docs code blocks. */
+    --color-token-key: #096e72;
+    --color-token-string: #075457;
+    --color-token-literal: #8844ae;
+    --color-token-name: #3b61b0;
+    --color-token-comment: #5d6376;
     --color-hairline: #e1e4ea;
 }
 
@@ -63,6 +69,26 @@
     /* @dump and @dd output, from the propel-dump class in propel_runtime. */
     .propel-dump {
         @apply my-6 overflow-x-auto rounded-[1px] bg-header px-4 py-3 font-mono text-[14px] leading-6 text-code-text;
+    }
+
+    .propel-dump-name {
+        @apply text-token-name;
+    }
+
+    .propel-dump-type {
+        @apply text-token-comment;
+    }
+
+    .propel-dump-key {
+        @apply text-token-key;
+    }
+
+    .propel-dump-string {
+        @apply text-token-string;
+    }
+
+    .propel-dump-literal {
+        @apply text-token-literal;
     }
 
     .sidebar-link {
