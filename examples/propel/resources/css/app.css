@@ -10,6 +10,7 @@
     --color-accent: #3d50f5;
     --color-header: #f6f7f9;
     --color-code-bg: #edeef3;
+    --color-code-text: #403f53;
     --color-hairline: #e1e4ea;
 }
 
@@ -45,8 +46,18 @@
         @apply my-4 list-disc space-y-1 pl-6;
     }
 
-    .docs-content code {
-        @apply rounded bg-code-bg px-1.5 py-0.5 font-mono text-[13px] text-accent;
+    /* Inline code: square corners, tinted background, accent text. */
+    .docs-content :not(pre) > code {
+        @apply bg-code-bg px-1.5 py-0.5 font-mono text-[13px] text-accent;
+    }
+
+    /* Code blocks: header-coloured panel, scrolls sideways on small screens. */
+    .docs-content pre {
+        @apply my-6 overflow-x-auto rounded-[1px] bg-header px-4 py-3 font-mono text-[14px] leading-6 text-code-text;
+    }
+
+    .docs-content pre code {
+        @apply font-mono text-[14px] leading-6;
     }
 
     .sidebar-link {

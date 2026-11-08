@@ -20,6 +20,10 @@
   <p><a href="{{ $tab_url }}">Scheme hidden by a tab</a>, still #</p>
 
   <h2>Literal syntax</h2>
-  <p>Mail me@example.com. Write @@if (x) and @{{ $not_a_variable }} as text.</p>
-  <p>@foo is plain text too, because it is not a known directive.</p>
+  <p>Mail me@example.com. Write <code>@@if (x)</code> and <code>@@@{{ $not_a_variable }}</code> as text.</p>
+  <p><code>@foo</code> is plain text too, because it is not a known directive.</p>
+
+  <h2>A code block</h2>
+  <pre><code>&lt;p&gt;@{{ $dangerous }}&lt;/p&gt;</code></pre>
+  <p>Braces in a code sample are written with a leading <code>@</code>, as in <code>@@@{{</code>, so the template does not run them.</p>
 @endsection
