@@ -1,7 +1,64 @@
 @import "tailwindcss";
 
-/* Aliases from vite.config.js: url(@images/...) and url(@fonts/...) resolve
-   to resources/images and resources/fonts. */
+/* Design tokens, measured from the Astro docs (docs.astro.build), light theme.
+   Borders and spacing are close approximations. */
+@theme {
+    --font-sans: -apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --color-text: #353841;
+    --color-heading: #17181c;
+    --color-accent: #3d50f5;
+    --color-header: #f6f7f9;
+    --color-code-bg: #edeef3;
+    --color-hairline: #e1e4ea;
+}
+
+@layer base {
+    body {
+        @apply bg-white font-sans text-[16px] leading-7 text-text antialiased;
+    }
+
+    h1 {
+        @apply text-[42px] leading-tight font-semibold text-heading;
+    }
+
+    a {
+        @apply text-accent underline-offset-2 hover:underline;
+    }
+}
+
+@layer components {
+    /* The content column, the same width as the docs body text. */
+    .docs-content {
+        @apply max-w-[632px];
+    }
+
+    .docs-content h2 {
+        @apply mt-10 mb-3 text-2xl font-semibold text-heading;
+    }
+
+    .docs-content p {
+        @apply my-4;
+    }
+
+    .docs-content ul {
+        @apply my-4 list-disc space-y-1 pl-6;
+    }
+
+    .docs-content code {
+        @apply rounded bg-code-bg px-1.5 py-0.5 font-mono text-[13px] text-accent;
+    }
+
+    .sidebar-link {
+        @apply block rounded px-3 py-1.5 text-[15px] text-text no-underline hover:bg-header hover:text-heading;
+    }
+
+    .sidebar-heading {
+        @apply mt-6 mb-1 px-3 text-sm font-semibold text-heading;
+    }
+}
+
+/* Demo: a background image through the @images alias. */
 .propel-mark {
     background-image: url("@images/propel-mark.svg");
     background-repeat: no-repeat;

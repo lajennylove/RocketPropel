@@ -1,30 +1,48 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title') · Propel</title>
+    <link rel="icon" href="data:,">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <style>
-      body { font-family: system-ui, sans-serif; max-width: 48rem; margin: 2rem auto; padding: 0 1rem; }
-      nav a { margin-right: 0.75rem; }
-      pre { white-space: pre-wrap; }
-      @media (max-width: 600px) { nav a { display: inline-block; margin-bottom: 0.25rem; } }
-    </style>
   </head>
   <body>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/posts">Posts</a>
-      <a href="/features/escaping">Escaping</a>
-      <a href="/features/control">Control flow</a>
-      <a href="/features/dump">@@dump</a>
-      <a href="/features/dd">@@dd</a>
-      <a href="/features/cache">Cache</a>
-      <a href="/errors/missing">Error: missing</a>
-      <a href="/errors/nested-section">Error: nested section</a>
-    </nav>
-    <main>
-      @yield('content')
-    </main>
+    <header class="sticky top-0 z-10 flex h-14 items-center justify-between border-b border-hairline bg-header px-6">
+      <a href="/" class="font-semibold text-heading no-underline hover:no-underline">Propel</a>
+      <a href="/posts" class="text-[15px] text-text no-underline hover:text-heading">Posts</a>
+    </header>
+
+    <div class="mx-auto flex max-w-[1280px] flex-col md:flex-row">
+      <aside class="shrink-0 border-b border-hairline p-4 md:sticky md:top-14 md:h-[calc(100vh-3.5rem)] md:w-[300px] md:overflow-y-auto md:border-r md:border-b-0 md:p-6">
+        <nav>
+          <p class="sidebar-heading">Start</p>
+          <a class="sidebar-link" href="/">Home</a>
+
+          <p class="sidebar-heading">Posts</p>
+          <a class="sidebar-link" href="/posts">All posts</a>
+          <a class="sidebar-link" href="/posts/1">One post</a>
+
+          <p class="sidebar-heading">Features</p>
+          <a class="sidebar-link" href="/features/escaping">Escaping</a>
+          <a class="sidebar-link" href="/features/control">Control flow</a>
+          <a class="sidebar-link" href="/features/cache">Template cache</a>
+
+          <p class="sidebar-heading">Debug helpers</p>
+          <a class="sidebar-link" href="/features/dump">@@dump</a>
+          <a class="sidebar-link" href="/features/dd">@@dd</a>
+
+          <p class="sidebar-heading">Errors</p>
+          <a class="sidebar-link" href="/errors/missing">Missing variable</a>
+          <a class="sidebar-link" href="/errors/nested-section">Nested section</a>
+        </nav>
+      </aside>
+
+      <main class="min-w-0 flex-1 px-6 py-10 md:px-12">
+        <div class="docs-content">
+          @yield('content')
+        </div>
+      </main>
+    </div>
   </body>
 </html>
