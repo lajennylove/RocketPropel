@@ -179,7 +179,12 @@ fn missing() -> PropelView {
 fn nested_section() -> PropelView {
     PropelView::render(
         "errors.nested_section",
-        &Page::new("/errors/nested-section", Flag { flag: true }),
+        &Page::new(
+            "/errors/nested-section",
+            Article {
+                title: "Nested section".into(),
+            },
+        ),
     )
 }
 

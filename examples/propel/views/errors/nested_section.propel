@@ -1,11 +1,33 @@
-{{-- This page fails on purpose. A @section must be at the top level of the view,
-     and this one is inside an @if, so rendering stops with an error. In a debug
-     build the error page explains it. The fix: move the @section out of the
-     @if, and put the condition inside the section's content. --}}
 @extends('layouts.app')
 
-@if ($flag)
-  @section('content')
-    This section is inside an if block, so the renderer rejects it.
-  @endsection
-@endif
+@section('title')
+  Nested section
+@endsection
+
+@section('content')
+  <h1>{{ $title }}</h1>
+  <p>A <code>@@section</code> is a named piece of a page, and the layout places it where it yields that name. It must sit at the top level of the view. A section inside an <code>@@if</code>, a loop, or another section is rejected, and rendering stops with an error.</p>
+  <h2>What causes it</h2>
+  <p>The view below puts a section inside a condition:</p>
+  <pre><code class="language-blade">@@if ($flag)
+  @@section('content')
+    This content is inside an if block.
+  @@endsection
+@@endif</code></pre>
+  <h2>What you see</h2>
+  <p>In a development build, the debug page names the section, the view, and the rule that was broken:</p>
+  <pre><code class="language-blade">@@section('content') in `errors.nested_section` must be at the top level of the template</code></pre>
+  <figure class="my-6">
+    <img src="{{ asset('resources/images/nested-section-debug.png') }}" alt="The debug error page for a section inside an if block" class="w-full rounded border border-hairline">
+    <figcaption class="mt-2 text-sm text-text">The debug page for this error, as it appears in a development build.</figcaption>
+  </figure>
+  <p>In a release build, the browser sees only a generic error, and the details go to the log.</p>
+  <h2>How to fix it</h2>
+  <p>Keep the section at the top level, and move the condition inside it:</p>
+  <pre><code class="language-blade">@@section('content')
+  @@if ($flag)
+    This content is inside an if block.
+  @@endif
+@@endsection</code></pre>
+  <p>Sections are how a layout gets its content, and the layouts page explains the rules in full: <a href="/docs/layouts">layouts and sections</a>.</p>
+@endsection

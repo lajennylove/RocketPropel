@@ -34,3 +34,6 @@ examples/pastebin/upload/*
 
 # Propel: separate project repository (has its own git history).
 /propel/
+
+# Browser automation artifacts (screenshots, logs). Temporary, never committed.
+.playwright-mcp/

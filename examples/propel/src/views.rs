@@ -60,11 +60,6 @@ pub struct Cache {
     pub value: String,
 }
 
-#[derive(Debug, Serialize)]
-pub struct Flag {
-    pub flag: bool,
-}
-
 /// A page with only a title, such as the documentation pages.
 #[derive(Debug, Serialize)]
 pub struct Article {
