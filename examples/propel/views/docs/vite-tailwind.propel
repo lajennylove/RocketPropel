@@ -6,7 +6,6 @@
 
 @section('content')
   <h1>{{ $title }}</h1>
-  <h1>{{ $title }}</h1>
   <p>Propel projects use Vite for assets and Tailwind for styles. Vite serves your files in development with hot reload, and builds hashed files for production.</p>
 
   <h2>What you configure</h2>
@@ -34,6 +33,14 @@
 
   <h2>Tailwind classes</h2>
   <p>Tailwind reads your project, including the <code>.propel</code> views, and generates the classes you use. Define colours, fonts and sizes once in <code>@@theme</code>, and they become utility classes.</p>
+
+  <h3>Example: a design token</h3>
+  <p>Define the token once in <code>resources/css/app.css</code>:</p>
+<pre><code>@@theme {
+    --color-accent: #3d50f5;
+}</code></pre>
+  <p>Then use the utility class in any view:</p>
+<pre><code>&lt;a class="text-accent underline" href="/posts"&gt;All posts&lt;/a&gt;</code></pre>
 
   <h2>Template cache</h2>
   <p>In development, Propel keeps parsed templates in memory and checks each file's modification time and size. An edit is picked up on the next request. See <a href="/features/cache">the cache example</a>.</p>

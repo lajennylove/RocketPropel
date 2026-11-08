@@ -1,0 +1,58 @@
+@extends('layouts.app')
+
+@section('title')
+  Context and composers
+@endsection
+
+@section('content')
+  <h1>Context and composers</h1>
+  <p>Every view has one context: a Rust struct that holds the data the view needs. The handler builds it, and the view reads its fields. A view cannot use a field that the struct does not have.</p>
+
+  <h2>Define the context</h2>
+  <p>Derive <code>Serialize</code> so Propel can read the fields.</p>
+<pre><code>#[derive(Serialize)]
+pub struct PostsIndex {
+    pub title: String,
+    pub posts: Vec&lt;Post&gt;,
+}</code></pre>
+
+  <h2>Build it in a handler</h2>
+  <p>The route is the view composer for this page: it collects the data and passes it to the view.</p>
+<pre><code>#[get("/posts")]
+fn posts() -&gt; PropelView {
+    PropelView::render("posts.index", &amp;PostsIndex {
+        title: "Posts".into(),
+        posts: all_posts(),
+    })
+}</code></pre>
+
+  <h2>Read it in the view</h2>
+  <p>Fields are read by name, as in <code>$title</code> or <code>$post.title</code>. The <code>$</code> is optional, and a loop variable such as <code>post</code> is read the same way.</p>
+<pre><code>@@extends('layouts.app')
+
+@@section('content')
+  &lt;h1&gt;@{{ $title }}&lt;/h1&gt;
+  @@forelse (post in posts)
+    &lt;h2&gt;@{{ $post.title }}&lt;/h2&gt;
+  @@empty
+    &lt;p&gt;No posts yet.&lt;/p&gt;
+  @@endforelse
+@@endsection</code></pre>
+
+  <h2>Shared data with <code>Page</code></h2>
+  <p>Some data is needed on every page, such as the sidebar and the previous and next links. The test app wraps each context in a <code>Page</code>, which adds that data next to the view's own fields.</p>
+<pre><code>PropelView::render("posts.index", &amp;Page::new("/posts", PostsIndex {
+    title: "Posts".into(),
+    posts: all_posts(),
+}))</code></pre>
+  <p>The layout then reads the shared data like any other field:</p>
+<pre><code>@@foreach (group in nav)
+  &lt;p&gt;@{{ $group.heading }}&lt;/p&gt;
+  @@foreach (link in group.links)
+    &lt;a href="@{{ $link.href }}"&gt;@{{ $link.label }}&lt;/a&gt;
+  @@endforeach
+@@endforeach</code></pre>
+
+  <h2>Status</h2>
+  <p>The <code>Page</code> wrapper is part of the test app for now, not of the library. In Laravel terms, it is a view composer written by hand. Propel will offer a request guard for shared data later. A view composer that runs on every request is planned, but not built.</p>
+@endsection

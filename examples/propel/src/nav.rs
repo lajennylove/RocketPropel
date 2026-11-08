@@ -54,6 +54,8 @@ fn groups() -> Vec<Group> {
             "Blade syntax",
             &[
                 ("/docs/syntax", "Syntax overview"),
+                ("/docs/context", "Context and composers"),
+                ("/docs/components", "Components and reuse"),
                 ("/features/escaping", "Escaping"),
                 ("/features/control", "Control flow"),
                 ("/features/dump", "@dump"),

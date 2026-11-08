@@ -6,10 +6,28 @@
 
 @section('content')
   <h1>Template cache</h1>
-  <p>
-    Edit <code>views/features/cache.propel</code> and refresh this page. The next
-    request picks up your change, with no restart. The value below is set in
-    <code>src/main.rs</code>.
-  </p>
+  <p>In development, Propel keeps each parsed template in memory. A template is parsed once, and it is parsed again only when its file changes. The check is the file's modification time and size, so an edit shows up on the next request, with no restart.</p>
+
+  <h2>Try it</h2>
+  <p>Edit <code>views/features/cache.propel</code> and refresh this page. The value below comes from the handler in <code>src/main.rs</code>.</p>
   <p>Value from the handler: {{ $value }}</p>
+
+  <h2>Benchmark</h2>
+  <p>The numbers below come from the benchmark in <code>propel_runtime/benches/render.rs</code>, run in a release build on an Apple Silicon Mac. They render <code>posts.index</code> with a layout, so they include reading the templates from disk.</p>
+  <table>
+    <thead>
+      <tr><th>Case</th><th>Before the cache</th><th>With the cache</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Render, 10 posts</td><td>49 µs</td><td>7.5 µs</td></tr>
+      <tr><td>Render, 100 posts</td><td>84 µs</td><td>41 µs</td></tr>
+      <tr><td>Render, 1,000 posts</td><td>444 µs</td><td>388 µs</td></tr>
+      <tr><td>Parse <code>posts.index</code> and <code>layouts.app</code></td><td>23–28 µs</td><td>avoided on each request</td></tr>
+    </tbody>
+  </table>
+  <p>The cache removes the parsing, which is about a quarter of a 100-post request. With 1,000 posts the rest of the time goes to building the HTML, so the cache helps less.</p>
+
+  <h2>Run the benchmark</h2>
+<pre><code>cargo bench -p propel_runtime</code></pre>
+  <p>Run it from the Propel repository. The results are saved in <code>target/criterion</code>.</p>
 @endsection

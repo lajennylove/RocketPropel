@@ -6,25 +6,31 @@
 
 @section('content')
   <h1>Escaping</h1>
+  <p>Propel escapes output by default. Every <code>@{{ }}</code> value is escaped before it reaches the browser, and that is what protects a page against cross-site scripting.</p>
 
   <h2>Text is escaped</h2>
+  <p>The characters <code>&amp;amp;</code>, <code>&amp;lt;</code>, <code>&amp;gt;</code>, <code>"</code> and <code>'</code> are written as HTML entities.</p>
+<pre><code>&lt;p&gt;@{{ $comment }}&lt;/p&gt;</code></pre>
+  <h3>Live example</h3>
   <p>{{ $dangerous }}</p>
 
   <h2>Raw output</h2>
+  <p>The raw-output tag prints a value without escaping. Use it only for trusted HTML, such as markup you wrote yourself.</p>
+<pre><code>&lt;div&gt;@{!! $html !!}&lt;/div&gt;</code></pre>
+  <h3>Live example</h3>
   <p>{!! $trusted !!}</p>
 
-  <h2>URLs in attributes</h2>
+  <h2>Links and other URLs</h2>
+  <p>An echoed value in an <code>href</code>, <code>src</code>, <code>action</code>, <code>formaction</code> or <code>xlink:href</code> attribute must use a safe scheme: <code>http</code>, <code>https</code>, <code>mailto</code> or <code>tel</code>, or a relative path. Any other value becomes <code>#</code>. This applies to raw output too.</p>
+<pre><code>&lt;a href="@{{ $url }}"&gt;Profile&lt;/a&gt;</code></pre>
+  <h3>Live example</h3>
   <p><a href="{{ $safe_url }}">Safe link</a>, shown as text: {{ $safe_url }}</p>
   <p><a href="{{ $unsafe_url }}">Unsafe link</a>, its href becomes #</p>
-  <p><a href="{!! $unsafe_url !!}">Raw unsafe link</a>, still #</p>
   <p><a href="{{ $tab_url }}">Scheme hidden by a tab</a>, still #</p>
 
-  <h2>Literal syntax</h2>
-  <p>Mail me@example.com. Write <code>@@if (x)</code> and <code>@@@{{ $not_a_variable }}</code> as text.</p>
-  <p><code>@foo</code> is plain text too, because it is not a known directive.</p>
-  <p>The raw-output tag can be written as text too: <code>@{!! $trusted !!}</code> shows <code>{!! $trusted !!}</code>.</p>
-
-  <h2>A code block</h2>
-  <pre><code>&lt;p&gt;@{{ $dangerous }}&lt;/p&gt;</code></pre>
-  <p>Braces in a code sample are written with a leading <code>@</code>, as in <code>@@@{{</code>, so the template does not run them.</p>
+  <h2>Writing the syntax as text</h2>
+  <p>To show Propel's own syntax on a page, double the <code>@@</code> and the braces. <code>@@@@</code> prints <code>@@</code>, <code>@@@{{</code> prints <code>@{{</code>, and <code>@@@{!!</code> prints <code>@{!!</code>.</p>
+<pre><code>Write @@@@if (x) and @@@{{ $name }}.</code></pre>
+  <h3>Live example</h3>
+  <p>Write @@if (x) and @{{ $name }}.</p>
 @endsection

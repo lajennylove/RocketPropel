@@ -6,7 +6,6 @@
 
 @section('content')
   <h1>{{ $title }}</h1>
-  <h1>{{ $title }}</h1>
   <p>Propel is a Rust crate that works with Rocket. It needs a Rust toolchain and, for assets, Node.js.</p>
 
   <h2>Requirements</h2>
