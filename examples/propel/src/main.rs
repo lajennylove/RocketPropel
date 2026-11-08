@@ -1,7 +1,10 @@
 #[macro_use]
 extern crate rocket;
 
+mod nav;
 mod views;
+
+use nav::Page;
 
 use propel_rocket::PropelView;
 use rocket::fs::FileServer;
@@ -42,7 +45,7 @@ fn home() -> PropelView {
 
     PropelView::render(
         "home",
-        &Home {
+        &Page::new("/", Home {
             heading: "Propel test pages".into(),
             intro: "Each page exercises one part of Propel. Follow the links.".into(),
             pages: vec![
@@ -56,7 +59,7 @@ fn home() -> PropelView {
                 link("/errors/missing", "Error: missing variable", "500 in debug, generic in release"),
                 link("/errors/nested-section", "Error: nested section", "a @section inside @if is rejected"),
             ],
-        },
+        }),
     )
 }
 
@@ -64,10 +67,13 @@ fn home() -> PropelView {
 fn posts() -> PropelView {
     PropelView::render(
         "posts.index",
-        &PostsIndex {
-            title: "Posts".into(),
-            posts: all_posts(),
-        },
+        &Page::new(
+            "/posts",
+            PostsIndex {
+                title: "Posts".into(),
+                posts: all_posts(),
+            },
+        ),
     )
 }
 
@@ -81,7 +87,10 @@ fn post(id: &str) -> (Status, PropelView) {
         .and_then(|id| all_posts().into_iter().find(|post| post.id == id));
 
     match found {
-        Some(post) => (Status::Ok, PropelView::render("posts.show", &PostShow { post })),
+        Some(post) => (
+            Status::Ok,
+            PropelView::render("posts.show", &Page::new(&format!("/posts/{id}"), PostShow { post })),
+        ),
         None => not_found_page(),
     }
 }
@@ -90,13 +99,13 @@ fn post(id: &str) -> (Status, PropelView) {
 fn escaping() -> PropelView {
     PropelView::render(
         "features.escaping",
-        &Escaping {
+        &Page::new("/features/escaping", Escaping {
             dangerous: "<script>alert('x')</script>".into(),
             trusted: "<em>trusted</em>".into(),
             safe_url: "https://example.com/?a=1&b=2".into(),
             unsafe_url: "javascript:alert('x')".into(),
             tab_url: "java\tscript:alert(1)".into(),
-        },
+        }),
     )
 }
 
@@ -104,14 +113,14 @@ fn escaping() -> PropelView {
 fn control() -> PropelView {
     PropelView::render(
         "features.control",
-        &Control {
+        &Page::new("/features/control", Control {
             is_admin: false,
             is_member: true,
             tags: vec!["rust".into(), "rocket".into(), "propel".into()],
             empty_items: vec![],
             author: None,
             maybe_items: None,
-        },
+        }),
     )
 }
 
@@ -119,10 +128,13 @@ fn control() -> PropelView {
 fn dump() -> PropelView {
     PropelView::render(
         "features.dump",
-        &Dump {
-            post: all_posts().remove(0),
-            tags: vec!["rust".into(), "rocket".into()],
-        },
+        &Page::new(
+            "/features/dump",
+            Dump {
+                post: all_posts().remove(0),
+                tags: vec!["rust".into(), "rocket".into()],
+            },
+        ),
     )
 }
 
@@ -130,31 +142,43 @@ fn dump() -> PropelView {
 fn dd() -> PropelView {
     PropelView::render(
         "features.dd",
-        &Dump {
-            post: all_posts().remove(0),
-            tags: vec!["rust".into(), "rocket".into()],
-        },
+        &Page::new(
+            "/features/dd",
+            Dump {
+                post: all_posts().remove(0),
+                tags: vec!["rust".into(), "rocket".into()],
+            },
+        ),
     )
 }
 
 #[get("/features/cache")]
 fn cache() -> PropelView {
-    PropelView::render("features.cache", &Cache { value: "v1".into() })
+    PropelView::render(
+        "features.cache",
+        &Page::new("/features/cache", Cache { value: "v1".into() }),
+    )
 }
 
 #[get("/errors/missing")]
 fn missing() -> PropelView {
     // The view names `$not_in_context`, which this context does not have.
-    PropelView::render("errors.missing", &NoFields {})
+    PropelView::render("errors.missing", &Page::new("/errors/missing", NoFields {}))
 }
 
 #[get("/errors/nested-section")]
 fn nested_section() -> PropelView {
-    PropelView::render("errors.nested_section", &Flag { flag: true })
+    PropelView::render(
+        "errors.nested_section",
+        &Page::new("/errors/nested-section", Flag { flag: true }),
+    )
 }
 
 fn not_found_page() -> (Status, PropelView) {
-    (Status::NotFound, PropelView::render("errors.not_found", &NoFields {}))
+    (
+        Status::NotFound,
+        PropelView::render("errors.not_found", &Page::new("", NoFields {})),
+    )
 }
 
 #[catch(404)]
