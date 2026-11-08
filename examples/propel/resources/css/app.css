@@ -68,19 +68,6 @@
         @apply font-mono text-[14px] leading-6;
     }
 
-    /* Syntax colours for the code samples. These are Prism's token classes, so the
-       markup and the names stay standard. The colours are the Astro docs palette,
-       measured on docs.astro.build. Tokens Astro showed in no sample reuse the
-       nearest measured colour. */
-    /* Copy button and line numbers from Prism's plugins, in the docs palette. */
-    .docs-content div.code-toolbar > .toolbar .toolbar-item > button {
-        @apply rounded border border-hairline bg-white px-2 py-1 text-xs text-text hover:text-heading;
-    }
-
-    .docs-content pre.line-numbers .line-numbers-rows > span::before {
-        @apply text-token-comment;
-    }
-
     /* @dump and @dd: each array or object folds, with its entries indented. */
     .propel-dump-node > summary {
         @apply cursor-pointer list-none;
@@ -90,6 +77,10 @@
         @apply ml-4 border-l border-hairline pl-3;
     }
 
+    /* Syntax colours for the code samples. These are Prism's token classes, so the
+       markup and the names stay standard. The colours are the Astro docs palette,
+       measured on docs.astro.build. Tokens Astro showed in no sample reuse the
+       nearest measured colour. */
     .token.comment,
     .token.prolog,
     .token.doctype {
@@ -164,4 +155,41 @@
     .sidebar-heading {
         @apply mt-6 mb-1 px-3 text-sm font-semibold text-heading;
     }
+}
+
+/* Copy button and line numbers. Prism's toolbar and line-number CSS is unlayered,
+   so these rules sit outside @layer too: an unlayered rule beats a layered one. */
+.docs-content div.code-toolbar > .toolbar {
+    @apply opacity-100;
+}
+
+.docs-content div.code-toolbar > .toolbar .copy-to-clipboard-button {
+    @apply relative flex size-8 items-center justify-center rounded border border-black bg-white text-black hover:bg-hairline;
+}
+
+/* The copy icon is the first SVG and the check is the second. */
+.docs-content .copy-to-clipboard-button svg:nth-of-type(2) {
+    @apply hidden;
+}
+
+.docs-content .copy-to-clipboard-button[data-state="copied"] svg:nth-of-type(1) {
+    @apply hidden;
+}
+
+.docs-content .copy-to-clipboard-button[data-state="copied"] svg:nth-of-type(2) {
+    @apply block;
+}
+
+.docs-content .copy-tooltip {
+    @apply pointer-events-none absolute right-0 bottom-full mb-2 rounded bg-black px-2 py-1 text-xs whitespace-nowrap text-white opacity-0 transition-opacity duration-150;
+}
+
+.docs-content .copy-to-clipboard-button:hover .copy-tooltip,
+.docs-content .copy-to-clipboard-button:focus-visible .copy-tooltip,
+.docs-content .copy-to-clipboard-button[data-state] .copy-tooltip {
+    @apply opacity-100;
+}
+
+.docs-content pre.line-numbers .line-numbers-rows > span::before {
+    @apply text-token-comment;
 }
