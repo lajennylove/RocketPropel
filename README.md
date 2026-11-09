@@ -1,124 +1,73 @@
 # Propel docs
 
-The Propel documentation site. It is a Rocket app that uses Propel, and it is laid out the way your own project would be.
+The documentation site for [Propel](https://github.com/lajennylove/Propel), at [propel.rocketboost.rs](https://propel.rocketboost.rs). It is a Rocket app that uses Propel, laid out the way your own project would be.
 
 ## Setup
 
-You need rustup, not only Homebrew's `cargo`. The `rust-toolchain.toml` in this directory asks rustup for the stable toolchain with clippy and rustfmt, and rustup installs them on the first build.
+You need Rust (stable, with rustup), and Node.js 22 or later.
 
 ```sh
-brew install rustup bacon          # rustup manages the toolchain; bacon rebuilds on change
-rustup-init -y --no-modify-path    # or: rustup default stable, if rustup is already set up
-export PATH="$HOME/.cargo/bin:$PATH"   # put rustup's cargo ahead of Homebrew's
+rustup default stable               # the toolchain in rust-toolchain.toml is installed on first build
+npm install
+npm run build                       # builds the stylesheet and scripts into public/build
 ```
-
-Check that the toolchain files are honored:
-
-```sh
-cargo clippy --version             # should print clippy, from rustup
-```
-
-Homebrew's `cargo` ignores `rust-toolchain.toml`, so run the commands through rustup's `cargo` (put `~/.cargo/bin` first in PATH, as above).
-
-Run commands from the repository root.
-
-## Propel as a dependency
-
-Propel is listed in `Cargo.toml`, the same way a Composer project lists packages in `composer.json`:
-
-```toml
-propel_rocket = { git = "https://github.com/lajennylove/Propel", rev = "18530480ee3328845b0abeaf35d0f8397f50634d" }
-```
-
-Propel isn't on crates.io, so it comes from git. The `rev` pins the version, like a Composer lock entry. To move to a newer Propel, change `rev` and run `cargo update -p propel_rocket`.
 
 ## Run it
 
-From this directory:
-
 ```sh
-cargo run          # serve on http://127.0.0.1:8000/posts
-bacon              # rebuild and restart whenever Rust code changes
+npm run dev                         # Vite: hot reload for CSS and JavaScript, in one terminal
+cargo run                           # the site on http://127.0.0.1:8000, in another
 ```
 
-Run from the repository root. The views in `resources/views/` are compiled into the binary when it builds (`build.rs`).
-
-## Hot reload
-
-Two kinds of change, two speeds:
-
-- **View edits** (`resources/views/**/*.propel`) are compiled into the binary, so they need a rebuild. `bacon` rebuilds and restarts the app on save, because it watches `resources/views` too.
-- **Rust edits** (`src/`) need a rebuild. `bacon` does this automatically.
-- This site does not use the dev interpreter, so a view edit does not reload the page without a rebuild. CSS and JavaScript still update through Vite.
+Run the commands from the repository root. The views in `resources/views/` are compiled into the binary when it builds (`build.rs`), so a change to a view needs a rebuild. `bacon` rebuilds and restarts the site on each save.
 
 ## Layout
 
 ```
-src/views.rs          typed context structs, one per view
-src/main.rs           routes; handlers build the context
-resources/views/      Propel views, in the Laravel layout
-  layouts/app.propel
-  posts/index.propel
+src/                  routes, and the typed context of each view (views.rs)
+resources/
+  views/              the Propel views
+    layouts/app.propel
+    docs/             the documentation pages
+  css/ js/ images/    the front-end sources, built by Vite
+build.rs              compiles the views listed in it
+package.json          Vite and Tailwind
+vite.config.js
 ```
 
-## Status
+## Propel as a dependency
 
-- The views use the draft syntax from the Propel plan. Some of it is still open: member access, truthiness of `Option`, and the `@forelse` empty branch. The files may change.
-- This app renders compiled views in development and in release, through `build.rs`. It does not use the dev interpreter (`PropelView::render`), which is for apps that choose it for debug builds. Before shipping this app, read [`propel/docs/production.md`](../../propel/docs/production.md).
+The site lists Propel in `Cargo.toml` by git revision:
+
+```toml
+propel_rocket = { git = "https://github.com/lajennylove/Propel", tag = "v0.2.0" }
+```
+
+To move to a newer Propel, change the tag and run `cargo update -p propel_rocket`.
+
+## Assets
+
+Templates reference assets with `@vite([...])` and `asset('...')`. The Vite dev server is used while `npm run dev` runs, and the built files otherwise. The full setup is in the [Propel documentation](https://propel.rocketboost.rs/docs/assets).
 
 ## Test pages
 
-The home page at `/` links to each page. Every page exercises one part of Propel.
-
 | Page | What it checks |
 | --- | --- |
-| `/` | the home page, `@foreach` over a list of links |
-| `/posts`, `/posts/1` to `/posts/3` | `@forelse` / `@empty`, `@if` / `@else`, route parameters, layouts |
-| `/posts/99`, `/posts/abc` | the 404 page, for an unknown or non-numeric id |
-| `/features/escaping` | `{{ }}` escaping, `{!! !!}` raw output, URL checks in `href`, `@@`, `@{{`, plain `@words` |
-| `/features/control` | `@if` / `@elseif` / `@else`, `@foreach`, `@forelse` with `@empty`, null values |
-| `/features/dump` | `@dump`: prints the value and keeps rendering |
-| `/features/dd` | `@dd`: prints the value and stops the page |
-| `/features/cache` | the dev renderer's template cache, with benchmark numbers (this site compiles its views, so the cache does not apply to it) |
-| `/errors/missing` | a missing variable: a 500 with the message in debug, generic in release |
-| `/errors/nested-section` | a `@section` inside `@if`: a 500 with the message |
+| `/` | the home page |
+| `/posts`, `/posts/1` to `/posts/3` | `@forelse` and `@empty`, `@if`, route parameters, layouts |
+| `/features/escaping` | `{{ }}` escaping, `{!! !!}` raw output, URL checks, `@@` |
+| `/features/control` | `@if`, `@foreach`, `@forelse`, null values |
+| `/features/dump`, `/features/dd` | `@dump` (keeps rendering) and `@dd` (stops the page) |
+| `/features/cache` | the template cache in development |
+| `/errors/missing` | a missing variable, a 500 in debug builds |
+| `/errors/nested-section` | a `@section` inside `@if`, a 500 in debug builds |
 
-Notes:
+Bare directive words in text must be written as `@@`, for example `@@dump`, or they fail to parse.
 
-- Bare directive words in text must be written as `@@`, for example `@@dump`, or they fail to parse.
-- `/posts/abc` returns the same 404 page as an unknown post.
-- The dev server needs `ROCKET_ADDRESS=0.0.0.0` to be reachable from a phone. Run it on a network you trust.
+## Deploy
 
-## Assets: CSS, JS and images
+Pushing to `main` deploys the site: the GitHub Action runs the deploy script on the server, which pulls the repository, builds the assets and the binary, and restarts the service.
 
-The full setup guide, including the config files and troubleshooting, is in the Propel repository at `docs/assets.md`.
+## Security
 
-The app uses Vite 8 with Tailwind 4 and the latest `laravel-vite-plugin`, the same setup Laravel uses. Install once, then run the tools you need:
-
-```sh
-npm install
-npm run dev     # Vite dev server: hot reload for CSS, JS and assets
-npm run build   # production build into public/build
-```
-
-### In templates
-
-```blade
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-<img src="{{ asset('resources/images/propel-mark.svg') }}" alt="">
-```
-
-- `@vite([...])` writes the `<link>` and `<script>` tags for each entry. Entries listed in the layout load on every page.
-- `asset('path')` returns the URL of a file. The path is relative to the app folder.
-- Inside CSS, `url(@images/…)`, `url(@fonts/…)`, `url(@styles/…)` and `url(@scripts/…)` resolve to the matching `resources/` folder.
-
-### How the URLs are chosen
-
-- **While `npm run dev` runs**, Vite writes its URL to `public/hot`. Propel then points every asset at the dev server, and `@vite` adds the HMR client. The URL uses this machine's LAN address, so a phone on the same Wi-Fi can load the styles. The address is read when `npm run dev` starts. If your address changes, restart the dev server.
-- **Otherwise** (after `npm run build`), Propel reads `public/build/manifest.json` for hashed files. Images and fonts are copied into `public/build/resources`, so `asset('resources/images/x.svg')` resolves to `/build/resources/images/x.svg`.
-- **If the file is in neither place**, the page fails with a 500 that says what to run. This is on purpose: a missing asset is a bug to fix, not a broken image to ship.
-
-### Security
-
-- `npm run dev` listens on the network (`server.host: true`) so a phone can reach it. Use it on networks you trust, and stop it when you are done. The dev server serves your source files.
-- `public/hot` is removed when the dev server stops.
+`npm run dev` listens on the network so another device on the same network can load the styles. Use it on networks you trust, and stop it when you are done.
