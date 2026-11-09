@@ -1,17 +1,22 @@
 name: Deploy Propel docs
 
 # Deploys propel.rocketboost.rs. The server pulls origin/main and rebuilds, so a
-# change to the docs app or to the Rocket checkout it builds against ships here.
-# The Propel library is pinned by rev in examples/propel/Cargo.toml: bump that rev
+# change to the docs app ships here.
+# The Propel library is pinned by rev in Cargo.toml: bump that rev
 # to ship library changes.
 
 on:
   push:
     branches: [main]
     paths:
-      - "core/**"
-      - "examples/Cargo.toml"
-      - "examples/propel/**"
+      - "src/**"
+      - "resources/**"
+      - "build.rs"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "package.json"
+      - "package-lock.json"
+      - "vite.config.js"
       - ".github/workflows/deploy-propel.yml"
   workflow_dispatch:
 

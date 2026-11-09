@@ -1,112 +1,124 @@
-# Rocket
+# Propel docs
 
-[![Build Status](https://github.com/rwf2/Rocket/workflows/CI/badge.svg)](https://github.com/rwf2/Rocket/actions)
-[![Rocket Homepage](https://img.shields.io/badge/web-rocket.rs-red.svg?style=flat&label=https&colorB=d33847)](https://rocket.rs)
-[![Current Crates.io Version](https://img.shields.io/crates/v/rocket.svg)](https://crates.io/crates/rocket)
-[![Matrix: #rocket:mozilla.org](https://img.shields.io/badge/style-%23rocket:mozilla.org-blue.svg?style=flat&label=[m])](https://chat.mozilla.org/#/room/#rocket:mozilla.org)
+The Propel documentation site. It is a Rocket app that uses Propel, and it is laid out the way your own project would be.
 
-Rocket is an async web framework for Rust with a focus on usability, security,
-extensibility, and speed.
+## Setup
 
-```rust
-#[macro_use] extern crate rocket;
-
-#[get("/<name>/<age>")]
-fn hello(name: &str, age: u8) -> String {
-    format!("Hello, {} year old named {}!", age, name)
-}
-
-#[launch]
-fn rocket() -> _ {
-    rocket::build().mount("/hello", routes![hello])
-}
-```
-
-Visiting `localhost:8000/hello/John/58`, for example, will trigger the `hello`
-route resulting in the string `Hello, 58 year old named John!` being sent to the
-browser. If an `<age>` string was passed in that can't be parsed as a `u8`, the
-route won't get called, resulting in a 404 error.
-
-## Documentation
-
-Rocket is extensively documented:
-
-  * [Overview]: A brief look at what makes Rocket special.
-  * [Quickstart]: How to get started as quickly as possible.
-  * [Getting Started]: How to start your first Rocket project.
-  * [Guide]: A detailed guide and reference to Rocket.
-  * [API Documentation]: The "rustdocs".
-
-[Quickstart]: https://rocket.rs/guide/quickstart
-[Getting Started]: https://rocket.rs/guide/getting-started
-[Overview]: https://rocket.rs/overview/
-[Guide]: https://rocket.rs/guide/
-[API Documentation]: https://api.rocket.rs
-
-Documentation for the `master` branch is available at https://rocket.rs/master
-and https://api.rocket.rs/master.
-
-Documentation for major release version `${x}` is available at
-`https://[api.]rocket.rs/v${x}`. For example, the v0.4 docs are available at
-https://rocket.rs/v0.4 and https://api.rocket.rs/v0.4.
-
-Finally, API docs for active git branches are available at
-`https://api.rocket.rs/${branch}`. For example, API docs for the `master` branch
-are available at https://api.rocket.rs/master. Branch rustdocs are built and
-deployed on every commit.
-
-## Examples
-
-The [examples](examples#readme) directory contains complete crates that showcase
-Rocket's features and usage. Each example can be compiled and run with Cargo.
-For instance, the following sequence of commands builds and runs the `hello`
-example:
+You need rustup, not only Homebrew's `cargo`. The `rust-toolchain.toml` in this directory asks rustup for the stable toolchain with clippy and rustfmt, and rustup installs them on the first build.
 
 ```sh
-cd examples/hello
-cargo run
+brew install rustup bacon          # rustup manages the toolchain; bacon rebuilds on change
+rustup-init -y --no-modify-path    # or: rustup default stable, if rustup is already set up
+export PATH="$HOME/.cargo/bin:$PATH"   # put rustup's cargo ahead of Homebrew's
 ```
 
-## Getting Help
+Check that the toolchain files are honored:
 
-If you find yourself needing help outside of the documentation, you may:
+```sh
+cargo clippy --version             # should print clippy, from rustup
+```
 
-  * Ask questions via [GitHub discussions questions].
-  * Chat with us at [`#rocket:mozilla.org`] on Matrix (join [via Element]).
+Homebrew's `cargo` ignores `rust-toolchain.toml`, so run the commands through rustup's `cargo` (put `~/.cargo/bin` first in PATH, as above).
 
-[`#rocket:mozilla.org`]: https://chat.mozilla.org/#/room/#rocket:mozilla.org
-[via Element]: https://chat.mozilla.org/#/room/#rocket:mozilla.org
-[GitHub discussions questions]: https://github.com/rwf2/Rocket/discussions/categories/questions
+Run commands from the repository root.
 
-## Contributing
+## Propel as a dependency
 
-Contributions are absolutely, positively welcomed and encouraged! If you're
-interested in contributing code, please first read [CONTRIBUTING] for complete
-guidelines. Additionally, you could:
+Propel is listed in `Cargo.toml`, the same way a Composer project lists packages in `composer.json`:
 
-  1. Submit a feature request or bug report as an [issue].
-  2. Ask for improved documentation as an [issue].
-  3. Comment on [issues that require feedback].
-  4. Answers questions in [GitHub discussions questions].
-  5. Share a project in [GitHub discussions show & tell].
+```toml
+propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "18530480ee3328845b0abeaf35d0f8397f50634d" }
+```
 
-[issue]: https://github.com/rwf2/Rocket/issues
-[issues that require feedback]: https://github.com/rwf2/Rocket/issues?q=is%3Aissue+is%3Aopen+label%3A%22feedback+wanted%22
-[pull requests]: https://github.com/rwf2/Rocket/pulls
-[CONTRIBUTING]: CONTRIBUTING.md
-[GitHub discussions show & tell]: https://github.com/rwf2/Rocket/discussions/categories/show-tell
+Propel isn't on crates.io, so it comes from git. The `rev` pins the version, like a Composer lock entry. To move to a newer Propel, change `rev` and run `cargo update -p propel_rocket`.
 
-## License
+## Run it
 
-Rocket is licensed under either of the following, at your option:
+From this directory:
 
- * Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or https://www.apache.org/licenses/LICENSE-2.0)
- * MIT License ([LICENSE-MIT](LICENSE-MIT) or https://opensource.org/licenses/MIT)
+```sh
+cargo run          # serve on http://127.0.0.1:8000/posts
+bacon              # rebuild and restart whenever Rust code changes
+```
 
-Unless you explicitly state otherwise, any contribution intentionally submitted
-for inclusion in Rocket by you shall be dual licensed under the MIT License and
-Apache License, Version 2.0, without any additional terms or conditions.
+Run from the repository root. The views in `resources/views/` are compiled into the binary when it builds (`build.rs`).
 
-The Rocket website docs are licensed under [separate terms](docs/LICENSE). Any
-contribution intentionally submitted for inclusion in the Rocket website docs by
-you shall be licensed under those terms.
+## Hot reload
+
+Two kinds of change, two speeds:
+
+- **View edits** (`resources/views/**/*.propel`) are compiled into the binary, so they need a rebuild. `bacon` rebuilds and restarts the app on save, because it watches `resources/views` too.
+- **Rust edits** (`src/`) need a rebuild. `bacon` does this automatically.
+- This site does not use the dev interpreter, so a view edit does not reload the page without a rebuild. CSS and JavaScript still update through Vite.
+
+## Layout
+
+```
+src/views.rs          typed context structs, one per view
+src/main.rs           routes; handlers build the context
+resources/views/      Propel views, in the Laravel layout
+  layouts/app.propel
+  posts/index.propel
+```
+
+## Status
+
+- The views use the draft syntax from the Propel plan. Some of it is still open: member access, truthiness of `Option`, and the `@forelse` empty branch. The files may change.
+- This app renders compiled views in development and in release, through `build.rs`. It does not use the dev interpreter (`PropelView::render`), which is for apps that choose it for debug builds. Before shipping this app, read [`propel/docs/production.md`](../../propel/docs/production.md).
+
+## Test pages
+
+The home page at `/` links to each page. Every page exercises one part of Propel.
+
+| Page | What it checks |
+| --- | --- |
+| `/` | the home page, `@foreach` over a list of links |
+| `/posts`, `/posts/1` to `/posts/3` | `@forelse` / `@empty`, `@if` / `@else`, route parameters, layouts |
+| `/posts/99`, `/posts/abc` | the 404 page, for an unknown or non-numeric id |
+| `/features/escaping` | `{{ }}` escaping, `{!! !!}` raw output, URL checks in `href`, `@@`, `@{{`, plain `@words` |
+| `/features/control` | `@if` / `@elseif` / `@else`, `@foreach`, `@forelse` with `@empty`, null values |
+| `/features/dump` | `@dump`: prints the value and keeps rendering |
+| `/features/dd` | `@dd`: prints the value and stops the page |
+| `/features/cache` | the dev renderer's template cache, with benchmark numbers (this site compiles its views, so the cache does not apply to it) |
+| `/errors/missing` | a missing variable: a 500 with the message in debug, generic in release |
+| `/errors/nested-section` | a `@section` inside `@if`: a 500 with the message |
+
+Notes:
+
+- Bare directive words in text must be written as `@@`, for example `@@dump`, or they fail to parse.
+- `/posts/abc` returns the same 404 page as an unknown post.
+- The dev server needs `ROCKET_ADDRESS=0.0.0.0` to be reachable from a phone. Run it on a network you trust.
+
+## Assets: CSS, JS and images
+
+The full setup guide, including the config files and troubleshooting, is in the Propel repository at `docs/assets.md`.
+
+The app uses Vite 8 with Tailwind 4 and the latest `laravel-vite-plugin`, the same setup Laravel uses. Install once, then run the tools you need:
+
+```sh
+npm install
+npm run dev     # Vite dev server: hot reload for CSS, JS and assets
+npm run build   # production build into public/build
+```
+
+### In templates
+
+```blade
+@vite(['resources/css/app.css', 'resources/js/app.js'])
+<img src="{{ asset('resources/images/propel-mark.svg') }}" alt="">
+```
+
+- `@vite([...])` writes the `<link>` and `<script>` tags for each entry. Entries listed in the layout load on every page.
+- `asset('path')` returns the URL of a file. The path is relative to the app folder.
+- Inside CSS, `url(@images/…)`, `url(@fonts/…)`, `url(@styles/…)` and `url(@scripts/…)` resolve to the matching `resources/` folder.
+
+### How the URLs are chosen
+
+- **While `npm run dev` runs**, Vite writes its URL to `public/hot`. Propel then points every asset at the dev server, and `@vite` adds the HMR client. The URL uses this machine's LAN address, so a phone on the same Wi-Fi can load the styles. The address is read when `npm run dev` starts. If your address changes, restart the dev server.
+- **Otherwise** (after `npm run build`), Propel reads `public/build/manifest.json` for hashed files. Images and fonts are copied into `public/build/resources`, so `asset('resources/images/x.svg')` resolves to `/build/resources/images/x.svg`.
+- **If the file is in neither place**, the page fails with a 500 that says what to run. This is on purpose: a missing asset is a bug to fix, not a broken image to ship.
+
+### Security
+
+- `npm run dev` listens on the network (`server.host: true`) so a phone can reach it. Use it on networks you trust, and stop it when you are done. The dev server serves your source files.
+- `public/hot` is removed when the dev server stops.
