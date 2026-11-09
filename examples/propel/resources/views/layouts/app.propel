@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title') · Propel</title>
-    <link rel="icon" href="{{ asset('resources/images/logo-mark.png') }}">
+    <link rel="icon" href="{{ asset('resources/images/favicon.ico') }}" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('resources/images/favicon-32.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('resources/images/apple-touch-icon.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
   </head>
   <body>
@@ -15,7 +17,7 @@
         </svg>
       </label>
       <a href="/" class="flex items-center gap-2 font-bold text-heading no-underline hover:no-underline">
-        <img src="{{ asset('resources/images/logo-mark.png') }}" alt="" class="size-8 rounded-md">
+        <img src="{{ asset('resources/images/propel-mark.png') }}" alt="" class="h-10 w-auto">
         Propel
       </a>
       <span class="truncate text-[15px] text-text">Templating Engine</span>
