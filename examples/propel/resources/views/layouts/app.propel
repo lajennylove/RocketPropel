@@ -20,7 +20,8 @@
         <img src="{{ asset('resources/images/propel-mark.png') }}" alt="" class="h-10 w-auto">
         Propel
       </a>
-      <span class="truncate text-[15px] text-text">Templating Engine</span>
+      <span class="hidden truncate text-[15px] text-text md:inline">Templating Engine</span>
+    <a href="https://rocketboost.rs" class="ml-auto shrink-0 text-[15px] text-link">rocketboost.rs</a>
     </header>
 
     <div class="mx-auto flex max-w-[1280px] flex-col md:flex-row">
