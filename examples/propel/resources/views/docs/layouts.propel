@@ -1,8 +1,10 @@
 @extends('layouts.demo')
+@section('path')/docs/layouts@endsection
+@section('description')How Propel pages extend layouts with sections and yields, including defaults, parent sections, show, hasSection, includes and stacks.@endsection
+@section('og_type')article@endsection
+@section('structured_data')<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Layouts and sections","url":"https://propel.rocketboost.rs/docs/layouts","description":"How Propel pages extend layouts with sections and yields, including defaults, parent sections, show, hasSection, includes and stacks."}</script>@endsection
 
-@section('title')
-  Layouts and sections
-@endsection
+@section('title')Layouts and sections@endsection
 
 @section('heading')
   Layouts and sections

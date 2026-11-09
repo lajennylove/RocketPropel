@@ -86,6 +86,17 @@ pub fn title(path: &str) -> Option<String> {
         .map(|link| link.label)
 }
 
+/// The paths for the sitemap: the home page and the documentation pages, in
+/// sidebar order. The demo pages (posts, features and errors) are left out.
+pub fn sitemap_paths() -> Vec<String> {
+    groups()
+        .into_iter()
+        .flat_map(|group| group.links)
+        .map(|link| link.href)
+        .filter(|href| href == "/" || href.starts_with("/docs/"))
+        .collect()
+}
+
 /// The navigation every page shares. Each view's context has `nav` and `pager`
 /// fields with these values. They are fields of the context itself, not of a
 /// nested struct, because compiled views read the Rust fields by name.

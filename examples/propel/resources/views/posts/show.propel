@@ -1,8 +1,8 @@
 @extends('layouts.app')
+@section('path')/posts/{{ $post.id }}@endsection
+@section('robots')noindex,follow@endsection
 
-@section('title')
-  {{ $post.title }}
-@endsection
+@section('title'){{ $post.title }}@endsection
 
 @section('content')
   <p><a href="/posts">All posts</a></p>

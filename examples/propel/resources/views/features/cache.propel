@@ -1,8 +1,8 @@
 @extends('layouts.app')
+@section('path')/features/cache@endsection
+@section('robots')noindex,follow@endsection
 
-@section('title')
-  Template cache
-@endsection
+@section('title')Template cache@endsection
 
 @section('content')
   <h1>Template cache</h1>

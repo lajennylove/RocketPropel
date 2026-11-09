@@ -1,8 +1,10 @@
 @extends('layouts.app')
+@section('path')/docs/context@endsection
+@section('description')Each Propel view has one Rust context struct, filled by its handler. The view reads the struct's fields by name and cannot use a field it lacks.@endsection
+@section('og_type')article@endsection
+@section('structured_data')<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Context and composers","url":"https://propel.rocketboost.rs/docs/context","description":"Each Propel view has one Rust context struct, filled by its handler. The view reads the struct's fields by name and cannot use a field it lacks."}</script>@endsection
 
-@section('title')
-  Context and composers
-@endsection
+@section('title')Context and composers@endsection
 
 @section('content')
   <h1>Context and composers</h1>

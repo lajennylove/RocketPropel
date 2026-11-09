@@ -1,8 +1,10 @@
 @extends('layouts.app')
+@section('path')/docs/assets@endsection
+@section('description')How asset() and the Vite entries helper resolve files from resources into the build, plus the image, font and style aliases that CSS can use.@endsection
+@section('og_type')article@endsection
+@section('structured_data')<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Images, fonts and assets","url":"https://propel.rocketboost.rs/docs/assets","description":"How asset() and the Vite entries helper resolve files from resources into the build, plus the image, font and style aliases that CSS can use."}</script>@endsection
 
-@section('title')
-  Images, fonts and assets
-@endsection
+@section('title')Images, fonts and assets@endsection
 
 @section('content')
   <h1>{{ $title }}</h1>

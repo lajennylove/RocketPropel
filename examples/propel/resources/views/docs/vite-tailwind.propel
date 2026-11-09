@@ -1,8 +1,10 @@
 @extends('layouts.app')
+@section('path')/docs/vite-tailwind@endsection
+@section('description')Set up Vite 8 and Tailwind 4 for a Propel project, with hot reload while developing, hashed files in production and phone access on your network.@endsection
+@section('og_type')article@endsection
+@section('structured_data')<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Setup and hot reload","url":"https://propel.rocketboost.rs/docs/vite-tailwind","description":"Set up Vite 8 and Tailwind 4 for a Propel project, with hot reload while developing, hashed files in production and phone access on your network."}</script>@endsection
 
-@section('title')
-  Setup and hot reload
-@endsection
+@section('title')Setup and hot reload@endsection
 
 @section('content')
   <h1>{{ $title }}</h1>

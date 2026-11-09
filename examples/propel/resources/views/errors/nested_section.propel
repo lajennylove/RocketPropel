@@ -1,8 +1,8 @@
 @extends('layouts.app')
+@section('path')/errors/nested-section@endsection
+@section('robots')noindex,follow@endsection
 
-@section('title')
-  Nested section
-@endsection
+@section('title')Nested section@endsection
 
 @section('content')
   <h1>{{ $title }}</h1>

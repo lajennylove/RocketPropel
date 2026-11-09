@@ -1,8 +1,10 @@
 @extends('layouts.app')
+@section('path')/docs/components@endsection
+@section('description')Propel reuses markup through layouts and sections today. This page sketches the planned component tag, which is not built yet.@endsection
+@section('og_type')article@endsection
+@section('structured_data')<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Components and reuse","url":"https://propel.rocketboost.rs/docs/components","description":"Propel reuses markup through layouts and sections today. This page sketches the planned component tag, which is not built yet."}</script>@endsection
 
-@section('title')
-  Components and reuse
-@endsection
+@section('title')Components and reuse@endsection
 
 @section('content')
   <h1>Components and reuse</h1>

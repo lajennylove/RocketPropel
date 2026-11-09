@@ -1,8 +1,8 @@
 @extends('layouts.app')
+@section('path')/posts@endsection
+@section('robots')noindex,follow@endsection
 
-@section('title')
-  {{ $title }}
-@endsection
+@section('title'){{ $title }}@endsection
 
 @section('content')
   <h1>{{ $title }}</h1>

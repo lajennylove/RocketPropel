@@ -1,8 +1,8 @@
 @extends('layouts.app')
+@section('path')/features/dump@endsection
+@section('robots')noindex,follow@endsection
 
-@section('title')
-  @@dump
-@endsection
+@section('title')@@dump@endsection
 
 @section('content')
   <h1>@@dump</h1>

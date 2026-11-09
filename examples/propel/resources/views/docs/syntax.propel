@@ -1,8 +1,10 @@
 @extends('layouts.app')
+@section('path')/docs/syntax@endsection
+@section('description')Propel follows Blade syntax for output, conditions, loops, layouts, sections, assets and debugging helpers, with an example for each.@endsection
+@section('og_type')article@endsection
+@section('structured_data')<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Syntax overview","url":"https://propel.rocketboost.rs/docs/syntax","description":"Propel follows Blade syntax for output, conditions, loops, layouts, sections, assets and debugging helpers, with an example for each."}</script>@endsection
 
-@section('title')
-  Syntax overview
-@endsection
+@section('title')Syntax overview@endsection
 
 @section('content')
   <h1>{{ $title }}</h1>

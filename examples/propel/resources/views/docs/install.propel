@@ -1,8 +1,10 @@
 @extends('layouts.app')
+@section('path')/docs/install@endsection
+@section('description')Add Propel and Rocket to Cargo.toml, with Rust stable and Node.js 22.12 or newer for Vite and Tailwind, then render your first view.@endsection
+@section('og_type')article@endsection
+@section('structured_data')<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Installation and configuration","url":"https://propel.rocketboost.rs/docs/install","description":"Add Propel and Rocket to Cargo.toml, with Rust stable and Node.js 22.12 or newer for Vite and Tailwind, then render your first view."}</script>@endsection
 
-@section('title')
-  Installation and configuration
-@endsection
+@section('title')Installation and configuration@endsection
 
 @section('content')
   <h1>{{ $title }}</h1>

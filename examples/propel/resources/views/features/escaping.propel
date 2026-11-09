@@ -1,8 +1,8 @@
 @extends('layouts.app')
+@section('path')/features/escaping@endsection
+@section('robots')noindex,follow@endsection
 
-@section('title')
-  Escaping
-@endsection
+@section('title')Escaping@endsection
 
 @section('content')
   <h1>Escaping</h1>

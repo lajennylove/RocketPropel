@@ -1,8 +1,8 @@
 @extends('layouts.app')
+@section('path')/@endsection
+@section('structured_data')<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Propel","url":"https://propel.rocketboost.rs/","description":"Propel is a Blade-inspired templating system for Rocket.rs. Write views in Blade syntax, and Propel compiles them into Rust when the app builds.","sameAs":"https://github.com/lajennylove/propel"}</script>@endsection
 
-@section('title')
-  Introduction
-@endsection
+@section('title')Introduction@endsection
 
 @section('content')
   <img src="{{ asset('resources/images/propel-logo.png') }}" alt="RocketBoost Propel" class="mb-8 w-full rounded-lg">
