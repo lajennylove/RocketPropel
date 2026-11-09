@@ -48,6 +48,15 @@ fn posts() -> PropelView {
 npm run dev     # Vite, in one terminal
 cargo run       # the Rocket app, in another</code></pre>
 
+  <h2>Hot reload</h2>
+  <p>Edits show up in two ways, and the two cost different amounts of work:</p>
+  <ul>
+    <li><strong>Views</strong> (<code>resources/views/**/*.propel</code>) are read from disk on each request. Save the file and refresh: no rebuild and no restart, with <code>cargo run</code>.</li>
+    <li><strong>Rust code</strong> (<code>src/</code>) needs a rebuild. Run <code>bacon</code> instead of <code>cargo run</code>, and it restarts the server on each save.</li>
+    <li><strong>CSS and JavaScript</strong> come from the Vite dev server, which <code>npm run dev</code> starts. It applies changes without a page reload, and it reloads the page when a view changes.</li>
+  </ul>
+  <p>Without <code>npm run dev</code>, the page loads the built files from <code>public/build</code>, so run <code>npm run build</code> first.</p>
+
   <h2>Release builds</h2>
   <p><code>cargo build --release</code> is refused on purpose. Production needs the compiled views, which are not built yet. The <a href="https://github.com/lajennylove/propel/blob/main/docs/production.md">production guide</a> lists the steps.</p>
 
