@@ -5,7 +5,7 @@
 @section('title')Introduction@endsection
 
 @section('content')
-  <img src="{{ asset('resources/images/propel-logo.png') }}" alt="RocketBoost Propel" class="mx-auto mb-8 block w-full max-w-[632px]">
+  <img src="{{ asset('resources/images/propel-logo.webp') }}" alt="RocketBoost Propel" class="mx-auto mb-8 block w-full max-w-[632px]" width="632" height="517" fetchpriority="high">
   <h1>Propel</h1>
   <p>Blade-inspired templating for Rocket.rs.</p>
 
