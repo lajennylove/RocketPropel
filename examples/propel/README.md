@@ -41,15 +41,15 @@ cargo run          # serve on http://127.0.0.1:8000/posts
 bacon              # rebuild and restart whenever Rust code changes
 ```
 
-Run from this directory, not from `examples/`. Views are read from `resources/views/` relative to the working directory.
+Run from this directory, not from `examples/`. The views in `resources/views/` are compiled into the binary when it builds (`build.rs`).
 
 ## Hot reload
 
 Two kinds of change, two speeds:
 
-- **View edits** (`resources/views/**/*.propel`) show up on the next request, with no rebuild or restart. Dev builds read the template from disk on each render.
+- **View edits** (`resources/views/**/*.propel`) are compiled into the binary, so they need a rebuild. `bacon` rebuilds and restarts the app on save, because it watches `resources/views` too.
 - **Rust edits** (`src/`) need a rebuild. `bacon` does this automatically.
-- `bacon` watches `src/` only. A view edit does not restart the server, because the dev renderer reads views on each request.
+- This site does not use the dev interpreter, so a view edit does not reload the page without a rebuild. CSS and JavaScript still update through Vite.
 
 ## Layout
 
@@ -64,7 +64,7 @@ resources/views/      Propel views, in the Laravel layout
 ## Status
 
 - The views use the draft syntax from the Propel plan. Some of it is still open: member access, truthiness of `Option`, and the `@forelse` empty branch. The files may change.
-- Development renders with the dev interpreter (`propel_runtime`), and release builds render compiled views (`propel_compiler`, through `build.rs`). This app still calls `PropelView::render`, which is debug-only, so it must move to compiled views before a release build. Before shipping this app, read [`propel/docs/production.md`](../../propel/docs/production.md).
+- This app renders compiled views in development and in release, through `build.rs`. It does not use the dev interpreter (`PropelView::render`), which is for apps that choose it for debug builds. Before shipping this app, read [`propel/docs/production.md`](../../propel/docs/production.md).
 
 ## Test pages
 
@@ -79,7 +79,7 @@ The home page at `/` links to each page. Every page exercises one part of Propel
 | `/features/control` | `@if` / `@elseif` / `@else`, `@foreach`, `@forelse` with `@empty`, null values |
 | `/features/dump` | `@dump`: prints the value and keeps rendering |
 | `/features/dd` | `@dd`: prints the value and stops the page |
-| `/features/cache` | the template cache: edit `resources/views/features/cache.propel` and refresh |
+| `/features/cache` | the dev renderer's template cache, with benchmark numbers (this site compiles its views, so the cache does not apply to it) |
 | `/errors/missing` | a missing variable: a 500 with the message in debug, generic in release |
 | `/errors/nested-section` | a `@section` inside `@if`: a 500 with the message |
 

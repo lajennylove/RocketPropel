@@ -2,9 +2,10 @@
 //! for each page. Both come from one ordered list, so the sidebar and the pager
 //! always agree.
 
+use propel_macros::Truthy;
 use serde::Serialize;
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Truthy)]
 pub struct Link {
     pub href: String,
     pub label: String,
@@ -85,19 +86,18 @@ pub fn title(path: &str) -> Option<String> {
         .map(|link| link.label)
 }
 
-/// A page's own data, plus the navigation every layout needs.
-#[derive(Debug, Serialize)]
-pub struct Page<C> {
-    #[serde(flatten)]
-    pub content: C,
+/// The navigation every page shares. Each view's context has `nav` and `pager`
+/// fields with these values. They are fields of the context itself, not of a
+/// nested struct, because compiled views read the Rust fields by name.
+pub struct Chrome {
     pub nav: Vec<Group>,
     pub pager: Pager,
 }
 
-impl<C: Serialize> Page<C> {
+impl Chrome {
     /// `path` is the page's address. Only pages in the sidebar get a previous
     /// and a next link.
-    pub fn new(path: &str, content: C) -> Self {
+    pub fn at(path: &str) -> Self {
         let nav = groups();
         let links: Vec<Link> = nav.iter().flat_map(|group| group.links.clone()).collect();
         let index = links.iter().position(|link| link.href == path);
@@ -109,10 +109,43 @@ impl<C: Serialize> Page<C> {
             next: index.and_then(|i| links.get(i + 1).cloned()),
         };
 
-        Page {
-            content,
-            nav,
-            pager,
+        Chrome { nav, pager }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::render_docs;
+    use crate::views::Article;
+
+    use super::*;
+
+    /// Every documentation page in the sidebar must have a compiled view, or
+    /// its link is a 404.
+    #[test]
+    fn every_docs_link_in_the_sidebar_has_a_compiled_view() {
+        let links: Vec<Link> = groups().into_iter().flat_map(|group| group.links).collect();
+        let docs: Vec<&Link> = links
+            .iter()
+            .filter(|link| link.href.starts_with("/docs/"))
+            .collect();
+        assert!(!docs.is_empty());
+
+        for link in docs {
+            let page = link.href.trim_start_matches("/docs/");
+            let context = Article {
+                title: link.label.clone(),
+                nav: Vec::new(),
+                pager: Pager {
+                    prev: None,
+                    next: None,
+                },
+            };
+            assert!(
+                render_docs(page, &context).is_some(),
+                "no compiled view for {}",
+                link.href
+            );
         }
     }
 }

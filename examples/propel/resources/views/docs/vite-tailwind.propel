@@ -22,7 +22,7 @@
 
   <h2>Hot reload</h2>
   <ul>
-    <li><strong>Views</strong> are read on every request. A view edit reloads the browser, with no restart.</li>
+    <li><strong>Views</strong> are compiled into the binary. A view edit rebuilds and restarts the app; <code>bacon</code> does this on save.</li>
     <li><strong>CSS and JavaScript</strong> update in place through Vite's hot module replacement.</li>
     <li><strong>Rust code</strong> needs a rebuild. <code>bacon</code> rebuilds and restarts the app on save.</li>
   </ul>

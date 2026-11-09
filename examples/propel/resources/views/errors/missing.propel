@@ -25,7 +25,7 @@ pub struct NoFields {}</code></pre>
     <img src="{{ asset('resources/images/missing-variable-debug.png') }}" alt="The debug error page for a missing variable, with the message undefined variable not_in_context" class="w-full rounded border border-hairline">
     <figcaption class="mt-2 text-sm text-text">The debug page for this error, as it appears in a development build.</figcaption>
   </figure>
-  <p>In a release build, the browser sees only a generic error, and the details go to the log.</p>
+  <p>This page is a debug-only demo, and its route is absent in a release build. A release build compiles only the views the app lists in <code>build.rs</code>, and this one is not listed, so the browser never sees this error in release. In release, a render error on a compiled view is a generic 500, and the details go to the log.</p>
   <h2>How to fix it</h2>
   <p>There are two ways. Add the field to the context and fill it in the handler, or correct the name in the view. Here is the first:</p>
   <pre class="line-numbers"><code class="language-rust">#[derive(Serialize)]

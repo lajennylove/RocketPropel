@@ -7,5 +7,10 @@ publish = false
 
 [dependencies]
 rocket = { path = "../../core/lib" }
-propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "18530480ee3328845b0abeaf35d0f8397f50634d" }
+propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "e0fb10893095a4b66996d35efb45cf0dd466ccdd" }
+propel_macros = { git = "https://github.com/lajennylove/propel", rev = "e0fb10893095a4b66996d35efb45cf0dd466ccdd" }
+propel_runtime = { git = "https://github.com/lajennylove/propel", rev = "e0fb10893095a4b66996d35efb45cf0dd466ccdd" }
 serde = { version = "1", features = ["derive"] }
+
+[build-dependencies]
+propel_compiler = { git = "https://github.com/lajennylove/propel", rev = "e0fb10893095a4b66996d35efb45cf0dd466ccdd" }

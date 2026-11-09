@@ -21,7 +21,7 @@
     <img src="{{ asset('resources/images/nested-section-debug.png') }}" alt="The debug error page for a section inside an if block" class="w-full rounded border border-hairline">
     <figcaption class="mt-2 text-sm text-text">The debug page for this error, as it appears in a development build.</figcaption>
   </figure>
-  <p>In a release build, the browser sees only a generic error, and the details go to the log.</p>
+  <p>This page is a debug-only demo, and its route is absent in a release build. A release build compiles only the views the app lists in <code>build.rs</code>, and this one is not listed, so the browser never sees this error in release. In release, a render error on a compiled view is a generic 500, and the details go to the log.</p>
   <h2>How to fix it</h2>
   <p>Keep the section at the top level, and move the condition inside it:</p>
   <pre class="line-numbers"><code class="language-blade">@@section('content')

@@ -1,5 +1,6 @@
-# Rebuild and restart on every change to Rust code. View edits are read from
-# disk on each request, so they do not need a restart.
+# Rebuild and restart on every change to Rust code or to a view. The views in
+# resources/views are compiled into the binary by build.rs, so a view edit needs
+# a rebuild too.
 # Run `bacon` from this directory.
 default_job = "run"
 
@@ -8,4 +9,4 @@ command = ["cargo", "run", "--color", "always"]
 need_stdout = true
 background = true
 on_change_strategy = "kill_then_restart"
-watch = ["src"]
+watch = ["src", "resources/views"]

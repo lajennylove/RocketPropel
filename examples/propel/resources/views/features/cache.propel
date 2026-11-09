@@ -6,10 +6,10 @@
 
 @section('content')
   <h1>Template cache</h1>
-  <p>In development, Propel keeps each parsed template in memory. A template is parsed once, and it is parsed again only when its file changes. The check is the file's modification time and size, so an edit shows up on the next request, with no restart.</p>
+  <p>The dev renderer keeps each parsed template in memory. A template is parsed once, and it is parsed again only when its file changes. This site compiles its views instead, so it does not read templates at run time, and the cache does not apply to it. The numbers below are for apps that render with the dev renderer.</p>
 
   <h2>Try it</h2>
-  <p>Edit <code>resources/views/features/cache.propel</code> and refresh this page. The value below comes from the handler in <code>src/main.rs</code>.</p>
+  <p>The value below comes from the handler in <code>src/main.rs</code>. Change it there, and <code>bacon</code> rebuilds the app.</p>
   <p>Value from the handler: {{ $value }}</p>
 
   <h2>Benchmark</h2>
