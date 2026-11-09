@@ -71,7 +71,8 @@ fn sitemap() -> (ContentType, String) {
     );
     for path in nav::sitemap_paths() {
         xml.push_str(&format!(
-            "  <url>\n    <loc>{SITE_URL}{path}</loc>\n    <lastmod>2026-11-09</lastmod>\n  </url>\n"
+            "  <url>\n    <loc>{SITE_URL}{path}</loc>\n\
+             \x20   <lastmod>2026-11-09</lastmod>\n  </url>\n"
         ));
     }
     xml.push_str("</urlset>\n");
