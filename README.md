@@ -27,7 +27,7 @@ Run commands from the repository root.
 Propel is listed in `Cargo.toml`, the same way a Composer project lists packages in `composer.json`:
 
 ```toml
-propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "18530480ee3328845b0abeaf35d0f8397f50634d" }
+propel_rocket = { git = "https://github.com/lajennylove/Propel", rev = "18530480ee3328845b0abeaf35d0f8397f50634d" }
 ```
 
 Propel isn't on crates.io, so it comes from git. The `rev` pins the version, like a Composer lock entry. To move to a newer Propel, change `rev` and run `cargo update -p propel_rocket`.

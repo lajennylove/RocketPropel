@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('path')/@endsection
-@section('structured_data')<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Propel","url":"https://propel.rocketboost.rs/","description":"Propel is a Blade-inspired templating system for Rocket.rs. Write views in Blade syntax, and Propel compiles them into Rust when the app builds.","sameAs":"https://github.com/lajennylove/propel"}</script>@endsection
+@section('structured_data')<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Propel","url":"https://propel.rocketboost.rs/","description":"Propel is a Blade-inspired templating system for Rocket.rs. Write views in Blade syntax, and Propel compiles them into Rust when the app builds.","sameAs":"https://github.com/lajennylove/Propel"}</script>@endsection
 
 @section('title')Introduction@endsection
 
@@ -42,6 +42,6 @@
     <li><a href="https://roots.io/sage/docs/">Sage</a>, the asset layout and aliases</li>
     <li><a href="https://vite.dev">Vite</a> and <a href="https://tailwindcss.com">Tailwind CSS</a>, the build tools</li>
     <li><a href="https://docs.astro.build">Astro docs</a>, the look of this site</li>
-    <li><a href="https://github.com/lajennylove/propel">The Propel repository</a>, with the design plan and the decisions behind it</li>
+    <li><a href="https://github.com/lajennylove/Propel">The Propel repository</a>, with the design plan and the decisions behind it</li>
   </ul>
 @endsection

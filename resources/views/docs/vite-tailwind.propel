@@ -16,7 +16,7 @@
     <li><code>vite.config.js</code> sets the entries, the aliases and the plugins.</li>
     <li><code>resources/css/app.css</code> imports Tailwind and defines your design tokens.</li>
   </ul>
-  <p>The <a href="https://github.com/lajennylove/propel/blob/main/docs/assets.md">assets guide</a> has the full files, copied from this app.</p>
+  <p>The <a href="https://github.com/lajennylove/Propel/blob/main/docs/assets.md">assets guide</a> has the full files, copied from this app.</p>
 
   <h2>Load the entries</h2>
   <p>The layout loads the stylesheet and the script:</p>
