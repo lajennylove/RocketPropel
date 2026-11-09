@@ -10,7 +10,7 @@
 
   <h2>Layouts</h2>
   <p>A layout holds the parts every page shares. It marks the place for each section with <code>@@yield</code>.</p>
-<pre class="line-numbers"><code class="language-blade">@{{-- views/layouts/app.propel --}}
+<pre class="line-numbers"><code class="language-blade">@{{-- resources/views/layouts/app.propel --}}
 &lt;main&gt;
   @@yield('content')
 &lt;/main</code></pre>

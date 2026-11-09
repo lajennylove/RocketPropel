@@ -27,7 +27,7 @@ Run commands from this directory. rustup reads `rust-toolchain.toml` from the cu
 Propel is listed in `Cargo.toml`, the same way a Composer project lists packages in `composer.json`:
 
 ```toml
-propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "0332111ae4d7ebd16a6cd036dd50297e922d2714" }
+propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "18530480ee3328845b0abeaf35d0f8397f50634d" }
 ```
 
 Propel isn't on crates.io, so it comes from git. The `rev` pins the version, like a Composer lock entry. To move to a newer Propel, change `rev` and run `cargo update -p propel_rocket`.
@@ -41,13 +41,13 @@ cargo run          # serve on http://127.0.0.1:8000/posts
 bacon              # rebuild and restart whenever Rust code changes
 ```
 
-Run from this directory, not from `examples/`. Views are read from `views/` relative to the working directory.
+Run from this directory, not from `examples/`. Views are read from `resources/views/` relative to the working directory.
 
 ## Hot reload
 
 Two kinds of change, two speeds:
 
-- **View edits** (`views/**/*.propel`) show up on the next request, with no rebuild. Dev builds read the template from disk on each render.
+- **View edits** (`resources/views/**/*.propel`) show up on the next request, with no rebuild or restart. Dev builds read the template from disk on each render.
 - **Rust edits** (`src/`) need a rebuild. `bacon` does this automatically.
 - `bacon` watches `src/` only. A view edit does not restart the server, because the dev renderer reads views on each request.
 
@@ -56,7 +56,7 @@ Two kinds of change, two speeds:
 ```
 src/views.rs          typed context structs, one per view
 src/main.rs           routes; handlers build the context
-views/                Propel views, in the regular Rocket layout
+resources/views/      Propel views, in the Laravel layout
   layouts/app.propel
   posts/index.propel
 ```
@@ -80,7 +80,7 @@ The home page at `/` links to each page. Every page exercises one part of Propel
 | `/features/control` | `@if` / `@elseif` / `@else`, `@foreach`, `@forelse` with `@empty`, null values |
 | `/features/dump` | `@dump`: prints the value and keeps rendering |
 | `/features/dd` | `@dd`: prints the value and stops the page |
-| `/features/cache` | the template cache: edit `views/features/cache.propel` and refresh |
+| `/features/cache` | the template cache: edit `resources/views/features/cache.propel` and refresh |
 | `/errors/missing` | a missing variable: a 500 with the message in debug, generic in release |
 | `/errors/nested-section` | a `@section` inside `@if`: a 500 with the message |
 

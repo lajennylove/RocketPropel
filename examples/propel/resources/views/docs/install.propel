@@ -27,20 +27,21 @@ propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "600a609a
 fn posts() -> PropelView {
     PropelView::render("posts.index", &amp;PostsIndex { posts: all_posts() })
 }</code></pre>
-  <p>The view name <code>posts.index</code> is the file <code>views/posts/index.propel</code>. Dots are folder separators.</p>
+  <p>The view name <code>posts.index</code> is the file <code>resources/views/posts/index.propel</code>. Dots are folder separators.</p>
 
   <h2>Project layout</h2>
   <pre class="line-numbers"><code class="language-text">your-app/
 ├── Cargo.toml
 ├── src/              routes and view contexts
-├── views/            .propel templates
-│   ├── layouts/app.propel
-│   └── posts/index.propel
-├── resources/        CSS, JavaScript, images and fonts for Vite
+├── resources/
+│   ├── views/        .propel templates
+│   │   ├── layouts/app.propel
+│   │   └── posts/index.propel
+│   └── css, js, images, fonts for Vite
 ├── public/           built files (generated, not committed)
 ├── package.json
 └── vite.config.js</code></pre>
-  <p>Views are read from <code>views/</code>, and built files from <code>public/</code>, both relative to the folder you run the app from. There is no configuration file yet.</p>
+  <p>Views are read from <code>resources/views/</code>, and built files from <code>public/</code>, both relative to the folder you run the app from. There is no configuration file yet.</p>
 
   <h2>Run it</h2>
   <pre class="line-numbers"><code class="language-bash">npm install

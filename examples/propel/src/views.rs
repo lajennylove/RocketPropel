@@ -1,4 +1,4 @@
-//! Typed contexts for the views in `views/`.
+//! Typed contexts for the views in `resources/views/`.
 //!
 //! Each view has one context struct here, and handlers build it. Today a
 //! template that names a field the context lacks fails at render time. Once

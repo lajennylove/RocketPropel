@@ -79,5 +79,5 @@
 @@section('content')
   &lt;p&gt;The panel's content.&lt;/p&gt;
 @@endsection</code></pre>
-  <p>A name with no namespace still reads from <code>views/</code>. The part before <code>::</code> may only contain letters, digits, <code>_</code> and <code>-</code>, and the view part follows the same rules as any name. A namespace that was never registered is a render error, and the error page names it.</p>
+  <p>A name with no namespace still reads from <code>resources/views/</code>. The part before <code>::</code> may only contain letters, digits, <code>_</code> and <code>-</code>, and the view part follows the same rules as any name. A namespace that was never registered is a render error, and the error page names it.</p>
 @endsection

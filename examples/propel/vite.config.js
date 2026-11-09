@@ -47,7 +47,7 @@ export default defineConfig({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             // Views are read at runtime and are not part of the Vite graph, so a
             // view edit reloads the page instead of rebuilding.
-            refresh: ['views/**/*.propel'],
+            refresh: ['resources/views/**/*.propel'],
         }),
         copyStaticAssets(),
     ],

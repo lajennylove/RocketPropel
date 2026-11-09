@@ -9,7 +9,7 @@
   <p>In development, Propel keeps each parsed template in memory. A template is parsed once, and it is parsed again only when its file changes. The check is the file's modification time and size, so an edit shows up on the next request, with no restart.</p>
 
   <h2>Try it</h2>
-  <p>Edit <code>views/features/cache.propel</code> and refresh this page. The value below comes from the handler in <code>src/main.rs</code>.</p>
+  <p>Edit <code>resources/views/features/cache.propel</code> and refresh this page. The value below comes from the handler in <code>src/main.rs</code>.</p>
   <p>Value from the handler: {{ $value }}</p>
 
   <h2>Benchmark</h2>
