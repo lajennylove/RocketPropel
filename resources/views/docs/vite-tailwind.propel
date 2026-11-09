@@ -31,7 +31,7 @@
   <p>While <code>npm run dev</code> runs, Propel reads the dev server URL from <code>public/hot</code> and points every asset at it. The file is removed when the dev server stops.</p>
 
   <h2>Phones and other devices</h2>
-  <p>The dev server listens on your network, and its URL uses this machine's LAN address. A phone on the same Wi-Fi can open the site. If your address changes, restart <code>npm run dev</code>.</p>
+  <p>The dev server listens on your local network, so a phone or another device on the same Wi-Fi can open the site. It uses the computer's network address, so if that address changes, restart <code>npm run dev</code>.</p>
 
   <h2>Tailwind classes</h2>
   <p>Tailwind reads your project, including the <code>.propel</code> views, and generates the classes you use. Define colours, fonts and sizes once in <code>@@theme</code>, and they become utility classes.</p>
