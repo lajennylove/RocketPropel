@@ -7,5 +7,5 @@ publish = false
 
 [dependencies]
 rocket = { path = "../../core/lib" }
-propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "ff32a6b3b090b0b482b008470ab00634b15adbbb" }
+propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "0332111ae4d7ebd16a6cd036dd50297e922d2714" }
 serde = { version = "1", features = ["derive"] }

@@ -69,4 +69,15 @@
   <p>The footer of this demo layout prints the script this page pushed. It is a text footer here, so the script does not run.</p>
 
   @push('scripts') <code>pushed from this page</code> @endpush
+
+  <h2>Views from a package: <code>name::view</code></h2>
+  <p>A package can ship its own views and layout. It registers them under a name, and the app refers to them with that name and two colons, as Laravel does with <code>loadViewsFrom</code>. Ignite does this for its admin panel.</p>
+<pre class="line-numbers"><code class="language-rust">propel_rocket::register_namespace("ignite", "vendor/ignite/views");</code></pre>
+  <p>Then a view can extend the package's layout:</p>
+<pre class="line-numbers"><code class="language-blade">@@extends('ignite::layouts.app')
+
+@@section('content')
+  &lt;p&gt;The panel's content.&lt;/p&gt;
+@@endsection</code></pre>
+  <p>A name with no namespace still reads from <code>views/</code>. The part before <code>::</code> may only contain letters, digits, <code>_</code> and <code>-</code>, and the view part follows the same rules as any name. A namespace that was never registered is a render error, and the error page names it.</p>
 @endsection

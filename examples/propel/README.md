@@ -27,7 +27,7 @@ Run commands from this directory. rustup reads `rust-toolchain.toml` from the cu
 Propel is listed in `Cargo.toml`, the same way a Composer project lists packages in `composer.json`:
 
 ```toml
-propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "ff32a6b3b090b0b482b008470ab00634b15adbbb" }
+propel_rocket = { git = "https://github.com/lajennylove/propel", rev = "0332111ae4d7ebd16a6cd036dd50297e922d2714" }
 ```
 
 Propel isn't on crates.io, so it comes from git. The `rev` pins the version, like a Composer lock entry. To move to a newer Propel, change `rev` and run `cargo update -p propel_rocket`.
