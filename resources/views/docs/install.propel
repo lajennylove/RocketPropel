@@ -63,5 +63,5 @@ cargo run       # the Rocket app, in another</code></pre>
   <p><code>cargo build --release</code> compiles each view into the binary, through a <code>build.rs</code> file. The binary then needs no <code>resources/views</code> folder. The <code>PropelView::render</code> call that reads views from disk exists in development builds only, so a release app returns each compiled view with <code>PropelView::from_result</code>. The <a href="https://github.com/lajennylove/Propel/blob/main/docs/production.md">production guide</a> lists the steps and the caveats.</p>
 
   <h2>A note on the example app</h2>
-  <p>This site is the example app in <code>examples/propel</code> of the Rocket repository. The navigation and the page wrapper that adds it to each view are part of the app for now. Propel will provide them later.</p>
+  <p>This site is the docs app in the <code>RocketPropel</code> repository, and its layout is the one this page shows. The navigation and the page wrapper that adds it to each view are part of the app for now. Propel will provide them later.</p>
 @endsection
