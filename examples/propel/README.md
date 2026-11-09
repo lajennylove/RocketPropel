@@ -64,8 +64,7 @@ resources/views/      Propel views, in the Laravel layout
 ## Status
 
 - The views use the draft syntax from the Propel plan. Some of it is still open: member access, truthiness of `Option`, and the `@forelse` empty branch. The files may change.
-- Rendering uses the dev interpreter (`propel_runtime`). The compiled path (`propel_compiler`) is not built yet.
-- Release builds are refused on purpose until it exists. Before shipping this app, read [`propel/docs/production.md`](../../propel/docs/production.md).
+- Development renders with the dev interpreter (`propel_runtime`), and release builds render compiled views (`propel_compiler`, through `build.rs`). This app still calls `PropelView::render`, which is debug-only, so it must move to compiled views before a release build. Before shipping this app, read [`propel/docs/production.md`](../../propel/docs/production.md).
 
 ## Test pages
 

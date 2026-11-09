@@ -9,7 +9,7 @@
   <p>Control flow decides what a view renders. It uses the same directives as Blade: <code>@@if</code>, <code>@@foreach</code> and <code>@@forelse</code>, each closed by its own end directive.</p>
 
   <h2><code>@@if</code>, <code>@@elseif</code> and <code>@@else</code></h2>
-  <p>The first true branch renders, and the rest are skipped. The condition is a field of the context. A value is false when it is <code>null</code>, <code>false</code>, zero, an empty string, or an empty list or object.</p>
+  <p>The first true branch renders, and the rest are skipped. The condition is a field of the context. A value is false when it is <code>null</code>, <code>false</code>, zero, an empty string, or an empty list. A struct is true.</p>
 <pre class="line-numbers"><code class="language-blade">@@if ($is_admin)
   &lt;p&gt;Admin&lt;/p&gt;
 @@elseif ($is_member)
@@ -55,8 +55,16 @@
   </ul>
 
   <h2>Optional values</h2>
-  <p>A nested field of a <code>null</code> value prints nothing, so an optional relation can be used without a check.</p>
-<pre class="line-numbers"><code class="language-blade">&lt;p&gt;Author: @{{ $author.name }}&lt;/p&gt;</code></pre>
+  <p>Reading a field of a <code>null</code> value is an error, as in Blade. Check an optional value with <code>@@if</code> first. A <code>null</code> value at the end of a path, such as <code>$author</code> on its own, prints nothing.</p>
+<pre class="line-numbers"><code class="language-blade">@@if ($author)
+  &lt;p&gt;Author: @{{ $author.name }}&lt;/p&gt;
+@@else
+  &lt;p&gt;No author yet.&lt;/p&gt;
+@@endif</code></pre>
   <h3>Live example, with no author</h3>
-  <p>Author: [{{ $author.name }}]</p>
+  @if ($author)
+    <p>Author: {{ $author.name }}</p>
+  @else
+    <p>No author yet.</p>
+  @endif
 @endsection

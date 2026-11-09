@@ -11,7 +11,7 @@
 
   <h2>What Propel is</h2>
   <p>Propel is a templating system for <a href="https://rocket.rs">Rocket</a>, the Rust web framework. You write views in the syntax of Laravel's Blade: <code>@@if</code>, <code>@@foreach</code>, layouts with <code>@@extends</code>, and escaped output by default. Views live in <code>.propel</code> files next to the rest of your Rocket app.</p>
-  <p>Today, Propel renders views at runtime during development, with hot reload. Release builds are refused until the compiler is finished. The compiler will turn each view into Rust code, so a template that uses a field its context does not have fails to build.</p>
+  <p>In development, Propel renders views at runtime, with hot reload. In a release build, each view is compiled into Rust when the app builds, so a template that uses a field its context does not have fails to build, and the error names the template file and line.</p>
 
   <h2>What it brings to Rust</h2>
   <ul>
@@ -19,7 +19,7 @@
     <li><strong>Safe by default.</strong> <code>@{{ }}</code> escapes HTML. Raw output needs an explicit raw-output tag, and echoed URLs with unsafe schemes are replaced.</li>
     <li><strong>Vite and Tailwind built in.</strong> <code>asset()</code> and <code>@@vite</code> connect a Rocket app to Vite and Tailwind, with hot reload in development and hashed files in production.</li>
     <li><strong>Debugging helpers.</strong> <code>@@dump</code> and <code>@@dd</code> print a value while you develop.</li>
-    <li><strong>Typed contexts.</strong> Each view has a Rust struct, and the handler fills it. The planned compiler will check each template against it when the app builds.</li>
+    <li><strong>Typed contexts.</strong> Each view has a Rust struct, and the handler fills it. Each template is checked against it when the app builds.</li>
   </ul>
 
   <h2>Inspiration</h2>

@@ -36,5 +36,5 @@ pub struct Greeting {
     not_in_context: "Hello".into(),
 })</code></pre>
   <h2>Missing values that are allowed</h2>
-  <p>A field that exists but is empty is not an error. A <code>null</code> value prints nothing, and a nested field of a <code>null</code> value is empty too. See <a href="/features/control">control flow</a>.</p>
+  <p>A field that exists but is empty is not an error. A <code>null</code> value prints nothing, but a field of a <code>null</code> value is an error, so guard it with <code>@@if</code>. See <a href="/features/control">control flow</a>.</p>
 @endsection
