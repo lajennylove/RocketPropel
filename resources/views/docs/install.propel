@@ -68,6 +68,205 @@ cargo run       # the Rocket app, in another</code></pre>
   <h2>Deploying with GitHub Actions</h2>
   <p>Deploy by building in CI and serving on the server: GitHub Actions compiles the release binary and the assets, uploads them with a key that can only write release files, and switches the live release with a second key. The server never compiles, and a failed health check switches the previous release back in. The template, with the workflow, the server scripts and the guide, is in <a href="https://github.com/lajennylove/RocketBoost/tree/deploy-template/deploy-template">the deploy-template folder</a> of the RocketBoost repository.</p>
 
+  <p>The three files, copy-ready. The same files are in <a href="https://github.com/lajennylove/RocketBoost/tree/deploy-template/deploy-template">the deploy-template folder</a>.</p>
+  <details class="docs-details my-6">
+    <summary class="cursor-pointer font-semibold text-heading">.github/workflows/deploy.yml</summary>
+    <pre class="line-numbers"><code class="language-yaml"># GitHub Actions template: build a Rocket app in CI, upload the release to the server,
+# and switch to it there. The server only serves files; it never compiles.
+#
+# Copy to .github/workflows/deploy.yml in your repository and fill in the values marked
+# TODO. See README.md in this folder for the one-time server set-up and the secrets.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# One deploy at a time per branch. A running deploy is never cancelled half-way.
+concurrency:
+  group: deploy-$@{{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  APP_NAME: my-app          # TODO: the app folder on the server, e.g. ignite-docs
+  BIN_NAME: my-app          # TODO: the cargo binary name, as in [[bin]] or the package name
+  EXTRA_BINS: &quot;&quot;            # TODO: other binaries the release needs, e.g. &quot;ignite&quot; for MIGRATE_BIN
+  DEPLOY_HOST: $@{{ vars.DEPLOY_HOST }}   # repository variable: the server&#x27;s address
+  DEPLOY_USER: deploy
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04   # the server runs Ubuntu 24.04; match it so the binary runs there
+    steps:
+      - uses: actions/checkout@@v4
+
+      - uses: dtolnay/rust-toolchain@@stable
+      - uses: Swatinem/rust-cache@@v2
+
+      - name: Node for the front-end assets
+        if: hashFiles(&#x27;package.json&#x27;) != &#x27;&#x27;
+        uses: actions/setup-node@@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Build the front-end assets
+        if: hashFiles(&#x27;package.json&#x27;) != &#x27;&#x27;
+        run: |
+          npm ci
+          npm run build
+
+      - name: Build the release binary
+        run: cargo build --release --locked --bin &quot;$BIN_NAME&quot;
+
+      - name: Stage the release
+        run: |
+          rm -rf stage &amp;&amp; mkdir stage
+          for bin in $BIN_NAME $EXTRA_BINS; do
+            cp &quot;target/release/$bin&quot; stage/
+          done
+          # Everything the app reads at run time goes here, e.g. the built assets.
+          if [ -d public ]; then cp -r public stage/; fi
+          ls -la stage
+
+      - uses: actions/upload-artifact@@v4
+        with:
+          name: release
+          path: stage
+          retention-days: 7
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    environment: production   # TODO: create this environment; add reviewers if you want approval
+    steps:
+      - uses: actions/download-artifact@@v4
+        with:
+          name: release
+          path: stage
+
+      - name: Restore the executable bit
+        # Artifact downloads can drop the executable bit, and systemd then fails with 203/EXEC.
+        run: |
+          for bin in $BIN_NAME $EXTRA_BINS; do
+            chmod +x &quot;stage/$bin&quot;
+          done
+
+      - name: Install the SSH keys
+        run: |
+          install -m 700 -d ~/.ssh
+          printf &#x27;%s\n&#x27; &quot;$@{{ secrets.DEPLOY_UPLOAD_KEY }}&quot; &gt; ~/.ssh/upload
+          printf &#x27;%s\n&#x27; &quot;$@{{ secrets.DEPLOY_ACTIVATE_KEY }}&quot; &gt; ~/.ssh/activate
+          printf &#x27;%s\n&#x27; &quot;$@{{ secrets.DEPLOY_KNOWN_HOSTS }}&quot; &gt; ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/upload ~/.ssh/activate ~/.ssh/known_hosts
+
+      - name: Upload the release
+        # The upload key can only write into this app&#x27;s releases folder, under the commit id.
+        run: |
+          rsync -az -e &quot;ssh -i $HOME/.ssh/upload -o UserKnownHostsFile=$HOME/.ssh/known_hosts&quot; \
+            stage/ &quot;$DEPLOY_USER@@$DEPLOY_HOST:$GITHUB_SHA/&quot;
+
+      - name: Activate the release
+        # The activation key runs activate.sh for this app. The commit id is the command.
+        run: |
+          ssh -i &quot;$HOME/.ssh/activate&quot; -o UserKnownHostsFile=&quot;$HOME/.ssh/known_hosts&quot; \
+            &quot;$DEPLOY_USER@@$DEPLOY_HOST&quot; &quot;$GITHUB_SHA&quot;</code></pre>
+  </details>
+  <details class="docs-details my-6">
+    <summary class="cursor-pointer font-semibold text-heading">activate.sh, on the server at /home/deploy/bin/activate.sh</summary>
+    <pre class="line-numbers"><code class="language-bash">#!/bin/bash
+# Activates one uploaded release of one app. Runs on the server only, through the
+# forced command of the activation key in authorized_keys, which fixes the app name:
+#
+#   command=&quot;/home/deploy/bin/activate.sh &lt;app&gt;&quot;,restrict  ssh-ed25519 AAAA... ci-activate
+#
+# The client sends the release id as the command (SSH_ORIGINAL_COMMAND). The release is
+# switched in atomically with a symlink. If the app is not healthy afterwards, the
+# previous release is switched back in. See deploy-template/README.md.
+set -euo pipefail
+
+APP=&quot;${1:?the app name is fixed by the forced command}&quot;
+RELEASE=&quot;${SSH_ORIGINAL_COMMAND:-}&quot;
+if [[ ! &quot;$RELEASE&quot; =~ ^[0-9a-f]{40}$ ]]; then
+  echo &quot;activate: the release id must be a full 40-character commit id&quot; &gt;&amp;2
+  exit 2
+fi
+
+APP_DIR=&quot;$HOME/apps/$APP&quot;
+# shellcheck source=/dev/null
+. &quot;$APP_DIR/shared/deploy.env&quot;   # SERVICE, HEALTH_URL, KEEP, and optionally MIGRATE_BIN
+REL_DIR=&quot;$APP_DIR/releases/$RELEASE&quot;
+if [ ! -d &quot;$REL_DIR&quot; ]; then
+  echo &quot;activate: release $RELEASE was not uploaded&quot; &gt;&amp;2
+  exit 2
+fi
+
+PREVIOUS=&quot;$(readlink &quot;$APP_DIR/current&quot; || true)&quot;
+
+# Migrations run before the switch, as a deploy step (Laravel&#x27;s `migrate`).
+if [ -n &quot;${MIGRATE_BIN:-}&quot; ]; then
+  set -a
+  # shellcheck source=/dev/null
+  . &quot;$APP_DIR/shared/.env&quot;
+  set +a
+  &quot;$REL_DIR/$MIGRATE_BIN&quot; migrate
+fi
+
+switch() {
+  ln -sfn &quot;$1&quot; &quot;$APP_DIR/current.new&quot;
+  mv -Tf &quot;$APP_DIR/current.new&quot; &quot;$APP_DIR/current&quot;
+  sudo /bin/systemctl restart &quot;$SERVICE&quot;
+}
+
+healthy() {
+  for _ in $(seq 1 20); do
+    if curl -fsS -o /dev/null --max-time 3 &quot;$HEALTH_URL&quot;; then
+      return 0
+    fi
+    sleep 1
+  done
+  return 1
+}
+
+switch &quot;$REL_DIR&quot;
+if ! healthy; then
+  echo &quot;activate: $RELEASE is not healthy at $HEALTH_URL&quot; &gt;&amp;2
+  if [ -n &quot;$PREVIOUS&quot; ] &amp;&amp; [ -d &quot;$PREVIOUS&quot; ]; then
+    switch &quot;$PREVIOUS&quot;
+    healthy || true
+    echo &quot;activate: rolled back to $(basename &quot;$PREVIOUS&quot;)&quot; &gt;&amp;2
+  fi
+  exit 1
+fi
+
+# Keep the newest releases for rollback and delete the rest.
+ls -1dt &quot;$APP_DIR&quot;/releases/*/ | tail -n +&quot;$((KEEP + 1))&quot; | xargs -r rm -rf
+echo &quot;live $RELEASE&quot;</code></pre>
+  </details>
+  <details class="docs-details my-6">
+    <summary class="cursor-pointer font-semibold text-heading">app.service, the systemd unit</summary>
+    <pre class="line-numbers"><code class="language-bash"># systemd unit for one app. Copy to /etc/systemd/system/&lt;service&gt;.service, replacing
+# the placeholders in angle brackets, then run: sudo systemctl daemon-reload
+# The app runs from the `current` symlink, which activate.sh switches between releases.
+[Unit]
+Description=&lt;App name&gt; (Rocket)
+After=network.target
+
+[Service]
+User=deploy
+Group=deploy
+WorkingDirectory=/home/deploy/apps/&lt;app&gt;/current
+EnvironmentFile=/home/deploy/apps/&lt;app&gt;/shared/.env
+Environment=ROCKET_ADDRESS=127.0.0.1
+Environment=ROCKET_PORT=&lt;port&gt;
+ExecStart=/home/deploy/apps/&lt;app&gt;/current/&lt;binary&gt;
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+  </details>
+
   <h2>A note on the example app</h2>
   <p>This site is the docs app in the <code>RocketPropel</code> repository, and its layout is the one this page shows. The navigation and the page wrapper that adds it to each view are part of the app for now. Propel will provide them later.</p>
 @endsection
