@@ -37,5 +37,5 @@
   <p>Files referenced only by <code>asset()</code> are copied without a hash. A browser can keep an old copy when the file changes, so rename the file. Files used from CSS are hashed.</p>
 
   <h2>Full guide</h2>
-  <p>The <a href="https://github.com/lajennylove/Propel/blob/main/docs/assets.md">assets guide</a> covers the folder layout, the config files, the production steps and troubleshooting.</p>
+  <p>The <a target="_new" rel="noopener" href="https://github.com/lajennylove/Propel/blob/main/docs/assets.md">assets guide</a> covers the folder layout, the config files, the production steps and troubleshooting.</p>
 @endsection

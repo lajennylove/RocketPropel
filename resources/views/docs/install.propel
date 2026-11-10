@@ -60,15 +60,15 @@ cargo run       # the Rocket app, in another</code></pre>
   <p>Without <code>npm run dev</code>, the page loads the built files from <code>public/build</code>, so run <code>npm run build</code> first.</p>
 
   <h2>Release builds</h2>
-  <p><code>cargo build --release</code> compiles each view into the binary, through a <code>build.rs</code> file. The binary then needs no <code>resources/views</code> folder. The <code>PropelView::render</code> call that reads views from disk exists in development builds only, so a release app returns each compiled view with <code>PropelView::from_result</code>. The <a href="https://github.com/lajennylove/Propel/blob/main/docs/production.md">production guide</a> lists the steps and the caveats.</p>
+  <p><code>cargo build --release</code> compiles each view into the binary, through a <code>build.rs</code> file. The binary then needs no <code>resources/views</code> folder. The <code>PropelView::render</code> call that reads views from disk exists in development builds only, so a release app returns each compiled view with <code>PropelView::from_result</code>. The <a target="_new" rel="noopener" href="https://github.com/lajennylove/Propel/blob/main/docs/production.md">production guide</a> lists the steps and the caveats.</p>
 
   <h2>Production</h2>
   <p>Run the deployed app in release mode. A debug build reads each view from disk on every request and shows detailed error pages to visitors. A release build compiles the views into the binary and shows a plain error page. The debug-only demo routes, such as the error pages and the dump examples, are absent from a release build, so they are not served on a production site.</p>
 
   <h2>Deploying with GitHub Actions</h2>
-  <p>Deploy by building in CI and serving on the server: GitHub Actions compiles the release binary and the assets, uploads them with a key that can only write release files, and switches the live release with a second key. The server never compiles, and a failed health check switches the previous release back in. The template, with the workflow, the server scripts and the guide, is in <a href="https://github.com/lajennylove/RocketBoost/tree/deploy-template/deploy-template">the deploy-template folder</a> of the RocketBoost repository.</p>
+  <p>Deploy by building in CI and serving on the server: GitHub Actions compiles the release binary and the assets, uploads them with a key that can only write release files, and switches the live release with a second key. The server never compiles, and a failed health check switches the previous release back in. The template, with the workflow, the server scripts and the guide, is in <a target="_new" rel="noopener" href="https://github.com/lajennylove/RocketBoost/tree/deploy-template/deploy-template">the deploy-template folder</a> of the RocketBoost repository.</p>
 
-  <p>The three files, copy-ready. The same files are in <a href="https://github.com/lajennylove/RocketBoost/tree/deploy-template/deploy-template">the deploy-template folder</a>.</p>
+  <p>The three files, copy-ready. The same files are in <a target="_new" rel="noopener" href="https://github.com/lajennylove/RocketBoost/tree/deploy-template/deploy-template">the deploy-template folder</a>.</p>
   <details class="docs-details my-6">
     <summary class="cursor-pointer font-semibold text-heading">.github/workflows/deploy.yml</summary>
     <pre class="line-numbers"><code class="language-yaml"># GitHub Actions template: build a Rocket app in CI, upload the release to the server,
