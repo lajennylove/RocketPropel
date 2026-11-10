@@ -65,6 +65,9 @@ cargo run       # the Rocket app, in another</code></pre>
   <h2>Production</h2>
   <p>Run the deployed app in release mode. A debug build reads each view from disk on every request and shows detailed error pages to visitors. A release build compiles the views into the binary and shows a plain error page. The debug-only demo routes, such as the error pages and the dump examples, are absent from a release build, so they are not served on a production site.</p>
 
+  <h2>Deploying with GitHub Actions</h2>
+  <p>Deploy by building in CI and serving on the server: GitHub Actions compiles the release binary and the assets, uploads them with a key that can only write release files, and switches the live release with a second key. The server never compiles, and a failed health check switches the previous release back in. The template, with the workflow, the server scripts and the guide, is in <a href="https://github.com/lajennylove/RocketBoost/tree/deploy-template/deploy-template">the deploy-template folder</a> of the RocketBoost repository.</p>
+
   <h2>A note on the example app</h2>
   <p>This site is the docs app in the <code>RocketPropel</code> repository, and its layout is the one this page shows. The navigation and the page wrapper that adds it to each view are part of the app for now. Propel will provide them later.</p>
 @endsection
