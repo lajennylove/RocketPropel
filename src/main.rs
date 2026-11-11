@@ -309,6 +309,6 @@ fn rocket() -> _ {
     rocket::build()
         .mount("/", routes)
         // Built assets: hashed files and copied images and fonts.
-        .mount("/build", FileServer::new("public/build"))
+        .mount("/build", FileServer::from("public/build"))
         .register("/", catchers![not_found])
 }

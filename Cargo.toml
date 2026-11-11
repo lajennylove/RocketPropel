@@ -5,11 +5,11 @@ edition = "2021"
 publish = false
 
 [dependencies]
-rocket = { git = "https://github.com/rwf2/Rocket", rev = "3a54d079" }
-propel_rocket = { git = "https://github.com/lajennylove/Propel", rev = "09c8a02ba0f3ed75b02c7f3d36b5a0e6f4d047b7" }
-propel_macros = { git = "https://github.com/lajennylove/Propel", rev = "09c8a02ba0f3ed75b02c7f3d36b5a0e6f4d047b7" }
-propel_runtime = { git = "https://github.com/lajennylove/Propel", rev = "09c8a02ba0f3ed75b02c7f3d36b5a0e6f4d047b7" }
+rocket = "0.5.2"
+propel_rocket = "0.2.0"
+propel_macros = "0.2.0"
+propel_runtime = "0.2.0"
 serde = { version = "1", features = ["derive"] }
 
 [build-dependencies]
-propel_compiler = { git = "https://github.com/lajennylove/Propel", rev = "09c8a02ba0f3ed75b02c7f3d36b5a0e6f4d047b7" }
+propel_compiler = "0.2.0"
