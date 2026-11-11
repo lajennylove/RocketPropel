@@ -17,19 +17,41 @@
   </ul>
 
   <h2>Add Propel to your project</h2>
-  <p>Add Propel and Rocket to <code>Cargo.toml</code>. Use the same Rocket revision as Propel, so the project has one copy of Rocket:</p>
+  <p>Add the crates to <code>Cargo.toml</code>, from crates.io. Propel uses Rocket 0.5, and <code>propel_rocket</code> depends on the same Rocket, so Cargo keeps one copy:</p>
   <pre class="line-numbers"><code class="language-toml">[dependencies]
-rocket = { git = "https://github.com/rwf2/Rocket", rev = "3a54d079" }
-propel_rocket = { git = "https://github.com/lajennylove/Propel", rev = "600a609ae8046604160bbf9837a6258c0c30d04e" }</code></pre>
-  <p>Propel is not on crates.io yet, so it comes from git. Pin <code>rev</code> to a commit you have tested.</p>
+rocket = "0.5.2"
+propel_rocket = "0.2.0"
+propel_runtime = "0.2.0"
+propel_macros = "0.2.0"
+serde = { version = "1", features = ["derive"] }
+
+[build-dependencies]
+propel_compiler = "0.2.0"</code></pre>
+  <p><code>propel_compiler</code> is a build dependency: <code>build.rs</code> compiles the views, as shown below. <code>propel_runtime</code> provides <code>Assets</code>, <code>propel_macros</code> provides <code>#[derive(Truthy)]</code>, and <code>serde</code> provides the <code>Serialize</code> derive on your context structs.</p>
+
+  <h2>Compile the views</h2>
+  <p>List each view in <code>build.rs</code> with <code>.view()</code>, and give the context type it is rendered with. Only listed views are compiled into the binary:</p>
+  <pre class="line-numbers"><code class="language-rust">fn main() {
+    propel_compiler::build::Views::new("resources/views")
+        .view("posts.index", "crate::views::PostsIndex")
+        .build();
+}</code></pre>
+  <p>The view name <code>posts.index</code> is the file <code>resources/views/posts/index.propel</code>. Dots are folder separators. A view that is not listed cannot be rendered by a release build. The layouts and partials that a listed view extends or includes do not need listing.</p>
 
   <h2>Render a view</h2>
-  <p>A route builds the context for its view and returns the rendered page:</p>
-  <pre class="line-numbers"><code class="language-rust">#[get("/posts")]
-fn posts() -> PropelView {
-    PropelView::render("posts.index", &amp;PostsIndex { posts: all_posts() })
+  <p>A route builds the context for its view and returns the rendered page. The compiled function takes the context and the assets:</p>
+  <pre class="line-numbers"><code class="language-rust">mod compiled {
+    include!(concat!(env!("OUT_DIR"), "/propel_views.rs"));
+}
+
+#[get("/posts")]
+fn posts() -&gt; PropelView {
+    PropelView::from_result(compiled::posts::index::render(
+        &amp;PostsIndex { posts: all_posts() },
+        &amp;Assets::new("public"),
+    ))
 }</code></pre>
-  <p>The view name <code>posts.index</code> is the file <code>resources/views/posts/index.propel</code>. Dots are folder separators.</p>
+  <p>A debug build can also call <code>PropelView::render("posts.index", &amp;ctx)</code>, which reads the view from <code>resources/views</code> on each request. That call exists in debug builds only.</p>
 
   <h2>Project layout</h2>
   <pre class="line-numbers"><code class="language-text">your-app/
@@ -53,22 +75,22 @@ cargo run       # the Rocket app, in another</code></pre>
   <h2>Hot reload</h2>
   <p>Edits show up in two ways, and the two cost different amounts of work:</p>
   <ul>
-    <li><strong>Views</strong> (<code>resources/views/**/*.propel</code>) are compiled into the binary when it builds. Run <code>bacon</code> instead of <code>cargo run</code>: it watches the views too, and it rebuilds and restarts the server on each save.</li>
+    <li><strong>Views</strong> (<code>resources/views/**/*.propel</code>): a view that <code>PropelView::render</code> renders is read from disk on each request in a debug build, so an edit shows on the next refresh. A view listed in <code>build.rs</code> is compiled into the binary, so it needs a rebuild. Run <code>bacon</code> instead of <code>cargo run</code>: it watches the views too, and it rebuilds and restarts the server on each save.</li>
     <li><strong>Rust code</strong> (<code>src/</code>) needs a rebuild, and <code>bacon</code> does it on each save.</li>
     <li><strong>CSS and JavaScript</strong> come from the Vite dev server, which <code>npm run dev</code> starts. It applies changes without a page reload, and it reloads the page when a view changes.</li>
   </ul>
   <p>Without <code>npm run dev</code>, the page loads the built files from <code>public/build</code>, so run <code>npm run build</code> first.</p>
 
   <h2>Release builds</h2>
-  <p><code>cargo build --release</code> compiles each view into the binary, through a <code>build.rs</code> file. The binary then needs no <code>resources/views</code> folder. The <code>PropelView::render</code> call that reads views from disk exists in development builds only, so a release app returns each compiled view with <code>PropelView::from_result</code>. The <a target="_new" rel="noopener" href="https://github.com/lajennylove/Propel/blob/main/docs/production.md">production guide</a> lists the steps and the caveats.</p>
+  <p><code>cargo build --release</code> compiles each view listed in <code>build.rs</code> into the binary. The binary then needs no <code>resources/views</code> folder. <code>PropelView::render</code> exists in debug builds only, so a release app returns each compiled view with <code>PropelView::from_result</code>. The <a target="_blank" rel="noopener" href="https://github.com/lajennylove/Propel">Propel README</a> has the quick start.</p>
 
   <h2>Production</h2>
-  <p>Run the deployed app in release mode. A debug build reads each view from disk on every request and shows detailed error pages to visitors. A release build compiles the views into the binary and shows a plain error page. The debug-only demo routes, such as the error pages and the dump examples, are absent from a release build, so they are not served on a production site.</p>
+  <p>Deploy a release build, made with <code>cargo build --release</code>, not a debug build. A debug build reads each view from disk on every request and shows detailed error pages to visitors. A release build renders the compiled views and returns a plain "Internal Server Error" page when a render fails. The debug-only demo routes of this site are not compiled into a release build, so they return 404. <code>@@dump</code> and <code>@@dd</code> print nothing in a release build, and <code>@@dd</code> does not stop the section.</p>
 
   <h2>Deploying with GitHub Actions</h2>
-  <p>Deploy by building in CI and serving on the server: GitHub Actions compiles the release binary and the assets, uploads them with a key that can only write release files, and switches the live release with a second key. The server never compiles, and a failed health check switches the previous release back in. The template, with the workflow, the server scripts and the guide, is in <a target="_new" rel="noopener" href="https://github.com/lajennylove/RocketBoost/tree/deploy-template/deploy-template">the deploy-template folder</a> of the RocketBoost repository.</p>
+  <p>Deploy by building in CI and serving on the server: GitHub Actions compiles the release binary and the assets, uploads them with a key that can only write release files, and switches the live release with a second key. The server never compiles, and a failed health check switches the previous release back in. The template, with the workflow, the server scripts and the guide, is in <a target="_blank" rel="noopener" href="https://github.com/lajennylove/RocketBoost/tree/deploy-template/deploy-template">the deploy-template folder</a> of the RocketBoost repository.</p>
 
-  <p>The three files, copy-ready. The same files are in <a target="_new" rel="noopener" href="https://github.com/lajennylove/RocketBoost/tree/deploy-template/deploy-template">the deploy-template folder</a>.</p>
+  <p>The three files, copy-ready. The same files are in <a target="_blank" rel="noopener" href="https://github.com/lajennylove/RocketBoost/tree/deploy-template/deploy-template">the deploy-template folder</a>.</p>
   <details class="docs-details my-6">
     <summary class="cursor-pointer font-semibold text-heading">.github/workflows/deploy.yml</summary>
     <pre class="line-numbers"><code class="language-yaml"># GitHub Actions template: build a Rocket app in CI, upload the release to the server,
@@ -267,6 +289,8 @@ Restart=on-failure
 WantedBy=multi-user.target</code></pre>
   </details>
 
+  <p>The one-time setup is not in these files. The README in the deploy-template folder covers it: the deploy user's folders, <code>shared/deploy.env</code>, the two forced-command keys in <code>authorized_keys</code>, the sudoers rule that lets the deploy user restart the service, the <code>production</code> environment in GitHub with its <code>DEPLOY_HOST</code> variable and key secrets, and the server's host key. See <a target="_blank" rel="noopener" href="https://github.com/lajennylove/RocketBoost/blob/deploy-template/deploy-template/README.md">the deploy-template README</a>.</p>
+
   <h2>A note on the example app</h2>
-  <p>This site is the docs app in the <code>RocketPropel</code> repository, and its layout is the one this page shows. The navigation and the page wrapper that adds it to each view are part of the app for now. Propel will provide them later.</p>
+  <p>This site is the docs app in the <code>RocketPropel</code> repository, and its layout is the one this page shows. The navigation and the pager are built by the <code>Chrome</code> helper in <code>src/nav.rs</code>, and each view's context carries them. They are part of the app, not of the library.</p>
 @endsection
