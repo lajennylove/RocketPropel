@@ -13,7 +13,7 @@
   <h2>In templates: <code>asset()</code></h2>
   <pre class="line-numbers"><code class="language-blade">&lt;img src="@{{ asset('resources/images/logo.svg') }}" alt="Logo"&gt;</code></pre>
   <ul>
-    <li>The path is relative to the project root, and must start with <code>resources/images/</code> or <code>resources/fonts/</code>.</li>
+    <li>The path is relative to the project root. This app's <code>vite.config.js</code> copies only <code>resources/images</code> and <code>resources/fonts</code> into the build, so <code>asset()</code> finds files in those two folders. Propel itself accepts any relative path.</li>
     <li>Paths that start with <code>/</code> or contain <code>..</code> are rejected.</li>
     <li>In development, the URL points at the dev server. In production, it points at the built file.</li>
     <li>A missing file fails the page with an error that names it.</li>
@@ -37,5 +37,5 @@
   <p>Files referenced only by <code>asset()</code> are copied without a hash. A browser can keep an old copy when the file changes, so rename the file. Files used from CSS are hashed.</p>
 
   <h2>Full guide</h2>
-  <p>The <a target="_new" rel="noopener" href="https://github.com/lajennylove/Propel/blob/main/docs/assets.md">assets guide</a> covers the folder layout, the config files, the production steps and troubleshooting.</p>
+  <p>This app's <a target="_blank" rel="noopener" href="https://github.com/lajennylove/RocketPropel/blob/main/vite.config.js">vite.config.js</a> is the working example. It copies the images and fonts, and sets the aliases used above.</p>
 @endsection

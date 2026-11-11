@@ -11,22 +11,32 @@
   <p>Every view has one context: a Rust struct that holds the data the view needs. The handler builds it, and the view reads its fields. A view cannot use a field that the struct does not have.</p>
 
   <h2>Define the context</h2>
-  <p>Derive <code>Serialize</code> so Propel can read the fields.</p>
+  <p>Derive <code>Serialize</code> so Propel can read the fields. A context also has <code>nav</code> and <code>pager</code> fields when its layout reads them, as every context on this site does. <code>Group</code> and <code>Pager</code> are in <code>src/nav.rs</code>:</p>
 <pre class="line-numbers"><code class="language-rust">#[derive(Serialize)]
 pub struct PostsIndex {
     pub title: String,
     pub posts: Vec&lt;Post&gt;,
+    pub nav: Vec&lt;Group&gt;,
+    pub pager: Pager,
 }</code></pre>
+  <p>To use a struct in <code>@@if</code>, derive <code>Truthy</code> from <code>propel_macros</code> as well: <code>#[derive(Serialize, Truthy)]</code>. A derived struct is true. A struct without the derive fails the build.</p>
 
   <h2>Build it in a handler</h2>
-  <p>The route is the view composer for this page: it collects the data and passes it to the view.</p>
+  <p>The route is the view composer for this page: it collects the data, fills <code>nav</code> and <code>pager</code> with <code>Chrome::at</code>, and passes the context to the compiled view:</p>
 <pre class="line-numbers"><code class="language-rust">#[get("/posts")]
 fn posts() -&gt; PropelView {
-    PropelView::render("posts.index", &amp;PostsIndex {
-        title: "Posts".into(),
-        posts: all_posts(),
-    })
+    let chrome = Chrome::at("/posts");
+    PropelView::from_result(compiled::posts::index::render(
+        &amp;PostsIndex {
+            title: "Posts".into(),
+            posts: all_posts(),
+            nav: chrome.nav,
+            pager: chrome.pager,
+        },
+        &amp;Assets::new("public"),
+    ))
 }</code></pre>
+  <p>A debug build can call <code>PropelView::render("posts.index", &amp;ctx)</code> with the same context. It reads the view from <code>resources/views</code> on each request.</p>
 
   <h2>Read it in the view</h2>
   <p>Fields are read by name, as in <code>$title</code> or <code>$post.title</code>. The <code>$</code> is optional, and a loop variable such as <code>post</code> is read the same way.</p>
@@ -41,13 +51,8 @@ fn posts() -&gt; PropelView {
   @@endforelse
 @@endsection</code></pre>
 
-  <h2>Shared data with <code>Page</code></h2>
-  <p>Some data is needed on every page, such as the sidebar and the previous and next links. The test app wraps each context in a <code>Page</code>, which adds that data next to the view's own fields.</p>
-<pre class="line-numbers"><code class="language-rust">PropelView::render("posts.index", &amp;Page::new("/posts", PostsIndex {
-    title: "Posts".into(),
-    posts: all_posts(),
-}))</code></pre>
-  <p>The layout then reads the shared data like any other field:</p>
+  <h2>Shared fields</h2>
+  <p>The sidebar and the previous and next links are needed on every page. This site fills them in each handler, with <code>Chrome::at</code> from <code>src/nav.rs</code>, and the layout reads them like any other field:</p>
 <pre class="line-numbers"><code class="language-blade">@@foreach (group in nav)
   &lt;p&gt;@{{ $group.heading }}&lt;/p&gt;
   @@foreach (link in group.links)
@@ -56,5 +61,5 @@ fn posts() -&gt; PropelView {
 @@endforeach</code></pre>
 
   <h2>Status</h2>
-  <p>The <code>Page</code> wrapper is part of the test app for now, not of the library. In Laravel terms, it is a view composer written by hand. Propel will offer a request guard for shared data later. A view composer that runs on every request is planned, but not built.</p>
+  <p>Propel has no shared-data wrapper yet. Each context lists its shared fields itself, because compiled views read the fields by name. A <code>#[serde(flatten)]</code> wrapper works in the dev renderer only. A view composer that runs on every request is planned, but not built. <code>Chrome</code> is part of this site, not of the library.</p>
 @endsection

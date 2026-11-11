@@ -15,9 +15,11 @@
   <pre class="line-numbers"><code class="language-rust">#[derive(Serialize)]
 pub struct NoFields {}</code></pre>
   <p>The handler passes it to the view. This is the route for this page:</p>
-  <pre class="line-numbers"><code class="language-rust">PropelView::render("errors.missing", &amp;Page::new("/errors/missing", Article {
+  <pre class="line-numbers"><code class="language-rust">PropelView::render("errors.missing", &amp;Article {
     title: "Missing variable".into(),
-}))</code></pre>
+    nav: chrome.nav,
+    pager: chrome.pager,
+})</code></pre>
   <h2>What you see</h2>
   <p>In a development build, the page shows an error page with the message and a hint. The message names the variable and the view:</p>
   <pre class="line-numbers"><code class="language-blade">undefined variable `not_in_context` in `errors.missing`</code></pre>

@@ -1,21 +1,21 @@
 @extends('layouts.app')
 @section('path')/docs/components@endsection
-@section('description')Propel reuses markup through layouts and sections today. This page sketches the planned component tag, which is not built yet.@endsection
+@section('description')Propel reuses markup through layouts, sections and includes today. This page sketches the planned component tag, which is not built yet.@endsection
 @section('og_type')article@endsection
-@section('structured_data')<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Components and reuse","url":"https://propel.rocketboost.rs/docs/components","description":"Propel reuses markup through layouts and sections today. This page sketches the planned component tag, which is not built yet."}</script>@endsection
+@section('structured_data')<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Components and reuse","url":"https://propel.rocketboost.rs/docs/components","description":"Propel reuses markup through layouts, sections and includes today. This page sketches the planned component tag, which is not built yet."}</script>@endsection
 
 @section('title')Components and reuse@endsection
 
 @section('content')
   <h1>Components and reuse</h1>
-  <p>Propel reuses markup in two ways today: layouts, and sections. Components and <code>@@include</code> are planned, but they are not built yet, so they are described at the end of this page.</p>
+  <p>Propel reuses markup in three ways today: layouts, sections, and <code>@@include</code>, which renders another view in place. The component tag, such as <code>&lt;x-card&gt;</code>, is planned but not built, so it is described at the end of this page.</p>
 
   <h2>Layouts</h2>
   <p>A layout holds the parts every page shares. It marks the place for each section with <code>@@yield</code>.</p>
 <pre class="line-numbers"><code class="language-blade">@{{-- resources/views/layouts/app.propel --}}
 &lt;main&gt;
   @@yield('content')
-&lt;/main</code></pre>
+&lt;/main&gt;</code></pre>
   <p>A page fills the layout by naming the layout with <code>@@extends</code> and writing its sections:</p>
 <pre class="line-numbers"><code class="language-blade">@@extends('layouts.app')
 
@@ -27,12 +27,10 @@
   <h2>Sections</h2>
   <p>A section is a named piece of a page. Each section appears where the layout yields it. A section must be at the top level of the view, not inside an <code>@@if</code> or a loop.</p>
 
-  <h2>Planned: components and includes</h2>
-  <p>The next features for reuse are a component tag, such as <code>&lt;x-card&gt;</code>, that takes attributes and a slot, and <code>@@include</code>, which renders another view in place. Neither exists yet, so the example below is only a sketch of the intended syntax:</p>
+  <h2>Planned: a component tag</h2>
+  <p>The next feature for reuse is a component tag, such as <code>&lt;x-card&gt;</code>, that takes attributes and a slot. It does not exist yet, so the example below is only a sketch of the intended syntax:</p>
 <pre class="line-numbers"><code class="language-blade">&lt;x-card title="Hello"&gt;
   &lt;p&gt;Card body.&lt;/p&gt;
-&lt;/x-card&gt;
-
-@@include('partials.footer')</code></pre>
-  <p>Until they exist, share markup through a layout, or through the shared data described on the <a href="/docs/context">context page</a>.</p>
+&lt;/x-card&gt;</code></pre>
+  <p>Until it exists, share markup through a layout, an <code>@@include</code>, or the shared fields described on the <a href="/docs/context">context page</a>.</p>
 @endsection

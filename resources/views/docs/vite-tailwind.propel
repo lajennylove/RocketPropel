@@ -16,7 +16,7 @@
     <li><code>vite.config.js</code> sets the entries, the aliases and the plugins.</li>
     <li><code>resources/css/app.css</code> imports Tailwind and defines your design tokens.</li>
   </ul>
-  <p>The <a target="_new" rel="noopener" href="https://github.com/lajennylove/Propel/blob/main/docs/assets.md">assets guide</a> has the full files, copied from this app.</p>
+  <p>The working files are in this app's repository: <a target="_blank" rel="noopener" href="https://github.com/lajennylove/RocketPropel/blob/main/vite.config.js">vite.config.js</a>, <code>package.json</code> and <code>resources/css/app.css</code>.</p>
 
   <h2>Load the entries</h2>
   <p>The layout loads the stylesheet and the script:</p>
@@ -24,7 +24,7 @@
 
   <h2>Hot reload</h2>
   <ul>
-    <li><strong>Views</strong> are compiled into the binary. A view edit rebuilds and restarts the app; <code>bacon</code> does this on save.</li>
+    <li><strong>Views</strong> that <code>build.rs</code> lists are compiled into the binary, so a view edit rebuilds and restarts the app; <code>bacon</code> does this on save. In a debug build, a view that <code>PropelView::render</code> renders is read from <code>resources/views</code> on each request, so an edit shows on the next refresh.</li>
     <li><strong>CSS and JavaScript</strong> update in place through Vite's hot module replacement.</li>
     <li><strong>Rust code</strong> needs a rebuild. <code>bacon</code> rebuilds and restarts the app on save.</li>
   </ul>

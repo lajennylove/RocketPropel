@@ -44,7 +44,7 @@
         Propel
       </a>
       <span class="hidden truncate text-[15px] text-text md:inline">Templating Engine</span>
-    <a href="https://rocketboost.rs" class="ml-auto shrink-0 text-[15px] text-link">rocketboost.rs</a>
+    <a href="https://rocketboost.rs" target="_blank" rel="noopener" class="ml-auto shrink-0 text-[15px] text-link">rocketboost.rs</a>
     </header>
 
     <div class="mx-auto flex max-w-[1280px] flex-col md:flex-row">

@@ -10,16 +10,16 @@
   <p>Blade-inspired templating for Rocket.rs.</p>
 
   <h2>What Propel is</h2>
-  <p>Propel is a templating system for <a target="_new" rel="noopener" href="https://rocket.rs">Rocket</a>, the Rust web framework. You write views in the syntax of Laravel's Blade: <code>@@if</code>, <code>@@foreach</code>, layouts with <code>@@extends</code>, and escaped output by default. Views live in <code>.propel</code> files next to the rest of your Rocket app.</p>
-  <p>Each view is compiled into Rust when the app builds, in development and in release. A template that uses a field its context does not have fails to build, and the error names the template file and line.</p>
+  <p>Propel is a templating system for <a target="_blank" rel="noopener" href="https://rocket.rs">Rocket</a>, the Rust web framework. You write views in the syntax of Laravel's Blade: <code>@@if</code>, <code>@@foreach</code>, layouts with <code>@@extends</code>, and escaped output by default. Views live in <code>.propel</code> files next to the rest of your Rocket app.</p>
+  <p>Each view that you list with <code>.view()</code> in <code>build.rs</code> is compiled into Rust when the app builds, in development and in release. A template that uses a field its context does not have fails to build, and the error names the template file and line.</p>
 
   <h2>What it brings to Rust</h2>
   <ul>
     <li><strong>Familiar syntax.</strong> Web developers who know Blade can write Rocket views without learning a new template language.</li>
     <li><strong>Safe by default.</strong> <code>@{{ }}</code> escapes HTML. Raw output needs an explicit raw-output tag, and echoed URLs with unsafe schemes are replaced.</li>
-    <li><strong>Vite and Tailwind built in.</strong> <code>asset()</code> and <code>@@vite</code> connect a Rocket app to Vite and Tailwind, with hot reload in development and hashed files in production.</li>
+    <li><strong>Vite assets.</strong> <code>asset()</code> and <code>@@vite</code> read the files Vite builds, with hot reload in development and hashed files in production. Tailwind comes from the Vite plugin in your app, not from Propel.</li>
     <li><strong>Debugging helpers.</strong> <code>@@dump</code> and <code>@@dd</code> print a value while you develop.</li>
-    <li><strong>Typed contexts.</strong> Each view has a Rust struct, and the handler fills it. Each template is checked against it when the app builds.</li>
+    <li><strong>Typed contexts.</strong> Each view has a Rust struct, and the handler fills it. Each listed template is checked against it when the app builds.</li>
   </ul>
 
   <h2>Inspiration</h2>
@@ -36,12 +36,12 @@
   <h2>References</h2>
   <p>Propel is a Blade-inspired templating engine for Rocket.rs. These are the sources it draws on.</p>
   <ul>
-    <li><a target="_new" rel="noopener" href="https://rocket.rs">Rocket</a>, the web framework</li>
-    <li><a target="_new" rel="noopener" href="https://laravel.com/docs/blade">Laravel Blade</a>, the syntax Propel follows</li>
-    <li><a target="_new" rel="noopener" href="https://laravel.com/docs/vite">Laravel Vite</a>, the asset conventions</li>
-    <li><a target="_new" rel="noopener" href="https://roots.io/sage/docs/">Sage</a>, the asset layout and aliases</li>
-    <li><a target="_new" rel="noopener" href="https://vite.dev">Vite</a> and <a target="_new" rel="noopener" href="https://tailwindcss.com">Tailwind CSS</a>, the build tools</li>
-    <li><a target="_new" rel="noopener" href="https://docs.astro.build">Astro docs</a>, the look of this site</li>
-    <li><a target="_new" rel="noopener" href="https://github.com/lajennylove/Propel">The Propel repository</a>, with the design plan and the decisions behind it</li>
+    <li><a target="_blank" rel="noopener" href="https://rocket.rs">Rocket</a>, the web framework</li>
+    <li><a target="_blank" rel="noopener" href="https://laravel.com/docs/blade">Laravel Blade</a>, the syntax Propel follows</li>
+    <li><a target="_blank" rel="noopener" href="https://laravel.com/docs/vite">Laravel Vite</a>, the asset conventions</li>
+    <li><a target="_blank" rel="noopener" href="https://roots.io/sage/docs/">Sage</a>, the asset layout and aliases</li>
+    <li><a target="_blank" rel="noopener" href="https://vite.dev">Vite</a> and <a target="_blank" rel="noopener" href="https://tailwindcss.com">Tailwind CSS</a>, the build tools</li>
+    <li><a target="_blank" rel="noopener" href="https://docs.astro.build">Astro docs</a>, the look of this site</li>
+    <li><a target="_blank" rel="noopener" href="https://github.com/lajennylove/Propel">The Propel repository</a>, with the design plan and the decisions behind it</li>
   </ul>
 @endsection

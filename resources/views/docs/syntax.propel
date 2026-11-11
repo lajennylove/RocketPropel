@@ -26,7 +26,7 @@
 @@else
   Please sign in
 @@endif</code></pre>
-  <p>A value is false when it is <code>null</code> or <code>false</code>, zero, an empty string, or an empty list. A struct is true. See <a href="/features/control">control flow</a>.</p>
+  <p>A value is false when it is <code>null</code> or <code>false</code>, zero, an empty string, or an empty list. A struct is true only if it derives <code>Truthy</code> from <code>propel_macros</code>, as the <a href="/docs/context">context page</a> shows. See <a href="/features/control">control flow</a>.</p>
 
   <h2>Loops</h2>
   <pre class="line-numbers"><code class="language-blade">@@foreach (post in posts)
