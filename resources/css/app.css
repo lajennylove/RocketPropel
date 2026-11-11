@@ -123,6 +123,13 @@
         @apply text-token-variable;
     }
 
+    /* Prism's "table" token (the name in [table] headers) shares its name with
+       Tailwind's table utility, which would make the span a table box and break
+       the line. Keep it inline. */
+    .token.table {
+        display: inline;
+    }
+
     /* @dump and @dd output, from the propel-dump class in propel_runtime. */
     .propel-dump {
         @apply my-6 overflow-x-auto rounded-[1px] bg-header px-4 py-3 font-mono text-[14px] leading-6 text-code-text;
