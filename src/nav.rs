@@ -38,6 +38,14 @@ fn groups() -> Vec<Group> {
             .collect(),
     };
 
+    // The error demos are served in debug builds only (see main.rs), so a
+    // release build does not link them.
+    let mut examples = vec![("/posts", "All posts"), ("/posts/1", "One post")];
+    if cfg!(debug_assertions) {
+        examples.push(("/errors/missing", "Missing variable"));
+        examples.push(("/errors/nested-section", "Nested section"));
+    }
+
     vec![
         group("Introduction", &[("/", "Introduction")]),
         group(
@@ -65,15 +73,7 @@ fn groups() -> Vec<Group> {
             ],
         ),
         group("Assets", &[("/docs/assets", "Images, fonts and assets")]),
-        group(
-            "Examples",
-            &[
-                ("/posts", "All posts"),
-                ("/posts/1", "One post"),
-                ("/errors/missing", "Missing variable"),
-                ("/errors/nested-section", "Nested section"),
-            ],
-        ),
+        group("Examples", &examples),
     ]
 }
 
